@@ -1,0 +1,48 @@
+﻿@model Models.ViewModel.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "";
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <link href="~/Public/css/Account/Login.css" rel="stylesheet" />
+
+}
+<body>
+    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+        @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post))
+        {
+            <h2 class="text-center fw-bold">Login</h2>
+            @Html.ValidationSummary(false, "", new { @class = "error" })
+            <div class="mb-2 fw-bolder">
+                <div>Username</div>
+                @Html.TextBoxFor(model => model.UserName)
+            </div>
+            <div class="mb-2 fw-bold">
+                <div>Password</div>
+                @Html.PasswordFor(model => model.Password)
+            </div>
+            <div>
+                <div class="fw-bold">Sign in with role</div>
+                <select name="role" id="role">
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Student">Student</option>
+                </select>
+                <a class="forgot float-end text-decoration-none" href="#">Forgot Your Password?</a>
+            </div>
+            <hr/>
+            
+            <div class="text-center">
+                <input type="submit" value="Sign in" class="btn btn-outline-dark rounded-0">
+            </div>
+           
+
+        }
+
+    </div>
+
+
+
+</body>

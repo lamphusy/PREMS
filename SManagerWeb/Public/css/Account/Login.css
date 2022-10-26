@@ -1,0 +1,12 @@
+﻿body {
+    font-family: 'Oswald', sans-serif;
+}
+
+input[type=text], input[type=password]{
+    padding: 6px;
+    width: 300px;
+}
+select.form-select{
+    width: 100px;
+    text-align:center;
+}
