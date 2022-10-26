@@ -15,6 +15,7 @@ using System.Web.Mvc;
 
 namespace SManagerWeb.Controllers
 {
+   
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -82,14 +83,22 @@ namespace SManagerWeb.Controllers
                         props.IsPersistent = false;
                         authenticationManager.SignIn(props, identity);
 
-                        if (Url.IsLocalUrl(returnUrl))
+                        if (user.EmailConfirmed)
                         {
-                            return Redirect(returnUrl);
+                            if (Url.IsLocalUrl(returnUrl))
+                            {
+                                return Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                return Redirect("/");
+                            }
                         }
                         else
                         {
-                            return Redirect("/");
+                            return View("LinkToConfirmEmail", user);
                         }
+                       
                     }
                     else
                     {
@@ -142,16 +151,21 @@ namespace SManagerWeb.Controllers
                     if (newUser != null)
                         await UserManager.AddToRolesAsync(newUser.Id, new string[] { "User" });
 
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return View("DisplayEmail");
+                    return RedirectToAction("HandleSendConfirmEmail", "Account", new { id = newUser.Id });
                 }
             }
-
             return View(model);
         }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> HandleSendConfirmEmail(string id)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(id);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = id, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            return View("DisplayEmail");
+        }
+
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {

@@ -1,0 +1,8 @@
+﻿@model Models.ApplicationUser
+@{
+    ViewBag.Title = "LinkToConfirmEmail";
+}
+
+<h2>Your account has not yet verified email</h2>
+<p>Click @Html.ActionLink("here", "HandleSendConfirmEmail", new {id = Model.Id}) to send code to your email</p>
+

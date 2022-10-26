@@ -159,6 +159,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Owner\OwnerAreaRegistration.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
@@ -170,6 +171,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Public\Areas\assets\img\Trắng và Nét vẽ cọ màu xanh biển Cá nhân Biểu rưng.png" />
+    <Content Include="Public\Areas\css\adminPanel.css" />
+    <Content Include="Public\Areas\js\adminPanel.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -193,6 +197,7 @@
     <Content Include="Areas\Owner\Views\web.config" />
     <Content Include="Areas\Teacher\Views\web.config" />
     <Content Include="Areas\Student\Views\web.config" />
+    <Content Include="Public\Areas\js\dashboard.js" />
     <Content Include="Public\css\Account\Login.css" />
     <Content Include="Public\css\Account\Register.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -224,6 +229,9 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="AppSettings.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -255,12 +263,11 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Account\LinkToConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Owner\Controllers\" />
     <Folder Include="Areas\Owner\Data\" />
     <Folder Include="Areas\Owner\Views\Shared\" />
