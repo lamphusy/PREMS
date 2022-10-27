@@ -2,14 +2,14 @@
 
 @{
     ViewBag.Title = "Register";
-    Layout = "";
+   
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <link href="~/Public/css/Account/Register.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet"/>
 }
-<div class="row justify-content-center align-items-center">
+<div id="register-form" class="row justify-content-center align-items-center">
     <div class="col-lg-5 col-md-8">
         @using (Html.BeginForm("Register", "Account", FormMethod.Post))
         {

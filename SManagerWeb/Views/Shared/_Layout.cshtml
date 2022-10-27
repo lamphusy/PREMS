@@ -1,37 +1,104 @@
-﻿<!DOCTYPE html>
-<html>
+﻿
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
 <head>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta name="keywords" content="Your Kids is Our Future, ​Never Stop Learning, ​Best Classes and Camps, ​Browse and book hundreds of free online classes, ​Know more About us?, ​Select Your Course, Our ​Team, Contact Us">
+    <meta name="description" content="">
+    <title>Home</title>
+
+    <link href="~/Public/css/Home/nicepage.css" rel="stylesheet" />
+
+    <meta name="generator" content="Nicepage 4.17.10, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|Roboto+Condensed:300,300i,400,400i,700,700i|Oswald:200,300,400,500,600,700|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <meta name="theme-color" content="#3fb7fe">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            
-            <div class="">
-                <ul class="nav navbar-nav d-flex">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Login", "Login", "Account")</li>
-                    <li>@Html.ActionLink("Register","Register","Account")</li>
-                </ul>
+<body class="u-body u-xl-mode pt-0" data-lang="en">
+
+    <header class="u-clearfix u-header u-header" id="sec-b4c8" style="height: 80px;">
+        <nav class="navbar navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <a href="#" class="u-image u-logo u-image-1 navbar-brand" data-image-width="80" data-image-height="40">
+                    <img src="~/Public/assets/images/default-logo.png" class="u-logo-image u-logo-image-1">
+
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><b>MENU</b></h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Document</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Register","Account")">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Login","Account")">Login</a>
+                            </li>
+                        </ul>
+                        @*<form class="d-flex mt-3" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-success" type="submit">Search</button>
+                        </form>*@
+                    </div>
+                </div>
+            </div>
+        </nav>
+       
+    </header>
+    <div id="bodyContent" class="mt-4 mb-4" style="min-height: 80vh;">
+        @RenderBody()
+    </div>
+    <footer class="u-clearfix u-footer u-palette-1-dark-2 m-0" id="sec-5124">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-xl u-gutter-52 u-layout-wrap u-layout-wrap-1">
+                <div class="u-gutter-0 u-layout m-0">
+                    <div class="u-layout-row">
+                        <div class="u-container-style u-layout-cell u-size-18 u-layout-cell-1 border-0">
+                            <div class="u-container-layout u-container-layout-1">
+                                <h5 class="u-text u-text-1">Call today</h5>
+                                <p class="u-small-text u-text u-text-variant u-text-2"> +1 (234) 567-8910</p>
+                                <h5 class="u-text u-text-3">Email&nbsp;</h5>
+                                <p class="u-small-text u-text u-text-variant u-text-4">schmana@gmail.com</p>
+                                <h6 class="u-text u-text-5">Opening hours</h6>
+                                <p class="u-small-text u-text u-text-variant u-text-6">
+                                    Mon — Fri 10:00 – 23:00<br>Sut-Sun- 10:00 – 19:00
+                                </p>
+                            </div>
+                        </div>
+                        <div class="u-container-style u-layout-cell u-size-42 u-layout-cell-2 border-0">
+                            <div class="u-container-layout u-valign-bottom-xs u-container-layout-2">
+                                <h5 class="u-text u-text-7">Address</h5>
+                                <div class="u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-grey-light-2 u-map u-map-1">
+                                    <div class="embed-responsive">
+                                        <iframe class="embed-responsive-item"
+                                                src="//maps.google.com/maps?output=embed&amp;q=khu%20ph%E1%BB%91%206%2C%20ph%C6%B0%E1%BB%9Dng%20Linh%20Trung%2C%20th%C3%A0nh%20ph%E1%BB%91%20Th%E1%BB%A7%20%C4%90%E1%BB%A9c&amp;t=m" data-map="JTdCJTIycG9zaXRpb25UeXBlJTIyJTNBJTIybWFwLWFkZHJlc3MlMjIlMkMlMjJhZGRyZXNzJTIyJTNBJTIya2h1JTIwcGglRTElQkIlOTElMjA2JTJDJTIwcGglQzYlQjAlRTElQkIlOURuZyUyMExpbmglMjBUcnVuZyUyQyUyMHRoJUMzJUEwbmglMjBwaCVFMSVCQiU5MSUyMFRoJUUxJUJCJUE3JTIwJUM0JTkwJUUxJUJCJUE5YyUyMiUyQyUyMnpvb20lMjIlM0FudWxsJTJDJTIydHlwZUlkJTIyJTNBJTIycm9hZCUyMiUyQyUyMmxhbmclMjIlM0FudWxsJTJDJTIyYXBpS2V5JTIyJTNBbnVsbCUyQyUyMm1hcmtlcnMlMjIlM0ElNUIlNUQlN0Q="></iframe>
+                                    </div>
+                                </div>
+                                <p class="u-small-text u-text u-text-variant u-text-8">
+                                    Quarter 6, Linh Trung Ward, Thu Duc City<br>
+                                    <br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/bootstrap.js"></script>
-    @RenderSection("scripts", required: false)
+    </footer>
 </body>
 </html>
