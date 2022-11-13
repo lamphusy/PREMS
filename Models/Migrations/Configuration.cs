@@ -10,7 +10,6 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Models.SchoolManagementDbContext";
         }
 
         protected override void Seed(Models.SchoolManagementDbContext context)

@@ -13,7 +13,6 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
         [Required]
         [DataType(DataType.Time)]

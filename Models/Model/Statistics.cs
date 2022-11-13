@@ -15,8 +15,6 @@ namespace Models
         [Key]
         public string ID { get; set; }
         [Required]
-        public string IDOrganization { get; set; }
-        [Required]
         public int Month { get; set; }
         [Required]
         public int Year { get; set; }
@@ -27,8 +25,6 @@ namespace Models
         [DefaultValue(0)]
         public int NumOfOrganinze { get; set; }
 
-        [ForeignKey("IDOrganization")]
-        public virtual Organization Organization { get; set; }
 
     }
 }

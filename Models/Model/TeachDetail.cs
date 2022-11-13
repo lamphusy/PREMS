@@ -13,9 +13,7 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        [Required]
         public int IDTeach { get; set; }
-        [Required]
         public int IDShift { get; set; }
         [Required]
         public int Period { get; set; }

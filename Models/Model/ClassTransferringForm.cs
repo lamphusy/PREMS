@@ -14,19 +14,13 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
-
-        [Required]
         public string IDStudent { get; set; }
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        [Required]
         public string IDOldClass { get; set; }
-        [Required]
         public string IDNewClass { get; set; }
-        [Required]
         public int IDSemester { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }

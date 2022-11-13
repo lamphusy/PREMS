@@ -14,7 +14,7 @@ namespace Models
         public int IDTarget { get; set; }
         [Required]
         public string Meaning { get; set; }
-        [Required]
+        
         public string IDOrganization { get; set; }
 
         [ForeignKey("IDOrganization")]

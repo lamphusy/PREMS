@@ -21,7 +21,6 @@ namespace Models
         public int NextYear { get; set; }
         [DefaultValue(false)]
         public bool IsNow { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
 
         [ForeignKey("IDOrganization")]

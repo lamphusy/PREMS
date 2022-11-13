@@ -12,6 +12,7 @@
     <div class="d-flex justify-content-center align-items-center w-100 h-100" id="login-form">
         @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post))
         {
+            @Html.AntiForgeryToken()
             <h2 class="text-center fw-bold">Login</h2>
             @Html.ValidationSummary(false, "", new { @class = "error" })
             <div class="mb-2 fw-bolder">

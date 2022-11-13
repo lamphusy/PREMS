@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Models.Organization>
+@{
+    ViewBag.Title = "Organizations";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.7/css/boxicons.min.css" />
+    <link rel="stylesheet" href="~/Public/css/Dashboard/Organizations.css" />
+
+}
+<div class="d-flex justify-content-between">
+    <div>
+        <h1 class="title">Organizations</h1>
+        <ul class="breadcrumbs">
+            <li><a href="#">Dashboard</a></a></li>
+            <li class="divider"></li>
+            <li><a href="#" class="active">Organizations</a></li>
+        </ul>
+    </div>
+    <div>
+        <a class="btn text-white" href="@Url.Action("Create","Organization")" style="background-color: #f96b36;">Create organization</a>
+    </div>
+</div>
+
+<div class="data">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card radius-15">
+                        <div class="card-body text-center">
+                            <div class="p-4 border radius-15">
+                                <img src="@Url.Content(item.LogoPath!=null ? item.LogoPath : "~/Source/Default/school-default.png")" width="110" height="110" class="rounded-circle shadow" alt="">
+                                <h5 class="mb-0 mt-5">@item.Name</h5>
+                                <p class="mb-3">@item.PhoneNumber</p>
+                                <div class="list-inline contacts-social mt-3 mb-3">
+                                    <a href="javascript:;" class="list-inline-item bg-facebook text-white border-0"><i class="bx bxl-facebook"></i></a>
+                                    <a href="javascript:;" class="list-inline-item bg-twitter text-white border-0"><i class="bx bxl-twitter"></i></a>
+                                    <a href="javascript:;" class="list-inline-item bg-linkedin text-white border-0"><i class="bx bxl-linkedin"></i></a>
+                                </div>
+                                <div class="d-grid">
+                                    <a href="@Url.Action("Index","Organization", new {ID = item.IdOrganization})" class="btn btn-outline-primary radius-15">Access</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+</div>
+

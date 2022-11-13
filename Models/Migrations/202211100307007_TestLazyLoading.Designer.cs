@@ -7,13 +7,13 @@ namespace Models.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class InitialDatabase : IMigrationMetadata
+    public sealed partial class TestLazyLoading : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDatabase));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TestLazyLoading));
         
         string IMigrationMetadata.Id
         {
-            get { return "202210210844472_InitialDatabase"; }
+            get { return "202211100307007_TestLazyLoading"; }
         }
         
         string IMigrationMetadata.Source

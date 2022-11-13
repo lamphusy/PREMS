@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialDatabase : DbMigration
+    public partial class CreateNewDatabase : DbMigration
     {
         public override void Up()
         {
@@ -41,14 +41,84 @@
                         CreateDate = c.DateTime(),
                         CreateBy = c.String(),
                         Information = c.String(),
-                        Organization_IdOrganization = c.String(maxLength: 128),
-                        ORegister_IdApplicationUser = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.IdOrganization)
-                .ForeignKey("dbo.Organization", t => t.Organization_IdOrganization)
-                .ForeignKey("dbo.ORegister", t => t.ORegister_IdApplicationUser)
-                .Index(t => t.Organization_IdOrganization)
-                .Index(t => t.ORegister_IdApplicationUser);
+                .PrimaryKey(t => t.IdOrganization);
+            
+            CreateTable(
+                "dbo.ORegister",
+                c => new
+                    {
+                        IdApplicationUser = c.String(nullable: false, maxLength: 128),
+                        IdCard = c.String(nullable: false),
+                        RegisterDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.IdApplicationUser)
+                .ForeignKey("dbo.ApplicationUsers", t => t.IdApplicationUser)
+                .Index(t => t.IdApplicationUser);
+            
+            CreateTable(
+                "dbo.ApplicationUsers",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        FullName = c.String(maxLength: 256),
+                        Address = c.String(maxLength: 256),
+                        DayOfBirth = c.DateTime(),
+                        Email = c.String(),
+                        EmailConfirmed = c.Boolean(nullable: false),
+                        PasswordHash = c.String(),
+                        SecurityStamp = c.String(),
+                        PhoneNumber = c.String(),
+                        PhoneNumberConfirmed = c.Boolean(nullable: false),
+                        TwoFactorEnabled = c.Boolean(nullable: false),
+                        LockoutEndDateUtc = c.DateTime(),
+                        LockoutEnabled = c.Boolean(nullable: false),
+                        AccessFailedCount = c.Int(nullable: false),
+                        UserName = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.ApplicationUserClaims",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false),
+                        ClaimType = c.String(),
+                        ClaimValue = c.String(),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.ApplicationUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
+                "dbo.ApplicationUserLogins",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        LoginProvider = c.String(),
+                        ProviderKey = c.String(),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.ApplicationUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
+                "dbo.ApplicationUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                        IdentityRole_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.ApplicationUsers", t => t.ApplicationUser_Id)
+                .ForeignKey("dbo.ApplicationRoles", t => t.IdentityRole_Id)
+                .Index(t => t.ApplicationUser_Id)
+                .Index(t => t.IdentityRole_Id);
             
             CreateTable(
                 "dbo.Semesters",
@@ -59,10 +129,10 @@
                         LastYear = c.Int(nullable: false),
                         NextYear = c.Int(nullable: false),
                         IsNow = c.Boolean(nullable: false),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.IdSemester)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDOrganization);
             
             CreateTable(
@@ -70,7 +140,7 @@
                 c => new
                     {
                         IDStudent = c.String(nullable: false, maxLength: 128),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                         FullName = c.String(nullable: false),
                         CreateBy = c.String(),
                         CreateDate = c.DateTime(nullable: false),
@@ -80,7 +150,7 @@
                         Gender = c.String(),
                     })
                 .PrimaryKey(t => t.IDStudent)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDOrganization);
             
             CreateTable(
@@ -88,16 +158,16 @@
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        IDStudent = c.String(nullable: false, maxLength: 128),
-                        IDSubject = c.String(nullable: false, maxLength: 128),
+                        IDStudent = c.String(maxLength: 128),
+                        IDSubject = c.String(maxLength: 128),
                         IDSemester = c.Int(nullable: false),
                         IDScoreType = c.String(nullable: false),
                         Score = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: false)
-                .ForeignKey("dbo.Student", t => t.IDStudent, cascadeDelete: false)
-                .ForeignKey("dbo.Subject", t => t.IDSubject, cascadeDelete: false)
+                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: true)
+                .ForeignKey("dbo.Student", t => t.IDStudent)
+                .ForeignKey("dbo.Subject", t => t.IDSubject)
                 .Index(t => t.IDStudent)
                 .Index(t => t.IDSubject)
                 .Index(t => t.IDSemester);
@@ -150,7 +220,7 @@
                 c => new
                     {
                         IDUser = c.String(nullable: false, maxLength: 128),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                         IDCard = c.String(maxLength: 100),
                         CreateDate = c.String(),
                         CreateBy = c.String(),
@@ -165,25 +235,25 @@
                     })
                 .PrimaryKey(t => t.IDUser)
                 .ForeignKey("dbo.ApplicationUsers", t => t.IDUser)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDUser)
                 .Index(t => t.IDOrganization);
-
+            
             CreateTable(
                 "dbo.Teach",
                 c => new
-                {
-                    IDTeach = c.Int(nullable: false, identity: true),
-                    IDTeacher = c.String(nullable: false, maxLength: 128),
-                    IDClass = c.String(nullable: false, maxLength: 128),
-                    IDSubject = c.String(nullable: false, maxLength: 128),
-                    IDSemester = c.Int(nullable: false),
-                })
+                    {
+                        IDTeach = c.Int(nullable: false, identity: true),
+                        IDTeacher = c.String(maxLength: 128),
+                        IDClass = c.String(maxLength: 128),
+                        IDSubject = c.String(maxLength: 128),
+                        IDSemester = c.Int(nullable: false),
+                    })
                 .PrimaryKey(t => t.IDTeach)
-                .ForeignKey("dbo.Class", t => t.IDClass, cascadeDelete: false)
-                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: false)
-                .ForeignKey("dbo.Subject", t => t.IDSubject, cascadeDelete: false)
-                .ForeignKey("dbo.Teacher", t => t.IDTeacher, cascadeDelete: false)
+                .ForeignKey("dbo.Class", t => t.IDClass)
+                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: true)
+                .ForeignKey("dbo.Subject", t => t.IDSubject)
+                .ForeignKey("dbo.Teacher", t => t.IDTeacher)
                 .Index(t => t.IDTeacher)
                 .Index(t => t.IDClass)
                 .Index(t => t.IDSubject)
@@ -194,13 +264,13 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        IDStudent = c.String(nullable: false, maxLength: 128),
+                        IDStudent = c.String(maxLength: 128),
                         IDSemester = c.Int(nullable: false),
                         Score = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: false)
-                .ForeignKey("dbo.Student", t => t.IDStudent, cascadeDelete: true)
+                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: true)
+                .ForeignKey("dbo.Student", t => t.IDStudent)
                 .Index(t => t.IDStudent)
                 .Index(t => t.IDSemester);
             
@@ -209,15 +279,15 @@
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        IDStudent = c.String(nullable: false, maxLength: 128),
-                        IDSubject = c.String(nullable: false, maxLength: 128),
+                        IDStudent = c.String(maxLength: 128),
+                        IDSubject = c.String(maxLength: 128),
                         IDSemester = c.Int(nullable: false),
                         Score = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: false)
-                .ForeignKey("dbo.Student", t => t.IDStudent, cascadeDelete: false)
-                .ForeignKey("dbo.Subject", t => t.IDSubject, cascadeDelete: false)
+                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: true)
+                .ForeignKey("dbo.Student", t => t.IDStudent)
+                .ForeignKey("dbo.Subject", t => t.IDSubject)
                 .Index(t => t.IDStudent)
                 .Index(t => t.IDSubject)
                 .Index(t => t.IDSemester);
@@ -242,11 +312,11 @@
                         CreatedDate = c.DateTime(nullable: false),
                         CreateBy = c.String(),
                         IDTarget = c.Int(nullable: false),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.AnnouncementTargets", t => t.IDTarget, cascadeDelete: false)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: false)
+                .ForeignKey("dbo.AnnouncementTargets", t => t.IDTarget, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDTarget)
                 .Index(t => t.IDOrganization);
             
@@ -256,10 +326,10 @@
                     {
                         IDTarget = c.Int(nullable: false, identity: true),
                         Meaning = c.String(nullable: false),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.IDTarget)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDOrganization);
             
             CreateTable(
@@ -267,22 +337,22 @@
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
-                        IDStudent = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
+                        IDStudent = c.String(maxLength: 128),
                         Title = c.String(),
                         Description = c.String(),
-                        IDOldClass = c.String(nullable: false, maxLength: 128),
-                        IDNewClass = c.String(nullable: false, maxLength: 128),
+                        IDOldClass = c.String(maxLength: 128),
+                        IDNewClass = c.String(maxLength: 128),
                         IDSemester = c.Int(nullable: false),
                         CreateDate = c.DateTime(nullable: false),
                         Status = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Class", t => t.IDNewClass, cascadeDelete: false)
-                .ForeignKey("dbo.Class", t => t.IDOldClass, cascadeDelete: false)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: false)
-                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: false)
-                .ForeignKey("dbo.Student", t => t.IDStudent, cascadeDelete: false)
+                .ForeignKey("dbo.Class", t => t.IDNewClass)
+                .ForeignKey("dbo.Class", t => t.IDOldClass)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
+                .ForeignKey("dbo.Semesters", t => t.IDSemester, cascadeDelete: true)
+                .ForeignKey("dbo.Student", t => t.IDStudent)
                 .Index(t => t.IDOrganization)
                 .Index(t => t.IDStudent)
                 .Index(t => t.IDOldClass)
@@ -294,14 +364,14 @@
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                         PeriodStartTime = c.DateTime(nullable: false),
                         PeriodEndTime = c.DateTime(nullable: false),
                         IDShift = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: false)
-                .ForeignKey("dbo.OShift", t => t.IDShift, cascadeDelete: false)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
+                .ForeignKey("dbo.OShift", t => t.IDShift, cascadeDelete: true)
                 .Index(t => t.IDOrganization)
                 .Index(t => t.IDShift);
             
@@ -310,26 +380,14 @@
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                         ShiftName = c.String(nullable: false),
                         ShiftStartTime = c.DateTime(nullable: false),
                         ShiftEndTime = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDOrganization);
-            
-            CreateTable(
-                "dbo.ORegister",
-                c => new
-                    {
-                        IdApplicationUser = c.String(nullable: false, maxLength: 128),
-                        IdCard = c.String(nullable: false),
-                        RegisterDate = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.IdApplicationUser)
-                .ForeignKey("dbo.ApplicationUsers", t => t.IdApplicationUser)
-                .Index(t => t.IdApplicationUser);
             
             CreateTable(
                 "dbo.ORegulation",
@@ -361,16 +419,13 @@
                 c => new
                     {
                         ID = c.String(nullable: false, maxLength: 128),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
                         Month = c.Int(nullable: false),
                         Year = c.Int(nullable: false),
                         Profit = c.Double(nullable: false),
                         NumOfRegister = c.Int(nullable: false),
                         NumOfOrganinze = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
-                .Index(t => t.IDOrganization);
+                .PrimaryKey(t => t.ID);
             
             CreateTable(
                 "dbo.TeachDetails",
@@ -383,8 +438,8 @@
                         WeekDay = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.OShift", t => t.IDShift, cascadeDelete: false)
-                .ForeignKey("dbo.Teach", t => t.IDTeach, cascadeDelete: false)
+                .ForeignKey("dbo.OShift", t => t.IDShift, cascadeDelete: true)
+                .ForeignKey("dbo.Teach", t => t.IDTeach, cascadeDelete: true)
                 .Index(t => t.IDTeach)
                 .Index(t => t.IDShift);
             
@@ -395,24 +450,44 @@
                         IDScoreType = c.String(nullable: false, maxLength: 128),
                         NameScore = c.String(nullable: false),
                         PercentScore = c.Single(nullable: false),
-                        IDOrganization = c.String(nullable: false, maxLength: 128),
+                        IDOrganization = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.IDScoreType)
-                .ForeignKey("dbo.Organization", t => t.IDOrganization, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.IDOrganization)
                 .Index(t => t.IDOrganization);
+            
+            CreateTable(
+                "dbo.ApplicationRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.ORegisterOrganizations",
+                c => new
+                    {
+                        ORegister_IdApplicationUser = c.String(nullable: false, maxLength: 128),
+                        Organization_IdOrganization = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.ORegister_IdApplicationUser, t.Organization_IdOrganization })
+                .ForeignKey("dbo.ORegister", t => t.ORegister_IdApplicationUser, cascadeDelete: true)
+                .ForeignKey("dbo.Organization", t => t.Organization_IdOrganization, cascadeDelete: true)
+                .Index(t => t.ORegister_IdApplicationUser)
+                .Index(t => t.Organization_IdOrganization);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.ApplicationUserRoles", "IdentityRole_Id", "dbo.ApplicationRoles");
             DropForeignKey("dbo.ScoreType", "IDOrganization", "dbo.Organization");
             DropForeignKey("dbo.TeachDetails", "IDTeach", "dbo.Teach");
             DropForeignKey("dbo.TeachDetails", "IDShift", "dbo.OShift");
-            DropForeignKey("dbo.Statistics", "IDOrganization", "dbo.Organization");
             DropForeignKey("dbo.Receipt", "IDAccount", "dbo.ORegister");
             DropForeignKey("dbo.ORegulation", "IDOrganization", "dbo.Organization");
-            DropForeignKey("dbo.Organization", "ORegister_IdApplicationUser", "dbo.ORegister");
-            DropForeignKey("dbo.ORegister", "IdApplicationUser", "dbo.ApplicationUsers");
             DropForeignKey("dbo.OPeriodLessons", "IDShift", "dbo.OShift");
             DropForeignKey("dbo.OShift", "IDOrganization", "dbo.Organization");
             DropForeignKey("dbo.OPeriodLessons", "IDOrganization", "dbo.Organization");
@@ -449,14 +524,19 @@
             DropForeignKey("dbo.AbsenteeForm", "IDSemester", "dbo.Semesters");
             DropForeignKey("dbo.Semesters", "IDOrganization", "dbo.Organization");
             DropForeignKey("dbo.AbsenteeForm", "IDOrganization", "dbo.Organization");
-            DropForeignKey("dbo.Organization", "Organization_IdOrganization", "dbo.Organization");
+            DropForeignKey("dbo.ORegisterOrganizations", "Organization_IdOrganization", "dbo.Organization");
+            DropForeignKey("dbo.ORegisterOrganizations", "ORegister_IdApplicationUser", "dbo.ORegister");
+            DropForeignKey("dbo.ORegister", "IdApplicationUser", "dbo.ApplicationUsers");
+            DropForeignKey("dbo.ApplicationUserRoles", "ApplicationUser_Id", "dbo.ApplicationUsers");
+            DropForeignKey("dbo.ApplicationUserLogins", "ApplicationUser_Id", "dbo.ApplicationUsers");
+            DropForeignKey("dbo.ApplicationUserClaims", "ApplicationUser_Id", "dbo.ApplicationUsers");
+            DropIndex("dbo.ORegisterOrganizations", new[] { "Organization_IdOrganization" });
+            DropIndex("dbo.ORegisterOrganizations", new[] { "ORegister_IdApplicationUser" });
             DropIndex("dbo.ScoreType", new[] { "IDOrganization" });
             DropIndex("dbo.TeachDetails", new[] { "IDShift" });
             DropIndex("dbo.TeachDetails", new[] { "IDTeach" });
-            DropIndex("dbo.Statistics", new[] { "IDOrganization" });
             DropIndex("dbo.Receipt", new[] { "IDAccount" });
             DropIndex("dbo.ORegulation", new[] { "IDOrganization" });
-            DropIndex("dbo.ORegister", new[] { "IdApplicationUser" });
             DropIndex("dbo.OShift", new[] { "IDOrganization" });
             DropIndex("dbo.OPeriodLessons", new[] { "IDShift" });
             DropIndex("dbo.OPeriodLessons", new[] { "IDOrganization" });
@@ -490,17 +570,21 @@
             DropIndex("dbo.ScoreDetail", new[] { "IDStudent" });
             DropIndex("dbo.Student", new[] { "IDOrganization" });
             DropIndex("dbo.Semesters", new[] { "IDOrganization" });
-            DropIndex("dbo.Organization", new[] { "ORegister_IdApplicationUser" });
-            DropIndex("dbo.Organization", new[] { "Organization_IdOrganization" });
+            DropIndex("dbo.ApplicationUserRoles", new[] { "IdentityRole_Id" });
+            DropIndex("dbo.ApplicationUserRoles", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.ApplicationUserLogins", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.ApplicationUserClaims", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.ORegister", new[] { "IdApplicationUser" });
             DropIndex("dbo.AbsenteeForm", new[] { "IDOrganization" });
             DropIndex("dbo.AbsenteeForm", new[] { "IDSemester" });
             DropIndex("dbo.AbsenteeForm", new[] { "IDStudent" });
+            DropTable("dbo.ORegisterOrganizations");
+            DropTable("dbo.ApplicationRoles");
             DropTable("dbo.ScoreType");
             DropTable("dbo.TeachDetails");
             DropTable("dbo.Statistics");
             DropTable("dbo.Receipt");
             DropTable("dbo.ORegulation");
-            DropTable("dbo.ORegister");
             DropTable("dbo.OShift");
             DropTable("dbo.OPeriodLessons");
             DropTable("dbo.ClassTransferringForm");
@@ -517,6 +601,11 @@
             DropTable("dbo.ScoreDetail");
             DropTable("dbo.Student");
             DropTable("dbo.Semesters");
+            DropTable("dbo.ApplicationUserRoles");
+            DropTable("dbo.ApplicationUserLogins");
+            DropTable("dbo.ApplicationUserClaims");
+            DropTable("dbo.ApplicationUsers");
+            DropTable("dbo.ORegister");
             DropTable("dbo.Organization");
             DropTable("dbo.AbsenteeForm");
         }

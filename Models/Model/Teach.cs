@@ -14,15 +14,11 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IDTeach { get; set; }
-        [Required]
         public string IDTeacher { get; set; }
-        [Required]
 
         public string IDClass { get; set; }
-        [Required]
 
         public string IDSubject { get; set; }
-        [Required]
 
         public int IDSemester { get; set; }
 

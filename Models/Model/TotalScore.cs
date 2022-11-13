@@ -15,9 +15,7 @@ namespace Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
         public string IDStudent { get; set; }
-        [Required]
         public int IDSemester { get; set; }
         [Required]
         [DefaultValue(0)]

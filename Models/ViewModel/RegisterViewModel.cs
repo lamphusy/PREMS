@@ -14,6 +14,8 @@ namespace Models.ViewModel
         [Required(ErrorMessage = "Name is required")]
         public string FullName { set; get; }
 
+    
+
         [Required(ErrorMessage = "Username is required")]
         public string UserName { set; get; }
 
@@ -34,6 +36,8 @@ namespace Models.ViewModel
         [Required]
         [Phone]
         public string PhoneNumber { set; get; }
+
+        public string IDCard { get; set; }
 
     }
 }
