@@ -213,6 +213,7 @@
     <Content Include="Public\assets\images\team-business-people-stacking-hands_53876-119699.jpg" />
     <Content Include="Public\css\Account\Login.css" />
     <Content Include="Public\css\Account\Register.css" />
+    <Content Include="Public\css\Dashboard\CreateOrganization.css" />
     <Content Include="Public\css\Dashboard\Index.css" />
     <Content Include="Public\css\Dashboard\Organizations.css" />
     <Content Include="Public\css\Home\Home.css" />
@@ -293,6 +294,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Public\css\Organization\" />
     <Folder Include="Public\js\Account\" />
     <Folder Include="Source\" />
   </ItemGroup>

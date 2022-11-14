@@ -1,7 +1,12 @@
-﻿
+﻿@model Models.Organization
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+
+<link href="~/Public/css/Dashboard/CreateOrganization.css" rel="stylesheet" />
+
+
 }
 
 <div>
@@ -14,3 +19,62 @@
         <li><a href="#" class="active">Create</a></li>
     </ul>
 </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-1">
+            <div class="card-header">
+                <h4 class="card-title">Organization Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    @using (Html.BeginForm("Action", "Controller", FormMethod.Post))
+                    {
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="form-group row" style="height: 256px;">
+                                    <div class="col-lg-10">
+                                        <div class="form-input">
+                                            <label class="labeltest" for="file-ip-1">
+                                                <span> Drop image here or click to upload. </span>
+                                            </label>
+                                            <input class="d-none" type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                                            <div class="preview">
+                                                <img id="file-ip-1-preview" src="#" alt="img">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Name organization" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", @placeholder = "Phone number" })
+                                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextAreaFor(x => x.Information, new { @class = "form-control text-area", @rows = 12, @placeholder="Some information about your organization" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">
+                                Next step
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
