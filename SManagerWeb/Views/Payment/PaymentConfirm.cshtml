@@ -1,0 +1,75 @@
+﻿@model Models.ViewModel.ReceiptViewModel
+@{
+    ViewBag.Title = "PaymentConfirm";
+    Layout = null;
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+}
+@if (ViewBag.Status == "1")
+{
+    <div class="row d-flex mt-5 justify-content-center">
+        <div class="card col-6">
+            <div class="card-body mx-4">
+                <div class="container">
+                    <p class="my-5 mx-5 text-center" style="font-size: 30px;">Thank for your purchase</p>
+                    <div class="row">
+                        <div class="d-flex justify-content-between">
+                            <ul class="list-unstyled">
+                                <li class="text-black">@Model.AccountName</li>
+                                <li class="text-black mt-1">@Model.AccountUsername</li>
+                                <li class="text-muted mt-1"><span class="text-black">Invoice</span> #@Model.IDReceipt</li>
+                                <li class="text-black mt-1">@Model.PaymentDate</li>
+                            </ul>
+                            <ul class="list-unstyled">
+                                <li class="text-black">@Model.OrganizationName</li>
+                                <li class="text-muted mt-1">@Model.BankCode</li>
+
+                            </ul>
+                        </div>
+
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <hr style="border: 2px solid black;">
+                    </div>
+                    <div class="row text-black">
+
+                        <div class="col-xl-12">
+                            <p class="float-end fw-bold">
+                                Total: @Model.Price VND
+                            </p>
+                        </div>
+                        <hr style="border: 2px solid black;">
+                    </div>
+                    <div class="text-center" style="margin-top: 90px;">
+                        <a href="@Url.Action("Organizations","Dashboard")"><u class="text-info">Back to dashboard</u></a>
+                        <p>Your order was resolved successfully</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="row d-flex mt-5 justify-content-center">
+        <div class="card col-6">
+            <div class="card-body mx-4">
+                <div class="container">
+                    <p class="my-5 mx-5 text-center" style="font-size: 30px;">Something is error</p>
+                    
+                    <div class="text-center" style="margin-top: 90px;">
+                        <a href="@Url.Action("Organizations","Dashboard")"><u class="text-info">Back to dashboard</u></a>
+                        <p>Please to pay later</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

@@ -1,19 +1,16 @@
-﻿using Models.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace Models.ViewModel
 {
-    [Table("Organization")]
-    public class Organization {
+    public class OrganizationViewModel
+    {
         [MaxLength(128)]
-        [Key]
         public string IdOrganization { get; set; }
 
         [MaxLength(256)]
@@ -38,16 +35,10 @@ namespace Models
         [DataType(DataType.MultilineText)]
         public string Information { get; set; }
 
-        [DefaultValue(false)]
-        public bool IsPaid { get; set; }
-
         public string LogoPath { get; set; }
 
         public string FacebookLink { get; set; }
         public string InstagramLink { get; set; }
         public string LinkedinLink { get; set; }
-
-        public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
-       
     }
 }

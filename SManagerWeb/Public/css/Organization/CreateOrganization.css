@@ -21,7 +21,6 @@
     padding: 20px;
     height: 100%;
     background-color: rgba(115, 102, 255, 0.06);
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -36,15 +35,25 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-    .form-input img {
-        width: 100%;
-        height: auto;
-        display: none;
-        margin-top: 10px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-    }
+#file {
+    width: 270px;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+    opacity:0;
+    z-index: 100;
+    cursor: pointer;
+}
+.form-input img {
+    width: 100%;
+    height: auto;
+    display: none;
+    margin-top: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 .basic-form .form-control {
     padding: 6px 12px;
     border: 1px solid #d7dae3;

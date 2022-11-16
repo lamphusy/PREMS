@@ -20,7 +20,10 @@ namespace Models.AutoMapperConfig
                 .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber))
                 .ForMember(x => x.Username, src => src.MapFrom(a => a.ApplicationUser.UserName));
 
-        
+            CreateMap<Receipt, ReceiptViewModel>()
+                .ForMember(x => x.AccountName, src => src.MapFrom(a => a.ORegister.ApplicationUser.FullName))
+                .ForMember(x => x.AccountUsername, src => src.MapFrom(a => a.ORegister.ApplicationUser.UserName))
+                .ForMember(x => x.OrganizationName, src => src.MapFrom(a => a.Organization.Name));
         }
     }
 }

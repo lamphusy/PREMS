@@ -83,6 +83,26 @@
     <Compile Include="Migrations\202211121554099_AddTableUserOwnOrganization.designer.cs">
       <DependentUpon>202211121554099_AddTableUserOwnOrganization.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211141537132_Add_IsPaid_Organization.cs" />
+    <Compile Include="Migrations\202211141537132_Add_IsPaid_Organization.designer.cs">
+      <DependentUpon>202211141537132_Add_IsPaid_Organization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211150709415_Add_IDOrganization_To_Receipt.cs" />
+    <Compile Include="Migrations\202211150709415_Add_IDOrganization_To_Receipt.designer.cs">
+      <DependentUpon>202211150709415_Add_IDOrganization_To_Receipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211160105319_Add_BankCode_Receipt.cs" />
+    <Compile Include="Migrations\202211160105319_Add_BankCode_Receipt.designer.cs">
+      <DependentUpon>202211160105319_Add_BankCode_Receipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211160156358_Add_ReferencesLink_Organization.cs" />
+    <Compile Include="Migrations\202211160156358_Add_ReferencesLink_Organization.designer.cs">
+      <DependentUpon>202211160156358_Add_ReferencesLink_Organization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211160951584_Update_zz.cs" />
+    <Compile Include="Migrations\202211160951584_Update_zz.designer.cs">
+      <DependentUpon>202211160951584_Update_zz.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -113,6 +133,8 @@
     <Compile Include="Model\TotalScoreSubject.cs" />
     <Compile Include="Model\TypeScore.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\OrganizationViewModel.cs" />
+    <Compile Include="ViewModel\ReceiptViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
@@ -135,6 +157,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211121554099_AddTableUserOwnOrganization.resx">
       <DependentUpon>202211121554099_AddTableUserOwnOrganization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211141537132_Add_IsPaid_Organization.resx">
+      <DependentUpon>202211141537132_Add_IsPaid_Organization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211150709415_Add_IDOrganization_To_Receipt.resx">
+      <DependentUpon>202211150709415_Add_IDOrganization_To_Receipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211160105319_Add_BankCode_Receipt.resx">
+      <DependentUpon>202211160105319_Add_BankCode_Receipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211160156358_Add_ReferencesLink_Organization.resx">
+      <DependentUpon>202211160156358_Add_ReferencesLink_Organization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211160951584_Update_zz.resx">
+      <DependentUpon>202211160951584_Update_zz.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

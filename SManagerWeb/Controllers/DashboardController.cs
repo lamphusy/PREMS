@@ -5,6 +5,7 @@ using Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,8 +34,16 @@ namespace SManagerWeb.Controllers
         {
             var idUser = User.Identity.GetUserId();
             var ownsId = db.UserOwnOrganizations.Where(x=>x.IdORegister == idUser).Select(x => x.IdOrganization).ToList();
-            var organizations = db.Organizations.Where(x=> ownsId.Contains(x.IdOrganization));
-            return View(organizations);
+            if (ownsId.Any())
+            {
+                var organizations = db.Organizations.Where(x => ownsId.Contains(x.IdOrganization)).ToList();
+                return View(organizations);
+            }
+            return View();
         }
+
+       
+
+       
     }
 }

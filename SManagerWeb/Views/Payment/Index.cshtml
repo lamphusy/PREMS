@@ -1,0 +1,8 @@
+﻿@model Models.Organization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<a href="@Url.Action("Payment","Payment", new {ID=Model.IdOrganization})" class="h4 pointer-event">Click here to pay</a>
+

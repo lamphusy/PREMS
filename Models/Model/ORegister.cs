@@ -15,7 +15,6 @@ namespace Models
     {
       
         [Key]
-        [ForeignKey("ApplicationUser")]
         public string IdApplicationUser { get; set; }
 
         [Required]
@@ -26,8 +25,8 @@ namespace Models
 
         public string Nation { get; set; }
 
-        
-        public ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("IdApplicationUser")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
 

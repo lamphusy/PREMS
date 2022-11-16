@@ -23,29 +23,32 @@
 <div class="data">
     <div class="container">
         <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
-
-            @foreach (var item in Model)
+            @if (Model != null)
             {
-                <div class="col">
-                    <div class="card radius-15">
-                        <div class="card-body text-center">
-                            <div class="p-4 border radius-15">
-                                <img src="@Url.Content(item.LogoPath!=null ? item.LogoPath : "~/Source/Default/school-default.png")" width="110" height="110" class="rounded-circle shadow" alt="">
-                                <h5 class="mb-0 mt-5">@item.Name</h5>
-                                <p class="mb-3">@item.PhoneNumber</p>
-                                <div class="list-inline contacts-social mt-3 mb-3">
-                                    <a href="javascript:;" class="list-inline-item bg-facebook text-white border-0"><i class="bx bxl-facebook"></i></a>
-                                    <a href="javascript:;" class="list-inline-item bg-twitter text-white border-0"><i class="bx bxl-twitter"></i></a>
-                                    <a href="javascript:;" class="list-inline-item bg-linkedin text-white border-0"><i class="bx bxl-linkedin"></i></a>
-                                </div>
-                                <div class="d-grid">
-                                    <a href="@Url.Action("Index","Organization", new {ID = item.IdOrganization})" class="btn btn-outline-primary radius-15">Access</a>
+                foreach (var item in Model)
+                {
+                    <div class="col">
+                        <div class="card radius-15">
+                            <div class="card-body text-center">
+                                <div class="p-4 border radius-15">
+                                    <img src="@Url.Content(item.LogoPath!=null ? item.LogoPath : "~/Source/Default/school-default.png")" width="110" height="110" class="rounded-circle shadow" alt="">
+                                    <h5 class="mb-0 mt-5">@item.Name</h5>
+                                    <p class="mb-3">@item.PhoneNumber</p>
+                                    <div class="list-inline contacts-social mt-3 mb-3">
+                                        <a href="@item.FacebookLink" class="list-inline-item bg-facebook text-white border-0"><i class="bx bxl-facebook"></i></a>
+                                        <a href="@item.InstagramLink" class="list-inline-item bg-twitter text-white border-0"><i class="bx bxl-instagram"></i></a>
+                                        <a href="@item.LinkedinLink" class="list-inline-item bg-linkedin text-white border-0"><i class="bx bxl-linkedin"></i></a>
+                                    </div>
+                                    <div class="d-grid">
+                                        <a href="@Url.Action("Index","Organization", new {ID = item.IdOrganization})" class="btn btn-outline-primary radius-15">Access</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             }
+
         </div>
     </div>
 

@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace Models.ViewModel
 {
-    [Table("Receipt")]
-    public class Receipt
+    public class ReceiptViewModel
     {
-        [Key]
+        
         public string IDReceipt { get; set; }
-      
+
         public string IDAccount { get; set; }
         [DataType(DataType.DateTime)]
 
@@ -27,12 +26,12 @@ namespace Models
         public string BankCode { get; set; }
 
         public string IDOrganization { get; set; }
+        
+        public string OrganizationName { get; set; }
 
-        [ForeignKey("IDAccount")]
-        public virtual ORegister ORegister { get; set; }
+        public string AccountName { get; set; }
 
-        [ForeignKey("IDOrganization")]
-        public virtual Organization Organization { get; set; }
+        public string AccountUsername { get; set; }
 
     }
 }

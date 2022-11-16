@@ -66,8 +66,10 @@
   <ItemGroup>
     <Compile Include="ActiveMenuHelper.cs" />
     <Compile Include="ConfigHelper.cs" />
+    <Compile Include="GenerateIDHelper.cs" />
     <Compile Include="MailHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\VnPayLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

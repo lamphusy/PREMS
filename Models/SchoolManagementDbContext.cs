@@ -13,7 +13,8 @@ namespace Models
         public SchoolManagementDbContext()
             : base("name=SchoolManagementDbContext")
         {
-            
+            Configuration.ProxyCreationEnabled = true;
+            Configuration.LazyLoadingEnabled = true;
         }
 
         public static SchoolManagementDbContext Create()
