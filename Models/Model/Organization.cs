@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -37,8 +38,16 @@ namespace Models
         [DataType(DataType.MultilineText)]
         public string Information { get; set; }
 
-        public virtual ICollection<Organization> Organizations { get; set; }
+        [DefaultValue(false)]
+        public bool IsPaid { get; set; }
 
+        public string LogoPath { get; set; }
 
+        public string FacebookLink { get; set; }
+        public string InstagramLink { get; set; }
+        public string LinkedinLink { get; set; }
+
+        public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
+       
     }
 }

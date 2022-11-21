@@ -13,7 +13,6 @@ namespace Models
     {
         [Key]
         public string IDStudent { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
 
         [Required]

@@ -1,0 +1,106 @@
+﻿@using Common
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="~/Public/Areas/css/adminPanel.css" rel="stylesheet" />
+</head>
+
+<body>
+    <style>
+        body a {
+            text-decoration: none;
+        }
+        
+        #sidebar .side-menu > li > a.active, #sidebar .side-menu > li > a.active:hover {
+            background-color: #f96b36;
+        }
+
+        #sidebar > .brand {
+            color: #f96b36;
+        }
+    </style>
+    <section id="sidebar">
+        <a href="#" class="ms-4 brand">
+            Organization MENU
+        </a>
+        <ul class="side-menu">
+            @*<li><a href="@Url.Action("Index","Dashboard")" class="active"><i class="fa-solid fa-face-smile icon"></i>Profile</a></li>*@
+            <li>@Html.MenuLink("<i class=\"fa-solid fa-face-smile icon\"></i>Profile", "Index", "Organization", "")</li>
+            @*<li class="divider">Main</li>*@
+            @*<li>
+                    <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+                    <ul class="side-dropdown">
+                        <li><a href="#">Students </a></li>
+                        <li><a href="#">Teachers  </a></li>
+                        <li><a href="#">Employees </a></li>
+                        <li><a href="#">Earnings </a></li>
+
+                    </ul>
+                </li>*@
+            @*<li><a href="@Url.Action("Organizations","Dashboard")"><i class="fa-solid fa-chart-simple icon"></i>Organizations</a></li>*@
+            <li>@Html.MenuLink("<i class=\"fa-solid fa-chart-simple icon\"></i>Organizations", "Organizations", "Dashboard", "")</li>
+            @*<li><a href="#"><i class="fa-solid fa-bridge-water icon"></i></i>Widgets</a></li>
+                <li class="divider">Table and forms</li>
+                <li><a href="#"><i class="fa-solid fa-table icon"></i>Table</a></li>
+                <li>
+                    <a href="#"><i class="fa-solid fa-inbox icon"></i>Forms <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+                    <ul class="side-dropdown">
+                        <li><a href="#">Basic </a></li>
+                        <li><a href="#">Select  </a></li>
+                        <li><a href="#">Checkbox </a></li>
+                        <li><a href="#">Radio </a></li>
+
+                    </ul>
+                </li>*@
+
+        </ul>
+
+    </section>
+    <section id="content">
+        <nav>
+            <i class="fa-sharp fa-solid fa-bars toggle-sidebar"></i>
+            <form action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search...">
+                    <i class="fa-solid fa-magnifying-glass icon"></i>
+                </div>
+            </form>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-bell icon"></i>
+                <span class="badge">5</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-message icon"></i>
+                <span class="badge">8</span>
+            </a>
+            <span class="divider"></span>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60" alt="">
+                <ul class="profile-link">
+                    <li><a href=""><i class="fa-solid fa-user icon"></i>Profile</a></li>
+                    <li><a href=""><i class="fa-solid fa-gear icon"></i>Setting</a></li>
+                    <li><a href=""><i class="fa-solid fa-outdent icon"></i>Logout</a></li>
+
+                </ul>
+            </div>
+        </nav>
+        <main>
+            @RenderBody()
+        </main>
+
+    </section>
+
+    <script src="~/Public/Areas/js/adminPanel.js"></script>
+</body>
+
+</html>

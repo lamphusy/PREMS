@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -86,6 +89,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -160,11 +164,11 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\Owner\OwnerAreaRegistration.cs" />
-    <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
-    <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,12 +198,29 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Owner\Views\web.config" />
-    <Content Include="Areas\Teacher\Views\web.config" />
-    <Content Include="Areas\Student\Views\web.config" />
     <Content Include="Public\Areas\js\dashboard.js" />
+    <Content Include="Public\assets\images\4208421.jpg" />
+    <Content Include="Public\assets\images\blonde-secretary-sitting-table-while-office-workers-posing-with-thumbs-up-indoor-portrait-happy-asian-manager-trendy-shirt-smiling-conference-hall-with-foreign-partners_197531-3735.jpg" />
+    <Content Include="Public\assets\images\default-logo.png" />
+    <Content Include="Public\assets\images\dfdf.jpg" />
+    <Content Include="Public\assets\images\dff.jpg" />
+    <Content Include="Public\assets\images\dssdd.jpg" />
+    <Content Include="Public\assets\images\men-women-carrying-backpack-searching-books-library_1150-24655.jpg" />
+    <Content Include="Public\assets\images\pexels-fauxels-3184644.jpg" />
+    <Content Include="Public\assets\images\pexels-julia-m-cameron-4145153.jpg" />
+    <Content Include="Public\assets\images\pexels-pixabay-159740.jpg" />
+    <Content Include="Public\assets\images\portrait-young-asia-lady-with-positive-expression-arms-crossed-smile-broadly-dressed-casual-clothing-looking-camera-pink-background_7861-32011.jpg" />
+    <Content Include="Public\assets\images\sad.jpg" />
+    <Content Include="Public\assets\images\team-business-people-stacking-hands_53876-119699.jpg" />
     <Content Include="Public\css\Account\Login.css" />
     <Content Include="Public\css\Account\Register.css" />
+    <Content Include="Public\css\Organization\CreateOrganization.css" />
+    <Content Include="Public\css\Dashboard\Index.css" />
+    <Content Include="Public\css\Dashboard\Organizations.css" />
+    <Content Include="Public\css\Home\Home.css" />
+    <Content Include="Public\css\Home\nicepage.css" />
+    <Content Include="Public\js\Home\nicepage.js" />
+    <Content Include="Public\js\Organization\Create.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -264,21 +285,22 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\LinkToConfirmEmail.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\Dashboard\Organizations.cshtml" />
+    <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutOrganization.cshtml" />
+    <Content Include="Views\Organization\Create.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\Payment\PaymentConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Owner\Controllers\" />
-    <Folder Include="Areas\Owner\Data\" />
-    <Folder Include="Areas\Owner\Views\Shared\" />
-    <Folder Include="Areas\Student\Controllers\" />
-    <Folder Include="Areas\Student\Data\" />
-    <Folder Include="Areas\Student\Views\Shared\" />
-    <Folder Include="Areas\Teacher\Controllers\" />
-    <Folder Include="Areas\Teacher\Data\" />
-    <Folder Include="Areas\Teacher\Views\Shared\" />
     <Folder Include="Models\" />
-    <Folder Include="Public\js\" />
+    <Folder Include="Public\js\Account\" />
+    <Folder Include="Public\js\Dashboard\" />
+    <Folder Include="Source\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

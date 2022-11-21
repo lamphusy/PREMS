@@ -7,11 +7,14 @@ using Models;
 using Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace SManagerWeb.Controllers
 {
@@ -20,11 +23,13 @@ namespace SManagerWeb.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        SchoolManagementDbContext db = new SchoolManagementDbContext();
 
         public AccountController(ApplicationSignInManager signInManager, ApplicationUserManager userManager)
         {
             SignInManager = signInManager;
             UserManager = userManager;
+            
         }
         public ApplicationSignInManager SignInManager
         {
@@ -66,6 +71,8 @@ namespace SManagerWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, string role)
         {
             if (ModelState.IsValid)
@@ -91,7 +98,7 @@ namespace SManagerWeb.Controllers
                             }
                             else
                             {
-                                return Redirect("/");
+                                return RedirectToAction("Index","Dashboard");
                             }
                         }
                         else
@@ -116,6 +123,7 @@ namespace SManagerWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -148,13 +156,37 @@ namespace SManagerWeb.Controllers
                 if (result.Succeeded)
                 {
                     var newUser = await UserManager.FindByEmailAsync(model.Email);
+
+                    //add ORegister from ApplicationUser
+                    var oRegisterObject = new ORegister();
+                    oRegisterObject.RegisterDate = DateTime.Now;
+                    oRegisterObject.IdCard = "123456790";
+                    oRegisterObject.IdApplicationUser = newUser.Id;
+
+                    db.ORegister.Add(oRegisterObject);
+                    db.SaveChanges();
+                    //----
+
                     if (newUser != null)
                         await UserManager.AddToRolesAsync(newUser.Id, new string[] { "User" });
 
                     return RedirectToAction("HandleSendConfirmEmail", "Account", new { id = newUser.Id });
                 }
+                else
+                {
+                    ModelState.AddModelError("", "???");
+                }
             }
+          
             return View(model);
+        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult LogOff()
+        {
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
         }
 
         [AllowAnonymous]
@@ -177,5 +209,55 @@ namespace SManagerWeb.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        public async Task<ActionResult> ChangePassword(string UserId,string OldPassword, string NewPassword)
+        {
+            var result = await UserManager.ChangePasswordAsync(UserId, OldPassword,NewPassword);
+            if(result.Succeeded)
+            {
+                return RedirectToAction("Index", "Dashboard",new {message = "Change password success" });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Dashboard", new { message = "Change password failed" });
+
+            }
+            
+        }
+
+        public async Task<ActionResult> ChangeProfile(UserViewModel profile)
+        {
+            var userId = profile.IdApplicationUser;
+            var user = await db.ORegister.Include("ApplicationUser")
+                .FirstAsync(x => x.IdApplicationUser == userId);
+
+            if (user != null)
+            {
+                user.IdCard = profile.IdCard;
+                user.Nation = profile.Nation;
+                user.ApplicationUser.Address = profile.Address;
+                if(profile.PhoneNumber != null && profile.PhoneNumber != user.ApplicationUser.PhoneNumber)
+                {
+                    user.ApplicationUser.PhoneNumber = profile.PhoneNumber;
+                    user.ApplicationUser.PhoneNumberConfirmed = false;
+                }
+                if(profile.EmailAddress != null && profile.EmailAddress != user.ApplicationUser.Email)
+                {
+                    user.ApplicationUser.Email = profile.EmailAddress;
+                    user.ApplicationUser.EmailConfirmed = false;
+                }
+                user.ApplicationUser.DayOfBirth = profile.DayOfBirth;
+                user.ApplicationUser.FullName = profile.FullName;
+
+                await db.SaveChangesAsync();
+
+                if(profile.Password != null
+                    && profile.NewPassword != null 
+                    && profile.ConfirmPassword != null)
+                {
+                    return RedirectToAction("ChangePassword", new { UserId = userId, OldPassword = profile.Password, NewPassword = profile.NewPassword });
+                }
+            }
+            return RedirectToAction("Index", "Dashboard");
+        }
     }
 }

@@ -17,7 +17,6 @@ namespace Models
         public string NameScore { get; set; }
         [Required]
         public float PercentScore { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
 
         [ForeignKey("IDOrganization")]

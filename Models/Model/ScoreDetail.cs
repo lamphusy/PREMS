@@ -14,12 +14,10 @@ namespace Models
     {
         [Key]
         public int ID { get; set; }
-        [Required]
+   
         public string IDStudent { get; set; }
-        [Required]
 
         public string IDSubject { get; set; }
-        [Required]
 
         public int IDSemester { get; set; }
         [Required]

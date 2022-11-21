@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -59,13 +62,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202210161742498_InitialCreate.cs" />
-    <Compile Include="Migrations\202210161742498_InitialCreate.designer.cs">
-      <DependentUpon>202210161742498_InitialCreate.cs</DependentUpon>
+    <Compile Include="AutoMapperConfig\AutoMapperProfile.cs" />
+    <Compile Include="Migrations\202211091657380_CreateNewDatabase.cs" />
+    <Compile Include="Migrations\202211091657380_CreateNewDatabase.designer.cs">
+      <DependentUpon>202211091657380_CreateNewDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202210210844472_InitialDatabase.cs" />
-    <Compile Include="Migrations\202210210844472_InitialDatabase.designer.cs">
-      <DependentUpon>202210210844472_InitialDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\202211100307007_TestLazyLoading.cs" />
+    <Compile Include="Migrations\202211100307007_TestLazyLoading.designer.cs">
+      <DependentUpon>202211100307007_TestLazyLoading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211110355329_AddNationORegister.cs" />
+    <Compile Include="Migrations\202211110355329_AddNationORegister.designer.cs">
+      <DependentUpon>202211110355329_AddNationORegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211111250432_AddLogoPath.cs" />
+    <Compile Include="Migrations\202211111250432_AddLogoPath.designer.cs">
+      <DependentUpon>202211111250432_AddLogoPath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211121554099_AddTableUserOwnOrganization.cs" />
+    <Compile Include="Migrations\202211121554099_AddTableUserOwnOrganization.designer.cs">
+      <DependentUpon>202211121554099_AddTableUserOwnOrganization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211141537132_Add_IsPaid_Organization.cs" />
+    <Compile Include="Migrations\202211141537132_Add_IsPaid_Organization.designer.cs">
+      <DependentUpon>202211141537132_Add_IsPaid_Organization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211150709415_Add_IDOrganization_To_Receipt.cs" />
+    <Compile Include="Migrations\202211150709415_Add_IDOrganization_To_Receipt.designer.cs">
+      <DependentUpon>202211150709415_Add_IDOrganization_To_Receipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211160105319_Add_BankCode_Receipt.cs" />
+    <Compile Include="Migrations\202211160105319_Add_BankCode_Receipt.designer.cs">
+      <DependentUpon>202211160105319_Add_BankCode_Receipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211160156358_Add_ReferencesLink_Organization.cs" />
+    <Compile Include="Migrations\202211160156358_Add_ReferencesLink_Organization.designer.cs">
+      <DependentUpon>202211160156358_Add_ReferencesLink_Organization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211160951584_Update_zz.cs" />
+    <Compile Include="Migrations\202211160951584_Update_zz.designer.cs">
+      <DependentUpon>202211160951584_Update_zz.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
@@ -80,6 +116,7 @@
     <Compile Include="Model\ORegulation.cs" />
     <Compile Include="Model\Organization.cs" />
     <Compile Include="Model\OShift.cs" />
+    <Compile Include="Model\UserOwnOrganization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Receipt.cs" />
     <Compile Include="SchoolManagementDbContext.cs" />
@@ -96,21 +133,47 @@
     <Compile Include="Model\TotalScoreSubject.cs" />
     <Compile Include="Model\TypeScore.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\OrganizationViewModel.cs" />
+    <Compile Include="ViewModel\ReceiptViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202210161742498_InitialCreate.resx">
-      <DependentUpon>202210161742498_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202211091657380_CreateNewDatabase.resx">
+      <DependentUpon>202211091657380_CreateNewDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202210210844472_InitialDatabase.resx">
-      <DependentUpon>202210210844472_InitialDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202211100307007_TestLazyLoading.resx">
+      <DependentUpon>202211100307007_TestLazyLoading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211110355329_AddNationORegister.resx">
+      <DependentUpon>202211110355329_AddNationORegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211111250432_AddLogoPath.resx">
+      <DependentUpon>202211111250432_AddLogoPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211121554099_AddTableUserOwnOrganization.resx">
+      <DependentUpon>202211121554099_AddTableUserOwnOrganization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211141537132_Add_IsPaid_Organization.resx">
+      <DependentUpon>202211141537132_Add_IsPaid_Organization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211150709415_Add_IDOrganization_To_Receipt.resx">
+      <DependentUpon>202211150709415_Add_IDOrganization_To_Receipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211160105319_Add_BankCode_Receipt.resx">
+      <DependentUpon>202211160105319_Add_BankCode_Receipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211160156358_Add_ReferencesLink_Organization.resx">
+      <DependentUpon>202211160156358_Add_ReferencesLink_Organization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211160951584_Update_zz.resx">
+      <DependentUpon>202211160951584_Update_zz.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

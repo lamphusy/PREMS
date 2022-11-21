@@ -13,7 +13,6 @@ namespace Models
     {
         [Key]
         public string IDUser { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
 
         [MaxLength(100)]

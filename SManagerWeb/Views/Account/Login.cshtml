@@ -1,17 +1,18 @@
 ﻿@model Models.ViewModel.LoginViewModel
 @{
     ViewBag.Title = "Login";
-    Layout = "";
+    
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="~/Public/css/Account/Login.css" rel="stylesheet" />
 
 }
-<body>
-    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+
+    <div class="d-flex justify-content-center align-items-center w-100 h-100" id="login-form">
         @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post))
         {
+            @Html.AntiForgeryToken()
             <h2 class="text-center fw-bold">Login</h2>
             @Html.ValidationSummary(false, "", new { @class = "error" })
             <div class="mb-2 fw-bolder">
@@ -44,5 +45,3 @@
     </div>
 
 
-
-</body>

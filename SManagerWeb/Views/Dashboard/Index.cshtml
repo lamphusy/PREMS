@@ -1,0 +1,114 @@
+﻿@model Models.ViewModel.UserViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    <link href="~/Public/css/Dashboard/Index.css" type="text/css" />
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+<h1 class="title">Profile</h1>
+<ul class="breadcrumbs">
+    <li><a href="#">Dashboard</a></a></li>
+    <li class="divider"></li>
+    <li><a href="#" class="active">Profile</a></li>
+</ul>
+<div class="data">
+    @using (Html.BeginForm("ChangeProfile", "Account", FormMethod.Post))
+    {
+        @Html.TextBoxFor(x => x.IdApplicationUser, new { @class = "form-control d-none" })
+        <div class="card container rounded bg-white">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">@Model.Username</span><span class="text-black-50">Register date: @Model.RegisterDate.ToString("d")</span></div>
+                </div>
+                <div class="col-md-5 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="fw-bold text-right">Profile Settings</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <label class="labels">Full Name</label>
+                                @Html.TextBoxFor(x => x.FullName, new { @class = "form-control", @placeholder = "Full name" })
+                                @Html.ValidationMessageFor(x => x.FullName, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Mobile Number</label>
+                                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", @placeholder = "Enter phone number" })
+                                @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Email Address</label>
+                                @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control", @placeholder = "Enter email" })
+                                @Html.ValidationMessageFor(x => x.EmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Address</label>
+                                @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Enter nation" })
+                                @Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="labels">Nation</label>
+                                @Html.TextBoxFor(x => x.Nation, new { @class = "form-control", @placeholder = "Enter nation" })
+                                @Html.ValidationMessageFor(x => x.Nation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="labels">Date of Birth</label>
+                                @Html.TextBoxFor(x => x.DayOfBirth, new { @class = "form-control", @placeholder = "Enter your birthday" })
+                                @Html.ValidationMessageFor(x => x.DayOfBirth, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">ID Card</label>
+                                @Html.TextBoxFor(x => x.IdCard, new { @class = "form-control", @placeholder = "Enter ID Card" })
+                                @Html.ValidationMessageFor(x => x.IdCard, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <p class="text-info">@ViewBag.Result</p>
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="fw-bold text-right">Change password</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <label class="labels">Old password</label>
+
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "Enter Current password" })
+                            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="row mt-3">
+                            <label class="labels">New password</label>
+
+                            @Html.PasswordFor(x => x.NewPassword, new { @class = "form-control", @placeholder = "Enter Current password" })
+                            @Html.ValidationMessageFor(x => x.NewPassword, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="row mt-3">
+                            <label class="labels">Confirm password</label>
+
+                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control", @placeholder = "Enter Current password" })
+                            @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+</div>

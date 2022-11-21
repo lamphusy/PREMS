@@ -1,4 +1,5 @@
 using Microsoft.AspNet.Identity.EntityFramework;
+using Models.Model;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace Models
         public SchoolManagementDbContext()
             : base("name=SchoolManagementDbContext")
         {
-            this.Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = true;
+            Configuration.LazyLoadingEnabled = true;
         }
 
         public static SchoolManagementDbContext Create()
@@ -53,6 +55,7 @@ namespace Models
         public virtual DbSet<TotalScoreSubject> TotalScoreSubjects { get; set; }
         public virtual DbSet<TotalScore> TotalScores { get; set; }
         public virtual DbSet<AbsenteeForm> AbsenteeForms { get; set; }
+        public virtual DbSet<UserOwnOrganization> UserOwnOrganizations { get; set; }
     }
 
 

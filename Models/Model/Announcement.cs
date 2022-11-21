@@ -18,7 +18,6 @@ namespace Models
         public DateTime CreatedDate { get; set; }
         public string CreateBy { get; set; }
         public int IDTarget { get; set; }
-        [Required]
         public string IDOrganization { get; set; }
 
         [ForeignKey("IDTarget")]
