@@ -1,8 +1,65 @@
-﻿
+﻿@model Models.ViewModel.OrganizationViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
 }
+@Html.Partial("_NavigationBar", Model.IdOrganization)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <h1 class="title">Dashboard</h1>
+        <ul class="breadcrumbs">
+            <li><a href="#">Organization</a></li>
+            <li class="divider"></li>
+            <li><a href="#" class="active">Dashboard</a></li>
+        </ul>
+        <div class="info-data">
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>1500</h2>
+                        <p>Student</p>
+                    </div>
+                    <i class="fa-solid fa-graduation-cap icon"></i>
+                </div>
+                <span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>1500</h2>
+                        <p>Teacher</p>
+                    </div>
+                    <i class="fa-solid fa-chalkboard-user icon"></i>
+                </div>
+                <span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>1500</h2>
+                        <p>Class</p>
+                    </div>
+                    <i class="fa-solid fa-house icon"></i>
+                </div>
+                <span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>1500</h2>
+                        <p>Employees</p>
+                    </div>
+                    <i class="fa-solid fa-people-line icon"></i>
+                </div>
+                <span class="progress" data-value="80%"></span>
+                <span class="label">50%</span>
+            </div>
+        </div>
 
-<h2>Index</h2>
-
+    </main>
+</section>
+        

@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Models.ViewModel.SchoolYearViewModel>
+@{
+    ViewBag.Title = "Semester";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+}
+<style>
+    table tr td {
+        border: none;
+    }
+</style>
+@{
+    bool flag = true;
+    int lastYear = 0;
+    int nextYear = 0;
+}
+<style>
+    td {
+        vertical-align: bottom;
+    }
+</style>
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Semester</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Semester</a></li>
+                </ul>
+            </div>
+            <div>
+
+            </div>
+        </div>
+        <div class="content">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="d-inline">
+                    <a href="@Url.Action("CreateSemester", "Organization", new {ID = (string)ViewBag.OrganizationID})" class="btn background-color-orange">
+                        <i class="fa-solid fa-plus"></i> Semester
+                    </a>
+                    <a href="@Url.Action("CreateSchoolYear", "Organization", new {ID = (string)ViewBag.OrganizationID})" class="btn background-color-orange">
+                        <i class="fa-solid fa-plus"></i> SchoolYear
+                    </a>
+                </div>
+                <div class="">
+                    <select id="filter" class="form-select d-inline" style="max-width: 159px; min-width: 100px;">
+                        @foreach (var item in Model)
+                        {
+                            if (flag)
+                            {
+                                lastYear = @item.SchoolYear.LastYear;
+                                nextYear = @item.SchoolYear.NextYear;
+                                flag = false;
+                            }
+                            <option>@item.SchoolYear.LastYear-@item.SchoolYear.NextYear</option>
+                        }
+                      
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Semester number</th>
+                                <th>Year</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-content">
+                            @foreach (var item in Model)
+                            {
+                                if (item.SchoolYear.LastYear == lastYear && item.SchoolYear.NextYear == nextYear)
+                                {
+                                    foreach (var i in item.Semesters)
+                                    {
+                                        <tr>
+                                            <td>@i.SemesterNum</td>
+                                            <td>@item.SchoolYear.LastYear-@item.SchoolYear.NextYear</td>
+                                            <td>
+                                                <input type="hidden" name="name" value="value" />
+                                                <form action="/Organization/DeleteSemester" method="post">
+                                                    <input type="hidden" name="OrganizationID" value="@item.SchoolYear.IDOrganization" />
+                                                    <input type="hidden" name="SemesterID" value="@i.IdSemester" />
+                                                    <button type="submit" class="btn btn-danger bg-opacity-50">
+                                                        <i class="fa-sharp fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</section>
+<script>
+    console.log("aaaa")
+    const filter = document.getElementById("filter");
+    const content = document.getElementsByClassName("table-content")[0];
+    console.log(filter);
+    console.log(content);
+
+
+
+    filter.onchange = function (event) {
+        $.ajax({
+            url: "/Organization/SemesterFilter",
+            type: 'GET',
+            data: {
+                ID :`@ViewBag.OrganizationID`,
+                date : filter.value
+            }
+        }).done(function (res) {
+            console.log(res)
+            content.innerHTML = "";
+            res.forEach(function (item, index) {
+                var semesters = item.Semesters;
+                console.log(semesters);
+                semesters.forEach(function (value, i) {
+                    var lastYear = item.SchoolYear.LastYear;
+                    var nextYear = item.SchoolYear.NextYear;
+                    content.innerHTML += `\n<tr>
+                        <tr>
+                            <td>${value.SemesterNum}</td>
+                            <td>${lastYear}-${nextYear}</td>
+                            <td>
+                                <input type="hidden" name="name" value="value" />
+                                <form action="/Organization/DeleteSemester" method="post">
+                                    <input type="hidden" name="OrganizationID" value="${item.SchoolYear.IDOrganization}" />
+                                    <input type="hidden" name="SemesterID" value="${value.IdSemester}"/>
+                                    <button type="submit" class="btn btn-danger bg-opacity-50"><i class="fa-sharp fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>`;
+                })
+               
+            })
+        })
+    }
+</script>

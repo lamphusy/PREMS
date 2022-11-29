@@ -214,13 +214,18 @@
     <Content Include="Public\assets\images\team-business-people-stacking-hands_53876-119699.jpg" />
     <Content Include="Public\css\Account\Login.css" />
     <Content Include="Public\css\Account\Register.css" />
+    <Content Include="Public\css\Organization\adminPanel.css" />
     <Content Include="Public\css\Organization\CreateOrganization.css" />
     <Content Include="Public\css\Dashboard\Index.css" />
     <Content Include="Public\css\Dashboard\Organizations.css" />
     <Content Include="Public\css\Home\Home.css" />
     <Content Include="Public\css\Home\nicepage.css" />
+    <Content Include="Public\css\Organization\Regulation.css" />
     <Content Include="Public\js\Home\nicepage.js" />
+    <Content Include="Public\js\Organization\ChangeRegulation.js" />
     <Content Include="Public\js\Organization\Create.js" />
+    <Content Include="Public\Plugin\CKEditor.css" />
+    <Content Include="Public\Plugin\CKEditor.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -293,6 +298,17 @@
     <Content Include="Views\Organization\Create.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Payment\PaymentConfirm.cshtml" />
+    <Content Include="Views\Organization\Information.cshtml" />
+    <Content Include="Views\Organization\_NavigationBar.cshtml" />
+    <Content Include="Views\Shared\_ProfileBar.cshtml" />
+    <Content Include="Views\Organization\EditInformation.cshtml" />
+    <Content Include="Views\Organization\Regulation.cshtml" />
+    <Content Include="Views\Organization\ChangeRegulation.cshtml" />
+    <Content Include="Views\Organization\CreateRegulation.cshtml" />
+    <Content Include="Views\Organization\Class.cshtml" />
+    <Content Include="Views\Organization\Semester.cshtml" />
+    <Content Include="Views\Organization\CreateSemester.cshtml" />
+    <Content Include="Views\Organization\CreateSchoolYear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

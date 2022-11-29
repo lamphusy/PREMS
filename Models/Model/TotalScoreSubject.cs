@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +17,7 @@ namespace Models
         public int ID { get; set; }
         public string IDStudent { get; set; }
         public string IDSubject { get; set; }
-        public int IDSemester { get; set; }
+        public int IDYear { get; set; }
         [Required]
         public float Score { get; set; }
 
@@ -24,8 +25,8 @@ namespace Models
         public virtual Student Student { get; set; }
         [ForeignKey("IDSubject")]
         public virtual Subject Subject { get; set; }
-        [ForeignKey("IDSemester")]
-        public virtual Semester Semester { get; set; }
+        [ForeignKey("IDYear")]
+        public virtual SchoolYear Semester { get; set; }
 
     }
 }

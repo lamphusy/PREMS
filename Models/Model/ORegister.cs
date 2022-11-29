@@ -1,4 +1,5 @@
 ﻿using Models.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,9 +27,11 @@ namespace Models
         public string Nation { get; set; }
 
         [ForeignKey("IdApplicationUser")]
+        [JsonIgnore]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
+        //[JsonIgnore]
+        //public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
 
 
 

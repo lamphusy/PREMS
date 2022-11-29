@@ -1,0 +1,71 @@
+﻿@model Models.ViewModel.RegulationViewModel
+@using Common.Util
+@{
+    ViewBag.Title = "Regulation";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+   
+}
+
+@Html.Partial("_NavigationBar", Model.IdOrganization)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Regulation</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Regulation</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="@Url.Action("ChangeRegulation","Organization",new {ID = Model.IdOrganization})"
+                   class="btn text-white" style="background-color: #f96b36;min-width: 120px;">Change Regulation</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="card card-body p-3 col-4 rounded-5 shadow-sm border-0 col-12 mb-3">
+                <div class="d-flex justify-content-around ">
+                    <h4 class="fw-bold">Number of shift: @Model.ShiftList.Count</h4>
+                    <h4 class="fw-bold">Number of period: @Model.PeriodLessonList.Count</h4>
+                </div>
+            </div>
+            @foreach (var shift in Model.ShiftList)
+            {
+                <div class="card p-3 col-4 rounded-5 shadow-sm border-0 col-12 mb-3">
+                    <div class="card-header bg-white">
+                        <h4 class="card-title p-3 bg-white">@shift.ShiftName</h4>
+                    </div>
+                    <div class="card-body p-3">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Start time</th>
+                                    <th>End time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var period in Model.PeriodLessonList)
+                                {
+                                    if (period.IDShift == shift.ID)
+                                    {
+                                        <tr>
+                                            <td>@period.PeriodName</td>
+                                            <td>@TransferTime.ValueToTime(period.PeriodStartTime)</td>
+                                            <td>@TransferTime.ValueToTime(period.PeriodEndTime)</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </main>
+</section>
+

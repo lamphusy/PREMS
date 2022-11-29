@@ -1,0 +1,65 @@
+﻿
+@model Models.ViewModel.OrganizationViewModel
+@{
+    ViewBag.Title = "EditInformation";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/Plugin/CKEditor.css" rel="stylesheet" />
+}
+
+@Html.Partial("_NavigationBar", Model.IdOrganization)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Information</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Information</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="@Url.Action("EditInformation","Organization",new {ID = Model.IdOrganization})" 
+                   class="btn text-white" style="background-color: #f96b36;min-width: 120px;">Edit information</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card col-10 m-auto border-0 shadow-sm rounded-5 p-lg-5 p-sm-2 p-1">
+                <div class="card-header text-center bg-white">
+                    <h3 class="card-title fw-bold ">@Model.Name</h3>
+                    <div class="d-sm-flex justify-content-between">
+                        <div>
+                            <p>Email: @Model.Email</p>
+                            <hr />
+                            <p>
+                                Phone: @Model.PhoneNumber
+                            </p>
+
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <img src="@Url.Content(Model.LogoPath)" width="130" height="130" alt="Logo" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <p>
+                        @Html.Raw(SManagerWeb.Common.StringEncodeHelper.Base64Decode(Model.Information))
+                    </p>
+                </div>
+                <div class="card-footer bg-white">
+                    <h5>Links: </h5>
+                    Facebook: <a href="@Model.FacebookLink">@Model.FacebookLink</a>
+                    <br />
+                    Instagram: <a href="@Model.InstagramLink">@Model.InstagramLink</a>
+                    <br />
+                    Linkedin: <a href="@Model.LinkedinLink">@Model.LinkedinLink</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</section>
+

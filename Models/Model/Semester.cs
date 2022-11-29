@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Models.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,17 +16,15 @@ namespace Models
         [Key]
         public int IdSemester { get; set; }
         [Required]
+        [DataType(DataType.PhoneNumber)]
         public int SemesterNum { get; set; }
-        [Required]
-        public int LastYear { get; set; }
-        [Required]
-        public int NextYear { get; set; }
+
         [DefaultValue(false)]
         public bool IsNow { get; set; }
-        public string IDOrganization { get; set; }
+        public int IDYear { get; set; }
 
-        [ForeignKey("IDOrganization")]
-        public Organization Organization { get; set; }
-
+        [ForeignKey("IDYear")]
+        [JsonIgnore]
+        public SchoolYear SchoolYear { get; set; }
     }
 }

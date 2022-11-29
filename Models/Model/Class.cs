@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,14 +22,20 @@ namespace Models
 
         public int? Total { get; set; }
 
-        public int IDSemester { get; set; }
+        public int IDYear { get; set; }
+
+        public string IDOrganization { get; set; }
 
         [ForeignKey("IDHomeroomTeacher")]
         public virtual Teacher HomeroomTeacher { get; set; }
-        [ForeignKey("IDSemester")]
-        public virtual Semester Semester { get; set; }
+        [ForeignKey("IDYear")]
+        public virtual SchoolYear SchoolYear { get; set; }
+        [ForeignKey("IDOrganization")]
+        public Organization Organization { get; set; }
 
         public virtual ICollection<Study> Studies { get; set; }
+
+
 
     }
 }

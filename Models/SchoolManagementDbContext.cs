@@ -53,9 +53,11 @@ namespace Models
         public virtual DbSet<TypeScore> TypeScores { get; set; }
         public virtual DbSet<ScoreDetail> ScoreDetails { get; set; }
         public virtual DbSet<TotalScoreSubject> TotalScoreSubjects { get; set; }
-        public virtual DbSet<TotalScore> TotalScores { get; set; }
+        public virtual DbSet<TotalScoreInSemester> TotalScoreInSemesters { get; set; }
+        public virtual DbSet<TotalScoreInYear> TotalScoreInYears { get; set; }
         public virtual DbSet<AbsenteeForm> AbsenteeForms { get; set; }
         public virtual DbSet<UserOwnOrganization> UserOwnOrganizations { get; set; }
+        public virtual DbSet<SchoolYear> SchoolYears { get; set; }
     }
 
 

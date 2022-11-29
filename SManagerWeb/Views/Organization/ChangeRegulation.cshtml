@@ -1,0 +1,83 @@
+﻿@model Models.ViewModel.RegulationViewModel
+@using Common.Util
+@{
+    ViewBag.Title = "ChangeRegulation";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/css/Organization/Regulation.css" rel="stylesheet" />
+}
+
+@Html.Partial("_NavigationBar", Model.IdOrganization)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div>
+            <h1 class="title">Change regulation</h1>
+            <ul class="breadcrumbs">
+                <li><a href="#">Organization</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Regulation</a></li>
+                <li class="divider"></li>
+                <li><a href="#" class="active">Change regulation</a></li>
+            </ul>
+        </div>
+        @using (Html.BeginForm("ChangeRegulation", "Organization", FormMethod.Post,
+                            new { enctype = "multipart/form-data", ID = Model.IdOrganization }))
+        {
+            @Html.AntiForgeryToken()
+            <div id="main-content">
+                @for (int i = 1; i <= Model.ShiftList.Count; i++)
+                {
+                    var shift = Model.ShiftList[i - 1];
+                    <div class="card p-4 mb-3">
+                        <div class="card-title mb-2 bg-white d-flex justify-content-between">
+                            <input type="text" placeholder="Shift name" class="input-size form-control me-5" value="@shift.ShiftName" name="shift_@shift.ID" required/>
+                            <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#periodList_@i" aria-expanded="false" aria-controls="periodList_@i">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </button>
+                        </div>
+                        <div class="card-body form-group p-0 ms-4 collapse" id="periodList_@i">
+                            <div class="">
+                                <table id="myTable_@shift.ID" class="table-responsive table">
+                                    <thead>
+                                        <tr>
+                                            <th>Period name</th>
+                                            <th>Start time</th>
+                                            <th>End time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int j = 1; j <= Model.PeriodLessonList.Count; j++)
+                                        {
+                                            var period = Model.PeriodLessonList[j - 1];
+                                           
+                                            if (period.IDShift == shift.ID)
+                                            {
+
+                                                <tr>
+                                                    <th><input type="text" placeholder="Enter name" class="m-auto" name="period_name_@period.PeriodID" value="@period.PeriodName" required /></th>
+                                                    <th><input type="text" placeholder="Example: 07:00" class="m-auto" name="period_start_@period.PeriodID" value="@TransferTime.ValueToTime(period.PeriodStartTime)" required/></th>
+                                                    <th><input type="text" placeholder="Exmaple: 07:45" class="m-auto" name="period_end_@period.PeriodID" value="@TransferTime.ValueToTime(period.PeriodEndTime)" required/></th>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                              
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="d-flex justify-content-between">
+                
+                <button type="submit" class="btn btn-outline-primary">Change</button>
+            </div>
+
+        }
+
+    </main>
+
+</section>
+<script src="~/Public/js/Organization/ChangeRegulation.js"></script>

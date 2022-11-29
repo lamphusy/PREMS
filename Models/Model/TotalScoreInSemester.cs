@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Models
 {
     [Table("TotalScore")]
-    public class TotalScore
+    public class TotalScoreInSemester
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -27,11 +27,13 @@ namespace Models
         public string Gender { get; set; }
 
         public virtual ICollection<Study> Studies { get; set; }
-        public virtual ICollection<TotalScore> TotalScores { get; set; }
+        public virtual ICollection<TotalScoreInSemester> TotalScores { get; set; }
         public virtual ICollection<TotalScoreSubject> TotalScoreSubjects { get; set; }
         public virtual ICollection<ScoreDetail> ScoreDetails { get; set; }
         [ForeignKey("IDOrganization")]
         public virtual Organization Organization { get; set; }
+        [ForeignKey("IDStudent")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
 
     }

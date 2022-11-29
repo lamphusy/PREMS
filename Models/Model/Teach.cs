@@ -20,17 +20,12 @@ namespace Models
 
         public string IDSubject { get; set; }
 
-        public int IDSemester { get; set; }
 
         [ForeignKey("IDTeacher")]
         public virtual Teacher Teacher { get; set; }
         [ForeignKey("IDSubject")]
         public virtual Subject Subject { get; set; }
         [ForeignKey("IDClass")]
-
         public virtual Class Class { get; set; }
-        [ForeignKey("IDSemester")]
-
-        public virtual Semester Semester { get; set; }
     }
 }

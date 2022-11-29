@@ -1,0 +1,21 @@
+﻿@using Common
+@model dynamic
+<section id="sidebar">
+    <a href="#" class="ms-4 brand">
+        Organization MENU
+    </a>
+    <ul class="side-menu">
+        @*<li><a href="@Url.Action("Index","Dashboard")" class="active"><i class="fa-solid fa-face-smile icon"></i>Profile</a></li>*@
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-face-smile icon\"></i>Dashboard", "Index", "Organization", new { ID = Model })</li>
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-circle-info icon\"></i>Information", "Information", "Organization", new { ID = Model })</li>
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-gavel icon\"></i>Regulation", "Regulation", "Organization", new { ID = Model })</li>
+        <li>@Html.MenuLink("<i class=\"fa-sharp fa-solid fa-calendar icon\"></i>Semester", "Semester", "Organization", new { ID = Model })</li>
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-graduation-cap icon\"></i>Class", "Class", "Organization", new { ID = Model })</li>
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-chart-simple icon\"></i>Teachers", "Teacher", "Organization", new { ID = Model })</li>
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-chart-simple icon\"></i>Students", "Student", "Organization", new { ID = Model })</li>
+
+    </ul>
+
+</section>
+
+
