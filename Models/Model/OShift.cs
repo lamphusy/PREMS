@@ -18,13 +18,7 @@ namespace Models
         public string IDOrganization { get; set; }
         [Required]
         public string ShiftName { get; set; }
-        [Required]
-        [DataType(DataType.Time)]
-        public DateTime ShiftStartTime { get; set; }
-
-        [Required]
-        [DataType(DataType.Time)]
-        public DateTime ShiftEndTime { get; set; }
+       
 
         [ForeignKey("IDOrganization")]
         public virtual Organization Organization { get; set; }

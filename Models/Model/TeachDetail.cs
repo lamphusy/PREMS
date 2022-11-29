@@ -14,15 +14,14 @@ namespace Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public int IDTeach { get; set; }
-        public int IDShift { get; set; }
         [Required]
-        public int Period { get; set; }
+        public int IDPeriod { get; set; }
         [Required]
         public int WeekDay { get; set; }
 
         [ForeignKey("IDTeach")]
         public virtual Teach Teaches { get; set; }
-        [ForeignKey("IDShift")]
-        public virtual OShift OShift { get; set; }
+        [ForeignKey("IDPeriod")]
+        public virtual OPeriodLesson OPeriodLesson { get; set; }
     }
 }

@@ -1,0 +1,95 @@
+﻿@model Models.ViewModel.OrganizationViewModel
+@{
+    ViewBag.Title = "Information";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/css/Organization/CreateOrganization.css" rel="stylesheet" />
+}
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/super-build/ckeditor.js"></script>
+@Html.Partial("_NavigationBar", Model.IdOrganization)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+
+        <h1 class="title">Information</h1>
+        <ul class="breadcrumbs">
+            <li><a href="#">Organization</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Information</a></li>
+            <li class="divider"></li>
+            <li><a href="#" class="active">Edit Information</a></li>
+        </ul>
+
+
+        <div class="basic-form">
+            @using (Html.BeginForm("EditInformation", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="form-group row" style="height: 256px;">
+                            <div class="col-lg-10">
+                                <div class="form-input">
+                                    <label class="labeltest" for="file">
+                                        <span class="d-none"> Drop image here or click to upload. </span>
+                                    </label>
+                                    <input type="file" id="file" name="file" accept="image/*" onchange="showPreview(event);">
+
+                                    <img id="file-preview" class="d-block" src="@Url.Content(Model.LogoPath==null ? "~/Source/Default/school-default.png" : Model.LogoPath)" alt="img">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.IdOrganization, new { @class = "form-control", @placeholder = "ID", @readonly = "readonly" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.FacebookLink, new { @class = "form-control", @placeholder = "Facebook" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.InstagramLink, new { @class = "form-control", @placeholder = "Instagram" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.LinkedinLink, new { @class = "form-control", @placeholder = "LinkedIn" })
+                        </div>
+                    </div>
+                    <div class="col-xl-8">
+
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Name organization" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", @placeholder = "Phone number" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextAreaFor(x => x.Information, new { @class = "form-control text-area", @rows = 12, @placeholder = "Some information about your organization", @id = "contentEditor" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Information","Organization",new {ID = Model.IdOrganization})" class="btn text-white" style="background-color: #f96b36;">
+                        Back
+                    </a>
+                    <button type="submit" class="btn text-white" style="background-color: #f96b36;">
+                        Edit
+                    </button>
+
+                </div>
+            }
+        </div>
+    </main>
+
+</section>
+<script src="~/Public/js/Organization/Create.js"></script>
+<script src="~/Public/Plugin/CKEditor.js"></script>
+
+<script>
+    CreateCKEDITORAndSetData('contentEditor', `@Html.Raw(SManagerWeb.Common.StringEncodeHelper.Base64Decode(Model.Information))`);
+</script>

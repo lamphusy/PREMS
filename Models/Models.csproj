@@ -49,6 +49,9 @@
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -103,6 +106,50 @@
     <Compile Include="Migrations\202211160951584_Update_zz.designer.cs">
       <DependentUpon>202211160951584_Update_zz.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211170844341_Add_PeriodName_OPeriodLesson.cs" />
+    <Compile Include="Migrations\202211170844341_Add_PeriodName_OPeriodLesson.designer.cs">
+      <DependentUpon>202211170844341_Add_PeriodName_OPeriodLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211171712514_Del_Shift_Period.cs" />
+    <Compile Include="Migrations\202211171712514_Del_Shift_Period.designer.cs">
+      <DependentUpon>202211171712514_Del_Shift_Period.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211171715183_Del.cs" />
+    <Compile Include="Migrations\202211171715183_Del.designer.cs">
+      <DependentUpon>202211171715183_Del.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211171718435_Add.cs" />
+    <Compile Include="Migrations\202211171718435_Add.designer.cs">
+      <DependentUpon>202211171718435_Add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211180843339_Update_TeachDetail.cs" />
+    <Compile Include="Migrations\202211180843339_Update_TeachDetail.designer.cs">
+      <DependentUpon>202211180843339_Update_TeachDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211181633283_Remove_StartEnd_OShift.cs" />
+    <Compile Include="Migrations\202211181633283_Remove_StartEnd_OShift.designer.cs">
+      <DependentUpon>202211181633283_Remove_StartEnd_OShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211251517423_Class_organization.cs" />
+    <Compile Include="Migrations\202211251517423_Class_organization.designer.cs">
+      <DependentUpon>202211251517423_Class_organization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211271717393_Change_Login_About_YearAndSemester.cs" />
+    <Compile Include="Migrations\202211271717393_Change_Login_About_YearAndSemester.designer.cs">
+      <DependentUpon>202211271717393_Change_Login_About_YearAndSemester.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211271843165_Update_semester.cs" />
+    <Compile Include="Migrations\202211271843165_Update_semester.designer.cs">
+      <DependentUpon>202211271843165_Update_semester.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211280647447_Remove_IdOrganization_Semester.cs" />
+    <Compile Include="Migrations\202211280647447_Remove_IdOrganization_Semester.designer.cs">
+      <DependentUpon>202211280647447_Remove_IdOrganization_Semester.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211280915339_NEWNEW.cs" />
+    <Compile Include="Migrations\202211280915339_NEWNEW.designer.cs">
+      <DependentUpon>202211280915339_NEWNEW.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -116,6 +163,8 @@
     <Compile Include="Model\ORegulation.cs" />
     <Compile Include="Model\Organization.cs" />
     <Compile Include="Model\OShift.cs" />
+    <Compile Include="Model\SchoolYear.cs" />
+    <Compile Include="Model\TotalScoreInYear.cs" />
     <Compile Include="Model\UserOwnOrganization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Receipt.cs" />
@@ -129,13 +178,18 @@
     <Compile Include="Model\Teach.cs" />
     <Compile Include="Model\TeachDetail.cs" />
     <Compile Include="Model\Teacher.cs" />
-    <Compile Include="Model\TotalScore.cs" />
+    <Compile Include="Model\TotalScoreInSemester.cs" />
     <Compile Include="Model\TotalScoreSubject.cs" />
     <Compile Include="Model\TypeScore.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\OPeriodLessonViewModel.cs" />
     <Compile Include="ViewModel\OrganizationViewModel.cs" />
+    <Compile Include="ViewModel\OShiftViewModel.cs" />
     <Compile Include="ViewModel\ReceiptViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\RegulationViewModel.cs" />
+    <Compile Include="ViewModel\SchoolYearViewModel.cs" />
+    <Compile Include="ViewModel\SemesterViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +226,39 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211160951584_Update_zz.resx">
       <DependentUpon>202211160951584_Update_zz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211170844341_Add_PeriodName_OPeriodLesson.resx">
+      <DependentUpon>202211170844341_Add_PeriodName_OPeriodLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211171712514_Del_Shift_Period.resx">
+      <DependentUpon>202211171712514_Del_Shift_Period.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211171715183_Del.resx">
+      <DependentUpon>202211171715183_Del.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211171718435_Add.resx">
+      <DependentUpon>202211171718435_Add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211180843339_Update_TeachDetail.resx">
+      <DependentUpon>202211180843339_Update_TeachDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211181633283_Remove_StartEnd_OShift.resx">
+      <DependentUpon>202211181633283_Remove_StartEnd_OShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211251517423_Class_organization.resx">
+      <DependentUpon>202211251517423_Class_organization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211271717393_Change_Login_About_YearAndSemester.resx">
+      <DependentUpon>202211271717393_Change_Login_About_YearAndSemester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211271843165_Update_semester.resx">
+      <DependentUpon>202211271843165_Update_semester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211280647447_Remove_IdOrganization_Semester.resx">
+      <DependentUpon>202211280647447_Remove_IdOrganization_Semester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211280915339_NEWNEW.resx">
+      <DependentUpon>202211280915339_NEWNEW.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

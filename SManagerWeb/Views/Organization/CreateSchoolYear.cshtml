@@ -1,0 +1,45 @@
+﻿@model Models.Model.SchoolYear
+@{
+    ViewBag.Title = "CreateSchoolYear";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.ID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Create School year</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Semester</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Create School year</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            @using (Html.BeginForm("CreateSchoolYearHandler", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="card rounded-2 col-6 p-4">
+                    <h5 style="opacity: 0.9;">SchoolYear</h5>
+                    <input type="hidden" name="ID" value="@ViewBag.ID" />
+                    <div class="mt-2 mb-2 d-flex justify-content-between">
+                        @Html.TextBoxFor(x => x.LastYear, new { @class = "form-control me-2", @type = "Number", @placeholder = "Last year (Example: 2021)", @min = 1, @max = 3000 })
+                        @Html.TextBoxFor(x => x.NextYear, new { @class = "form-control", @type = "Number", @placeholder = "Next year (Example: 2022)", @min = 1, @max = 3000 })
+                    </div>
+                    <div class="d-flex mt-2">
+                        <a href="@Url.Action("Semester","Organization",new {ID=(string)ViewBag.ID})" class="btn btn-dark opacity-75 me-2">Back</a>
+                        <button type="submit" class="btn background-color-orange opacity-75">Create</button>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </main>
+</section>
+
+

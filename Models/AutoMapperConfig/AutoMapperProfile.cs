@@ -24,6 +24,13 @@ namespace Models.AutoMapperConfig
                 .ForMember(x => x.AccountName, src => src.MapFrom(a => a.ORegister.ApplicationUser.FullName))
                 .ForMember(x => x.AccountUsername, src => src.MapFrom(a => a.ORegister.ApplicationUser.UserName))
                 .ForMember(x => x.OrganizationName, src => src.MapFrom(a => a.Organization.Name));
+
+            CreateMap<Organization, OrganizationViewModel>();
+            CreateMap<OShift, OShiftViewModel>();
+            CreateMap<OPeriodLesson, OPeriodLessonViewModel>()
+                .ForMember(x => x.PeriodID, src => src.MapFrom(a=> a.ID));
+            CreateMap<Semester, SemesterViewModel>();
+           
         }
     }
 }

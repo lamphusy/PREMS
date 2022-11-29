@@ -1,4 +1,5 @@
 ﻿using Models.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,8 @@ namespace Models
         public string InstagramLink { get; set; }
         public string LinkedinLink { get; set; }
 
-        public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
+        //[JsonIgnore]
+        //public virtual ICollection<UserOwnOrganization> UserOwnOrganizations { get; set; }
        
     }
 }

@@ -15,11 +15,11 @@ namespace Models
         public int ID { get; set; }
         public string IDOrganization { get; set; }
         [Required]
-        [DataType(DataType.Time)]
-        public DateTime PeriodStartTime { get; set; }
+        public int PeriodStartTime { get; set; }
         [Required]
-        [DataType(DataType.Time)]
-        public DateTime PeriodEndTime { get; set; }
+        public int PeriodEndTime { get; set; }
+
+        public string PeriodName { get; set; }
 
         public int IDShift { get; set; }
 

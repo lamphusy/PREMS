@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,8 +19,10 @@ namespace Models.Model
         public string IdOrganization { get; set; }
 
         [ForeignKey("IdORegister")]
+        [JsonIgnore]
         public virtual ORegister ORegister { get; set; }
         [ForeignKey("IdOrganization")]
+        [JsonIgnore]
         public virtual Organization Organization { get; set; }
     }
 }
