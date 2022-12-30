@@ -30,6 +30,9 @@ namespace Models.ViewModel
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { set; get; }
+        [Required]
+        public DateTime DayOfBirth { get; set; }
+
 
         public string Address { set; get; }
 

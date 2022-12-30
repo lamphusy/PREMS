@@ -4,10 +4,11 @@
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 
 
-<link href="~/Public/css/Organization/CreateOrganization.css" rel="stylesheet" />
+    <link href="~/Public/css/Organization/CreateOrganization.css" rel="stylesheet" />
 
 
 }
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/super-build/ckeditor.js"></script>
 
 <div>
     <h1 class="title">Create</h1>
@@ -71,7 +72,7 @@
                                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-group">
-                                    @Html.TextAreaFor(x => x.Information, new { @class = "form-control text-area", @rows = 12, @placeholder = "Some information about your organization" })
+                                    @Html.TextAreaFor(x => x.Information, new { @class = "form-control text-area", @rows = 12, @placeholder = "Some information about your organization", @id = "contentEditor" })
                                 </div>
                             </div>
 
@@ -89,3 +90,7 @@
     </div>
 </div>
 <script src="~/Public/js/Organization/Create.js"></script>
+<script src="~/Public/Plugin/CKEditor.js"></script>
+<script>
+    CreateCKEDITOR("contentEditor");
+</script>

@@ -14,13 +14,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
     <link href="~/Public/Areas/css/adminPanel.css" rel="stylesheet" />
 </head>
-
 <body>
     <style>
         body a {
             text-decoration: none;
         }
     </style>
+    @Html.Partial("_LoadingPage")
+
+<div id="body">
     <section id="sidebar">
         <a href="#" class="brand">
 
@@ -32,33 +34,33 @@
             <li>@Html.MenuLink("<i class=\"fa-solid fa-face-smile icon\"></i>Profile", "Index", "Dashboard")</li>
             @*<li class="divider">Main</li>*@
             @*<li>
-            <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
-            <ul class="side-dropdown">
-                <li><a href="#">Students </a></li>
-                <li><a href="#">Teachers  </a></li>
-                <li><a href="#">Employees </a></li>
-                <li><a href="#">Earnings </a></li>
+                    <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+                    <ul class="side-dropdown">
+                        <li><a href="#">Students </a></li>
+                        <li><a href="#">Teachers  </a></li>
+                        <li><a href="#">Employees </a></li>
+                        <li><a href="#">Earnings </a></li>
 
-            </ul>
-        </li>*@
+                    </ul>
+                </li>*@
             @*<li><a href="@Url.Action("Organizations","Dashboard")"><i class="fa-solid fa-chart-simple icon"></i>Organizations</a></li>*@
             <li>@Html.MenuLink("<i class=\"fa-solid fa-school icon\"></i>Organizations", "Organizations", "Dashboard")</li>
             @*<li><a href="#"><i class="fa-solid fa-bridge-water icon"></i></i>Widgets</a></li>
-        <li class="divider">Table and forms</li>
-        <li><a href="#"><i class="fa-solid fa-table icon"></i>Table</a></li>
-        <li>
-            <a href="#"><i class="fa-solid fa-inbox icon"></i>Forms <i class="fa-solid fa-chevron-right icon-right"></i> </a>
-            <ul class="side-dropdown">
-                <li><a href="#">Basic </a></li>
-                <li><a href="#">Select  </a></li>
-                <li><a href="#">Checkbox </a></li>
-                <li><a href="#">Radio </a></li>
+                <li class="divider">Table and forms</li>
+                <li><a href="#"><i class="fa-solid fa-table icon"></i>Table</a></li>
+                <li>
+                    <a href="#"><i class="fa-solid fa-inbox icon"></i>Forms <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+                    <ul class="side-dropdown">
+                        <li><a href="#">Basic </a></li>
+                        <li><a href="#">Select  </a></li>
+                        <li><a href="#">Checkbox </a></li>
+                        <li><a href="#">Radio </a></li>
 
-            </ul>
-        </li>*@
+                    </ul>
+                </li>*@
 
         </ul>
-       
+
     </section>
     <section id="content">
         <nav>
@@ -91,9 +93,16 @@
         <main>
             @RenderBody()
         </main>
-        
-    </section>
 
+    </section>
+</div>
+  
+    <script>
+        $(window).on('load', function () {
+            $("#loading").fadeOut(1000);
+            $("#body").fadeIn(1000);
+        });
+    </script>
     <script src="~/Public/Areas/js/adminPanel.js"></script>
 </body>
 

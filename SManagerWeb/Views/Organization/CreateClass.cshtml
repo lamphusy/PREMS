@@ -1,0 +1,63 @@
+﻿@model Models.Class
+@{
+    ViewBag.Title = "CreateClass";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    List<Models.SchoolYear> schoolYears = (List<Models.SchoolYear>)ViewBag.SchoolYear;
+    List<Models.Teacher> teachers = (List<Models.Teacher>)ViewBag.Teachers;
+
+}
+<style>
+    option[disabled] {
+        color: gray;
+    }
+</style>
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Create Class</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Class</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Create Class</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            @using (Html.BeginForm("CreateClassHandler", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="card rounded-2 col-6 p-4">
+                    <h5 style="opacity: 0.9;">Class</h5>
+                    <input type="hidden" name="ID" value="@ViewBag.OrganizationID" />
+                    <div class="mt-2 mb-2 d-flex justify-content-between">
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @type = "text", @placeholder = "Class name"})
+                        <select name="year" class="form-select ms-2">
+                            <option value="" disabled selected>Select School year</option>
+                            @foreach (var item in schoolYears)
+                            {
+                                <option value="@item.ID">@item.LastYear-@item.NextYear</option>
+                            }
+                        </select>
+                    </div>
+
+                    <select name="homeroomTeacher" class="form-select">
+                        <option value="" disabled selected>Select homeroom teacher</option>
+                        @foreach (var item in teachers)
+                        {
+                            <option value="@item.IDUser">@item.IDCard-@item.ApplicationUser.FullName</option>
+                        }
+                    </select>
+                    <div class="d-flex mt-2">
+                        <a href="@Url.Action("Class","Organization",new {ID=(string)ViewBag.OrganizationID})" class="btn btn-dark opacity-75 me-2">Back</a>
+                        <button type="submit" class="btn background-color-orange opacity-75">Create</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </main>
+</section>

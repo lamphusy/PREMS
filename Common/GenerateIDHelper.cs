@@ -43,5 +43,19 @@ namespace Common
             }
             return ID;
         }
+        public static string ClassID(string IDOrganization)
+        {
+            const int numOfChar = 4;
+            var random = new Random();
+
+            string ID = "";
+            for (int i = 0; i < numOfChar; i++)
+            {
+                var charRandom = Convert.ToChar(random.Next(48, 57));
+                ID += charRandom;
+            }
+            ID = IDOrganization +  ID;
+            return ID;
+        }
     }
 }

@@ -146,7 +146,7 @@ namespace SManagerWeb.Controllers
                     UserName = model.UserName,
                     Email = model.Email,
                     EmailConfirmed = false,
-                    DayOfBirth = DateTime.Now,
+                    DayOfBirth = model.DayOfBirth,
                     PhoneNumber = model.PhoneNumber,
                     Address = model.Address
 
@@ -155,8 +155,8 @@ namespace SManagerWeb.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var newUser = await UserManager.FindByEmailAsync(model.Email);
-
+                    var newUser = await UserManager.FindByIdAsync(user.Id);
+                    
                     //add ORegister from ApplicationUser
                     var oRegisterObject = new ORegister();
                     oRegisterObject.RegisterDate = DateTime.Now;
@@ -232,19 +232,28 @@ namespace SManagerWeb.Controllers
 
             if (user != null)
             {
-                user.IdCard = profile.IdCard;
-                user.Nation = profile.Nation;
-                user.ApplicationUser.Address = profile.Address;
-                if(profile.PhoneNumber != null && profile.PhoneNumber != user.ApplicationUser.PhoneNumber)
+                if (profile.EmailAddress != null && profile.EmailAddress != user.ApplicationUser.Email)
+                {
+                    var userByEmail = await UserManager.FindByEmailAsync(profile.EmailAddress);
+                    if (userByEmail != null)
+                    {
+                        ModelState.AddModelError("email", "Email has been exist.");
+                        return RedirectToAction("Index", "Dashboard", new { message = "Email has been exist." });
+                    }
+                    user.ApplicationUser.Email = profile.EmailAddress;
+                    user.ApplicationUser.EmailConfirmed = false;
+                }
+
+                if (profile.PhoneNumber != null && profile.PhoneNumber != user.ApplicationUser.PhoneNumber)
                 {
                     user.ApplicationUser.PhoneNumber = profile.PhoneNumber;
                     user.ApplicationUser.PhoneNumberConfirmed = false;
                 }
-                if(profile.EmailAddress != null && profile.EmailAddress != user.ApplicationUser.Email)
-                {
-                    user.ApplicationUser.Email = profile.EmailAddress;
-                    user.ApplicationUser.EmailConfirmed = false;
-                }
+
+                user.IdCard = profile.IdCard;
+                user.Nation = profile.Nation;
+                user.ApplicationUser.Address = profile.Address;
+                
                 user.ApplicationUser.DayOfBirth = profile.DayOfBirth;
                 user.ApplicationUser.FullName = profile.FullName;
 

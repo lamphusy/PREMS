@@ -30,7 +30,18 @@ namespace Models.AutoMapperConfig
             CreateMap<OPeriodLesson, OPeriodLessonViewModel>()
                 .ForMember(x => x.PeriodID, src => src.MapFrom(a=> a.ID));
             CreateMap<Semester, SemesterViewModel>();
-           
+            CreateMap<Teacher, TeacherViewModel>()
+                .ForMember(x => x.FullName, src => src.MapFrom(a => a.ApplicationUser.FullName))
+                .ForMember(x => x.DayOfBirth, src => src.MapFrom(a => a.ApplicationUser.DayOfBirth))
+                .ForMember(x => x.Address, src => src.MapFrom(a => a.ApplicationUser.Address))
+                .ForMember(x => x.Username, src => src.MapFrom(a => a.ApplicationUser.UserName))
+                .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber));
+            CreateMap<Student, StudentViewModel>()
+                .ForMember(x => x.FullName, src => src.MapFrom(a => a.ApplicationUser.FullName))
+                .ForMember(x => x.DayOfBirth, src => src.MapFrom(a => a.ApplicationUser.DayOfBirth))
+                .ForMember(x => x.Address, src => src.MapFrom(a => a.ApplicationUser.Address))
+                .ForMember(x => x.Username, src => src.MapFrom(a => a.ApplicationUser.UserName))
+                .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber));
         }
     }
 }

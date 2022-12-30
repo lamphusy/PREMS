@@ -2,8 +2,8 @@
 using Common;
 using Common.Util;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Models;
-using Models.Model;
 using Models.ViewModel;
 using SManagerWeb.Common;
 using System;
@@ -18,7 +18,7 @@ using System.Xml.XPath;
 
 namespace SManagerWeb.Controllers
 {
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     public class OrganizationController : Controller
     {
         SchoolManagementDbContext db = new SchoolManagementDbContext();
@@ -51,6 +51,7 @@ namespace SManagerWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Create(OrganizationViewModel model, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
@@ -69,24 +70,15 @@ namespace SManagerWeb.Controllers
                 organization.PhoneNumber = model.PhoneNumber;
                 organization.Email = model.Email;
                 organization.Name = model.Name;
-                organization.Information = model.Information;
+                organization.Information = StringEncodeHelper.Base64Encode(model.Information);
                 organization.FacebookLink = model.FacebookLink;
                 organization.InstagramLink = model.InstagramLink;
                 organization.LinkedinLink = model.LinkedinLink;
                 organization.IsPaid = false;
 
-                if (file != null)
-                {
-
-                    var ext = Path.GetExtension(file.FileName);
-                    string myfile = newID + ext;
-                    // đường dẫn lưu vào database
-                    var path = "~/Source/Organization/" + myfile;
-                    organization.LogoPath = path;
-                    //đường dẫn để lưu tạo file trên ổ cứng
-                    var path2 = Path.Combine(Server.MapPath("~/Source/Organization"), myfile);
-                    file.SaveAs(path2);
-                }
+                var url = UploadImage.UploadOneImage(file, "~/Source/Organization/", newID);
+                organization.LogoPath = url;
+              
                 db.Organizations.Add(organization);
                 db.SaveChanges();
                 CreateUserOwnOrganization(User.Identity.GetUserId(), newID);
@@ -186,16 +178,9 @@ namespace SManagerWeb.Controllers
                             delFile.Delete();
                         }
 
-
                         //------THEM ANH MOI----------//
-                        var ext = Path.GetExtension(file.FileName);
-                        string myfile = ID + ext;
-                        // đường dẫn lưu vào database
-                        var path = "~/Source/Organization/" + myfile;
-                        organization.LogoPath = path;
-                        //đường dẫn để lưu tạo file trên ổ cứng
-                        var path2 = Path.Combine(Server.MapPath("~/Source/Organization"), myfile);
-                        file.SaveAs(path2);
+                        var url = UploadImage.UploadOneImage(file, "~/Source/Organization/", ID);
+                        organization.LogoPath = url;
                     }
 
                     db.SaveChanges();
@@ -590,14 +575,434 @@ namespace SManagerWeb.Controllers
                     var isPaid = organization.IsPaid;
                     if (isPaid)
                     {
-                        var classList = db.Classes.Where(x => x.IDOrganization == ID).ToList();
-                        ViewBag.ID = ID;
-                        return View(classList);
+                        var schoolYears = db.SchoolYears.Where(x => x.IDOrganization == ID).OrderByDescending(a => a.LastYear).ToList();
+                        ViewBag.OrganizationID = ID;
+                        List<ClassViewModel> classListVM = new List<ClassViewModel>();
+                        foreach (var item in schoolYears)
+                        {
+                            var classListInYear = db.Classes.Where(x => x.IDYear == item.ID && x.IDOrganization == ID).OrderBy(x => x.Name).ToList();
+                            ClassViewModel classVM = new ClassViewModel();
+                            classVM.SchoolYear = item;
+                            classVM.Classes = classListInYear;
+
+                            classListVM.Add(classVM);
+                        }
+    
+                        return View(classListVM);
                     }
                     else return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
                 }
             }
             return View("Error");
         }
+
+        public JsonResult ClassFilter(string ID, string date)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var checkLogin = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentUserId).FirstOrDefault();
+                if (checkLogin != null)
+                {
+                    var isPaid = organization.IsPaid;
+                    if (isPaid)
+                    {
+                        string[] dates = date.Split('-');
+                        int preYear = int.Parse(dates[0]);
+                        int nextYear = int.Parse(dates[1]);
+
+                        var schoolYears = db.SchoolYears.Where(x => x.IDOrganization == ID && x.LastYear == preYear
+                                        && x.NextYear == nextYear).OrderByDescending(a => a.LastYear).ToList();
+                        ViewBag.OrganizationID = ID;
+                        List<ClassViewModel> classListVM = new List<ClassViewModel>();
+                        foreach (var item in schoolYears)
+                        {
+                            var classListInYear = db.Classes.Where(x => x.IDYear == item.ID && x.IDOrganization == ID).OrderBy(x => x.Name).ToList();
+                            ClassViewModel classVM = new ClassViewModel();
+                            classVM.SchoolYear = item;
+                            classVM.Classes = classListInYear;
+
+                            classListVM.Add(classVM);
+                        }
+
+                        return Json(classListVM, JsonRequestBehavior.AllowGet);
+                    }
+                    else return Json(new { ID = ID, status = "error" });
+                }
+            }
+            return Json(new { ID = ID, status = "error" });
+        }
+
+        public ActionResult CreateClass(string ID, string date)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var checkLogin = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentUserId).FirstOrDefault();
+                if (checkLogin != null)
+                {
+                    var isPaid = organization.IsPaid;
+                    if (isPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var schoolYear = db.SchoolYears.Where(x => x.IDOrganization == ID).OrderByDescending(x => x.NextYear).ToList();
+                        var teachers = db.Teachers.Where(x => x.IDOrganization == ID).ToList();
+                        ViewBag.SchoolYear = schoolYear;
+                        ViewBag.Teachers = teachers;
+                        return View();
+
+                    }
+                    else return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateClassHandler(string ID,Class classObject, int year, string homeroomTeacher)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var checkLogin = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentUserId).FirstOrDefault();
+                if (checkLogin != null)
+                {
+                    var isPaid = organization.IsPaid;
+                    if (isPaid)
+                    {
+                        ViewBag.ID = ID;
+                        Class addClass = new Class();
+                        addClass.IDYear = year;
+                        addClass.IDHomeroomTeacher = homeroomTeacher;
+                        addClass.Name = classObject.Name;
+                        addClass.IDOrganization = ID;
+                        addClass.IDClass = GenerateIDHelper.ClassID(ID);
+                        addClass.Total = 0;
+
+                        db.Classes.Add(addClass);
+                        db.SaveChanges();
+
+                        return RedirectToAction("Class", new { ID = ID });
+                    }
+                    else return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult DeleteClassHandler()
+        {
+            return null;
+        }
+        
+        public ActionResult Teachers(string ID)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var teachers = db.Teachers.Where(x => x.IDOrganization == ID).ToList();
+                        var teacherVM = Mapper.Map<List<Teacher>, List<TeacherViewModel>>(teachers);
+                        return View(teacherVM);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult CreateTeacher(string ID)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        return View();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
+        //create teacher
+        [HttpPost]               
+        public async Task<ActionResult> CreateTeacherHandler(string ID, TeacherViewModel teacherVM, HttpPostedFileBase avatar)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                    //handler
+                    var userByEmail = await UserManager.FindByEmailAsync(teacherVM.Email);
+                    if (userByEmail != null)
+                    {
+                        ModelState.AddModelError("email", "Email has been exist.");
+                        return View("CreateTeacher",teacherVM);
+                    }
+                    var userByUserName = await UserManager.FindByEmailAsync(teacherVM.Username);
+                    if (userByUserName != null)
+                    {
+                        ModelState.AddModelError("username", "Username has been exist.");
+                        return View("CreateTeacher", teacherVM);
+
+                    }
+                    var user = new ApplicationUser()
+                    {
+                        FullName = teacherVM.FullName,
+                        UserName = teacherVM.Username,
+                        Email = teacherVM.Email,
+                        EmailConfirmed = true,
+                        DayOfBirth = teacherVM.DayOfBirth,
+                        PhoneNumber = teacherVM.PhoneNumber,
+                        Address = teacherVM.Address
+
+                    };
+                    var result = await UserManager.CreateAsync(user, teacherVM.Password);
+                    if (result.Succeeded)
+                    {
+                        var newUser = await UserManager.FindByIdAsync(user.Id);
+                        var newTeacher = new Teacher()
+                        {
+                            IDUser = newUser.Id,
+                            CreateBy = User.Identity.GetUserId(),
+                            CreateDate = DateTime.Now,
+                            IDCard = teacherVM.IDCard,
+                            Degree = teacherVM.Degree,
+                            StartJobDate = teacherVM.StartJobDate,
+                            Specialization = teacherVM.Specialization,
+                            CoefficientsSalary = 0,
+                            Salary = 0,
+                            AvatarPath = UploadImage.UploadOneImage(avatar, "~/Source/Teacher/", newUser.Id),
+                            IDOrganization = ID
+                        };
+                        db.Teachers.Add(newTeacher);
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Teachers", new { ID = ID });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+        //Chưa làm xong sẽ test sau
+        [HttpPost]
+        public async Task<ActionResult> ImportExcelToDatabaseTeacher(string ID,HttpPostedFileBase file)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                    //get list from excel
+                    var teacherList = ExcelHelper.ImportTeacherExcel(file);
+
+                    //insert to database
+                    foreach (var teacher in teacherList)
+                    {
+                        var userByEmail = await UserManager.FindByEmailAsync(teacher.Email);
+                        if (userByEmail != null)
+                        {
+                            ModelState.AddModelError("email", "Email has been exist.");
+                            continue;
+                        }
+                        var userByUserName = await UserManager.FindByEmailAsync(teacher.Username);
+                        if (userByUserName != null)
+                        {
+                            ModelState.AddModelError("username", "Username has been exist.");
+                            continue;
+                        }
+                        var user = new ApplicationUser()
+                        {
+                            FullName = teacher.FullName,
+                            UserName = teacher.Username,
+                            Email = teacher.Email,
+                            EmailConfirmed = true,
+                            DayOfBirth = teacher.DayOfBirth,
+                            PhoneNumber = teacher.PhoneNumber,
+                            Address = teacher.Address
+
+                        };
+                        var result = await UserManager.CreateAsync(user, teacher.Password);
+                        if (result.Succeeded)
+                        {
+                            var newUser = await UserManager.FindByIdAsync(user.Id);
+                            var newTeacher = new Teacher()
+                            {
+                                IDUser = newUser.Id,
+                                CreateBy = User.Identity.GetUserId(),
+                                CreateDate = DateTime.Now,
+                                IDCard = teacher.IDCard,
+                                Degree = teacher.Degree,
+                                StartJobDate = teacher.StartJobDate,
+                                Specialization = teacher.Specialization,
+                                CoefficientsSalary = 0,
+                                Salary = 0,
+                                AvatarPath = null,
+                                IDOrganization = ID
+                            };
+                            db.Teachers.Add(newTeacher);
+                            await db.SaveChangesAsync();
+                        }
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult Students(string ID)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var students = db.Students.Where(x => x.IDOrganization == ID).ToList();
+                        var studentVM = Mapper.Map<List<Student>, List<StudentViewModel>>(students);
+                        return View(studentVM);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult CreateStudent(string ID)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        return View();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateStudentHandler(string ID, StudentViewModel studentVM, HttpPostedFileBase avatar)
+        {
+            string username = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == username).FirstOrDefault();
+                if (check != null)
+                {
+                    var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                    //handler
+                    var userByEmail = await UserManager.FindByEmailAsync(studentVM.Email);
+                    if (userByEmail != null)
+                    {
+                        ModelState.AddModelError("email", "Email has been exist.");
+                        return View("CreateStudent", studentVM);
+                    }
+                    var userByUserName = await UserManager.FindByEmailAsync(studentVM.Username);
+                    if (userByUserName != null)
+                    {
+                        ModelState.AddModelError("username", "Username has been exist.");
+                        return View("CreateStudent", studentVM);
+
+                    }
+                    var user = new ApplicationUser()
+                    {
+                        FullName = studentVM.FullName,
+                        UserName = studentVM.Username,
+                        Email = studentVM.Email,
+                        EmailConfirmed = true,
+                        DayOfBirth = studentVM.DayOfBirth,
+                        PhoneNumber = studentVM.PhoneNumber,
+                        Address = studentVM.Address
+
+                    };
+                    
+                    var result = await UserManager.CreateAsync(user, studentVM.Password);
+                    if (result.Succeeded)
+                    {
+                        var newUser = await UserManager.FindByIdAsync(user.Id);
+                        var newStudent = new Student()
+                        {
+                            IDStudent = newUser.Id,
+                            CreateBy = User.Identity.GetUserId(),
+                            CreateDate = DateTime.Now,
+                            AvatarPath = UploadImage.UploadOneImage(avatar, "~/Source/Student/", newUser.Id),
+                            IDOrganization = ID,
+                            Gender = studentVM.Gender
+                        };
+                        db.Students.Add(newStudent);
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Students", new { ID = ID });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
     }
 }

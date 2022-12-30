@@ -20,11 +20,16 @@
                 <div class="card-body">
                     <div class="card-title h3">Register</div>
                     <hr />
+                    <div class="mb-2">
+                        <div>Full name</div>
+                        @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control rounded-0", @placeholder = "Full name" })
+                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                    </div>
                     <div class="d-flex justify-content-between mb-2">
                         <div class="form-group col-5">
-                            <div>Full name</div>
-                            @Html.TextBoxFor(m => m.FullName, "", new { @class = "form-control rounded-0", @placeholder = "Full name" })
-                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                            <div>Date of birth</div>
+                            @Html.TextBoxFor(m => m.DayOfBirth, "", new { @class = "form-control rounded-0", @placeholder = "Date of birth" })
+                            @Html.ValidationMessageFor(m => m.DayOfBirth, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group col-6">
                             <div>Email</div>
@@ -64,7 +69,7 @@
                     </div>
                     <div class="mb-2">
                         <div>ID Card</div>
-                        @Html.TextBoxFor(m => m.IDCard, "", new { @class = "w-100 form-control rounded-0", @placeholder = "Address" })
+                        @Html.TextBoxFor(m => m.IDCard, "", new { @class = "w-100 form-control rounded-0", @placeholder = "ID Card" })
                         @Html.ValidationMessageFor(m => m.IDCard, "", new { @class = "text-danger" })
                     </div>
 
@@ -73,7 +78,6 @@
                     </div>
                 </div>
             </div>
-
         }
     </div>
 </div>

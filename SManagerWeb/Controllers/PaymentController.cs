@@ -117,6 +117,7 @@ namespace SManagerWeb.Controllers
 
             return View();
         }
+
         public Receipt CreateReceipt(string UserID, string OrganizationID, string BankCode, double Amount, DateTime PayDate)
         {
 

@@ -1,6 +1,7 @@
 ﻿using Models.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace Models
 
         public string IDHomeroomTeacher { get; set; }
 
+        [DefaultValue(0)]
         public int? Total { get; set; }
 
         public int IDYear { get; set; }
