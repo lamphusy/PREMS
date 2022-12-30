@@ -20,11 +20,12 @@
     <style>
         body a {
             text-decoration: none;
-            
         }
+
         #content main li a {
             color: #f96b36;
         }
+
         #content main li a.active {
             color: #8D8D8D;
         }
@@ -39,13 +40,22 @@
 
         .background-color-orange {
             background-color: #f96b36;
-            color:white;
+            color: white;
         }
-        
     </style>
-     @RenderBody()
-  
+    @Html.Partial("_LoadingPage")
+
+    <div id="body">
+        @RenderBody()
+
+    </div>
+
     <script src="~/Public/Areas/js/adminPanel.js"></script>
+    <script>
+        $(window).on('load', function () {
+           $("#loading").fadeOut(1000)
+        });
+    </script>
 </body>
 
 </html>

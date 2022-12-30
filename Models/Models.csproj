@@ -150,6 +150,26 @@
     <Compile Include="Migrations\202211280915339_NEWNEW.designer.cs">
       <DependentUpon>202211280915339_NEWNEW.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212071040210_Update_TypeVarialable.cs" />
+    <Compile Include="Migrations\202212071040210_Update_TypeVarialable.designer.cs">
+      <DependentUpon>202212071040210_Update_TypeVarialable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212080856134_Update_property_Teachers.cs" />
+    <Compile Include="Migrations\202212080856134_Update_property_Teachers.designer.cs">
+      <DependentUpon>202212080856134_Update_property_Teachers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212090549365_Start_Job_date.cs" />
+    <Compile Include="Migrations\202212090549365_Start_Job_date.designer.cs">
+      <DependentUpon>202212090549365_Start_Job_date.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212130736581_UpdateData.cs" />
+    <Compile Include="Migrations\202212130736581_UpdateData.designer.cs">
+      <DependentUpon>202212130736581_UpdateData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212130757013_TeacherUpdateDatabase.cs" />
+    <Compile Include="Migrations\202212130757013_TeacherUpdateDatabase.designer.cs">
+      <DependentUpon>202212130757013_TeacherUpdateDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -181,6 +201,7 @@
     <Compile Include="Model\TotalScoreInSemester.cs" />
     <Compile Include="Model\TotalScoreSubject.cs" />
     <Compile Include="Model\TypeScore.cs" />
+    <Compile Include="ViewModel\ClassViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\OPeriodLessonViewModel.cs" />
     <Compile Include="ViewModel\OrganizationViewModel.cs" />
@@ -190,6 +211,8 @@
     <Compile Include="ViewModel\RegulationViewModel.cs" />
     <Compile Include="ViewModel\SchoolYearViewModel.cs" />
     <Compile Include="ViewModel\SemesterViewModel.cs" />
+    <Compile Include="ViewModel\StudentViewModel.cs" />
+    <Compile Include="ViewModel\TeacherViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +282,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211280915339_NEWNEW.resx">
       <DependentUpon>202211280915339_NEWNEW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212071040210_Update_TypeVarialable.resx">
+      <DependentUpon>202212071040210_Update_TypeVarialable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212080856134_Update_property_Teachers.resx">
+      <DependentUpon>202212080856134_Update_property_Teachers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212090549365_Start_Job_date.resx">
+      <DependentUpon>202212090549365_Start_Job_date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212130736581_UpdateData.resx">
+      <DependentUpon>202212130736581_UpdateData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212130757013_TeacherUpdateDatabase.resx">
+      <DependentUpon>202212130757013_TeacherUpdateDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

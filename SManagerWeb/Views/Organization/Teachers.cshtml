@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Models.ViewModel.TeacherViewModel>
+@{
+    ViewBag.Title = "Teachers";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap" rel="stylesheet">
+
+<link href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"
+      rel="stylesheet" />
+<script type="text/javascript"
+        src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+@*<script src="https://cdn.tailwindcss.com"></script>*@
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Teachers</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Teacher</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="card text-end mb-2">
+                <a class="btn btn-primary p-2" href="@Url.Action("CreateTeacher","Organization", new {ID = ViewBag.OrganizationID})">
+                    <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
+                    Add teacher
+                </a>
+                <form action="@Url.Action("ImportExcelToDatabaseTeacher","Organization", new {ID = ViewBag.OrganizationID})" method="post">
+                    <button type="submit" class="btn btn-primary p-2" href="">
+                        <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
+                        Import excel
+                    </button>
+                </form>
+               
+            </div>
+            <div>
+                <table id="example" class="table bg-white" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Specialization</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach (var i in Model)
+                       {
+                           <tr>
+                               <td>
+                                   <img width="40" height="40" class="u-radius-50 me-1" src="@Url.Content(i.AvatarPath==null ? "~/Source/Default/teacher.png" : i.AvatarPath)" alt="teacher"/>
+                                   @i.FullName
+                               </td>
+                               <td>@i.Specialization</td>
+                               <td>@i.Gender</td>
+                               <td>@(DateTime.Now.Year - i.DayOfBirth.Year)</td>
+                               <td>@i.StartJobDate.ToString("d")</td>
+                               <td><a href="#" class="btn btn-outline-primary">Action</a></td>
+                           </tr>
+                       }
+                    </tbody>
+                   
+                </table>
+            </div>
+        </div>
+    </main>
+</section>

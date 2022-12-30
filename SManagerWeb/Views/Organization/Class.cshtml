@@ -1,11 +1,14 @@
-﻿@model IEnumerable<Models.Class> 
+﻿@model IEnumerable<Models.ViewModel.ClassViewModel>
 @{
     ViewBag.Title = "Class";
     Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
 }
-
-@Html.Partial("_NavigationBar", (string)ViewBag.ID)
-
+@{
+    bool flag = true;
+    int lastYear = 0;
+    int nextYear = 0;
+}
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
 <section id="content">
     @Html.Partial("_ProfileBar")
     <main>
@@ -19,20 +22,128 @@
                 </ul>
             </div>
             <div>
-                <a href="@Url.Action("AddClass","Organization",new {ID = (string)ViewBag.ID})"
-                   class="btn text-white" style="background-color: #f96b36;min-width: 120px;">Create Class</a>
+
+            </div>
+        </div>
+        <div class="content">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="d-inline">
+                    <a href="@Url.Action("CreateClass", "Organization", new {ID = (string)ViewBag.OrganizationID})" class="btn background-color-orange">
+                        <i class="fa-solid fa-plus"></i> Class
+                    </a>
+                </div>
+                <div class="">
+                    <select id="filter" class="form-select d-inline" style="max-width: 159px; min-width: 100px;">
+                        @foreach (var item in Model)
+                        {
+                            if (flag)
+                            {
+                                lastYear = item.SchoolYear.LastYear;
+                                nextYear = item.SchoolYear.NextYear;
+                                flag = false;
+                            }
+                            <option>@item.SchoolYear.LastYear-@item.SchoolYear.NextYear</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Total</th>
+                                <th>Homeroom Teacher</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-content">
+                            @foreach (var item in Model)
+                            {
+                                if (item.SchoolYear.LastYear == lastYear && item.SchoolYear.NextYear == nextYear)
+                                {
+                                    foreach (var i in item.Classes)
+                                    {
+                                        <tr>
+                                            <td>@i.Name</td>
+                                            <td>@i.Total</td>
+                                            <td>@if (i.HomeroomTeacher != null)
+                                                { @i.HomeroomTeacher.ApplicationUser.FullName }
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="name" value="value" />
+                                                <form action="/Organization/DeleteClass" method="post">
+                                                    <input type="hidden" name="OrganizationID" value="@item.SchoolYear.IDOrganization" />
+                                                    <input type="hidden" name="ClassID" value="@i.IDClass" />
+                                                    <button type="submit" class="btn btn-danger bg-opacity-50">
+                                                        <i class="fa-sharp fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </main>
-    <div class="content">
-        <div>
-            Filter
-            <select id="filter" class="form-select d-inline" style="max-width: 159px; min-width: 100px;">
-               
-            </select>
-        </div>
-        <div class="card card-body">
-             
-        </div>
-    </div>
 </section>
+<script>
+    console.log("aaaa")
+    const filter = document.getElementById("filter");
+    const content = document.getElementsByClassName("table-content")[0];
+    console.log(filter);
+    console.log(content);
+
+
+
+    filter.onchange = function (event) {
+        $.ajax({
+            url: "/Organization/ClassFilter",
+            type: 'GET',
+            data: {
+                ID :`@ViewBag.OrganizationID`,
+                date : filter.value
+            }
+        }).done(function (res) {
+            console.log(res)
+            content.innerHTML = "";
+            res.forEach(function (item, index) {
+                var classes = item.Classes;
+                
+                classes.forEach(function (value, i) {
+                    var s1="", s2=0, s3="";
+                    if (value.Name != null) s1 = value.Name;
+                    if (value.Total != null) s2 = value.Total;
+                    if (value.HomeroomTeacher != null) s3 = value.HomeroomTeacher.ApplicationUser.FullName;
+                    content.innerHTML += `\n<tr>
+                        <tr>
+                            <td>${s1}</td>
+                            <td>${s2}</td>
+                            <td>${s3}</td>
+                            <td>
+                                <input type="hidden" name="name" value="value" />
+                                <form action="/Organization/DeleteClass" method="post">
+                                    <input type="hidden" name="OrganizationID" value="${item.SchoolYear.IDOrganization}" />
+                                    <input type="hidden" name="ClassID" value="${value.IDClass}"/>
+                                    <button type="submit" class="btn btn-danger bg-opacity-50"><i class="fa-sharp fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>`;
+                })
+
+            })
+        })
+    }
+</script>

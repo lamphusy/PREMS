@@ -1,0 +1,26 @@
+﻿.card {
+    margin-bottom: 30px;
+    border: 0px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px 10px #f7f7f7;
+}
+.card .card-header {
+    background-color: #fff;
+    padding: 30px;
+    border-bottom: 1px solid #f2f4ff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.card .card-body {
+    padding: 30px;
+    background-color: transparent;
+    font-size: 0.9em;
+}
+label.col-form-label {
+    color: #999;
+}
+input.form-control {
+    color: #999;
+}

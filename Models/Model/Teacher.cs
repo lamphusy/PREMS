@@ -18,18 +18,17 @@ namespace Models
         [MaxLength(100)]
         public string IDCard { get; set; }
         [DataType(DataType.Date)]
-        public string CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime StartJobDate { get; set; }
         public string CreateBy { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+    
         public string Degree { get; set; }
-        public string Address { get; set; }
-        public string Gender { get; set; }
         [DataType(DataType.Currency)]
-        public double Salary { get; set; }
-        public double CoefficientsSalary { get; set; }
+        public decimal Salary { get; set; }
+        public decimal CoefficientsSalary { get; set; }
         public string Specialization { get; set; }
         public string AvatarPath { get; set; }
+        public string Gender { get; set; }
 
         [ForeignKey("IDUser")]
         public virtual ApplicationUser ApplicationUser { get; set; }

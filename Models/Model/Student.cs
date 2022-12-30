@@ -13,17 +13,16 @@ namespace Models
     {
         [Key]
         public string IDStudent { get; set; }
+
         public string IDOrganization { get; set; }
 
-        [Required]
-        public string FullName { get; set; }
         public string CreateBy { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }
+
         public string AvatarPath { get; set; }
-        public string Address { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+
         public string Gender { get; set; }
 
         public virtual ICollection<Study> Studies { get; set; }

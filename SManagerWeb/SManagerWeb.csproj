@@ -55,6 +55,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=6.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.6.1.1\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.1.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -65,6 +74,9 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -86,11 +98,13 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -175,6 +189,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="Public\Areas\assets\img\Trắng và Nét vẽ cọ màu xanh biển Cá nhân Biểu rưng.png" />
     <Content Include="Public\Areas\css\adminPanel.css" />
     <Content Include="Public\Areas\js\adminPanel.js" />
@@ -200,6 +216,7 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Public\Areas\js\dashboard.js" />
     <Content Include="Public\assets\images\4208421.jpg" />
+    <Content Include="Public\assets\images\add_image.png" />
     <Content Include="Public\assets\images\blonde-secretary-sitting-table-while-office-workers-posing-with-thumbs-up-indoor-portrait-happy-asian-manager-trendy-shirt-smiling-conference-hall-with-foreign-partners_197531-3735.jpg" />
     <Content Include="Public\assets\images\default-logo.png" />
     <Content Include="Public\assets\images\dfdf.jpg" />
@@ -220,10 +237,14 @@
     <Content Include="Public\css\Dashboard\Organizations.css" />
     <Content Include="Public\css\Home\Home.css" />
     <Content Include="Public\css\Home\nicepage.css" />
+    <Content Include="Public\css\Organization\CreateTeacher.css" />
     <Content Include="Public\css\Organization\Regulation.css" />
+    <Content Include="Public\css\shared\_Card.css" />
     <Content Include="Public\js\Home\nicepage.js" />
     <Content Include="Public\js\Organization\ChangeRegulation.js" />
     <Content Include="Public\js\Organization\Create.js" />
+    <Content Include="Public\js\Organization\CreateTeacher.js" />
+    <Content Include="Public\js\Organization\GeneratePassword.js" />
     <Content Include="Public\Plugin\CKEditor.css" />
     <Content Include="Public\Plugin\CKEditor.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -258,6 +279,8 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -271,6 +294,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -309,6 +334,12 @@
     <Content Include="Views\Organization\Semester.cshtml" />
     <Content Include="Views\Organization\CreateSemester.cshtml" />
     <Content Include="Views\Organization\CreateSchoolYear.cshtml" />
+    <Content Include="Views\Organization\CreateClass.cshtml" />
+    <Content Include="Views\Organization\Teachers.cshtml" />
+    <Content Include="Views\Organization\CreateTeacher.cshtml" />
+    <Content Include="Views\Shared\_LoadingPage.cshtml" />
+    <Content Include="Views\Organization\Students.cshtml" />
+    <Content Include="Views\Organization\CreateStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
