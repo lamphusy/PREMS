@@ -229,6 +229,8 @@
     <Content Include="Public\assets\images\portrait-young-asia-lady-with-positive-expression-arms-crossed-smile-broadly-dressed-casual-clothing-looking-camera-pink-background_7861-32011.jpg" />
     <Content Include="Public\assets\images\sad.jpg" />
     <Content Include="Public\assets\images\team-business-people-stacking-hands_53876-119699.jpg" />
+    <Content Include="Public\assets\table_libary\paginate.css" />
+    <Content Include="Public\assets\table_libary\paginate.js" />
     <Content Include="Public\css\Account\Login.css" />
     <Content Include="Public\css\Account\Register.css" />
     <Content Include="Public\css\Organization\adminPanel.css" />
@@ -281,6 +283,7 @@
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Public\assets\dkhp_script.docx" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -340,6 +343,7 @@
     <Content Include="Views\Shared\_LoadingPage.cshtml" />
     <Content Include="Views\Organization\Students.cshtml" />
     <Content Include="Views\Organization\CreateStudent.cshtml" />
+    <Content Include="Views\Organization\Study.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

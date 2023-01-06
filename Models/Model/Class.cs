@@ -1,4 +1,5 @@
 ﻿using Models.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,11 +31,13 @@ namespace Models
 
         [ForeignKey("IDHomeroomTeacher")]
         public virtual Teacher HomeroomTeacher { get; set; }
+        [JsonIgnore]
         [ForeignKey("IDYear")]
         public virtual SchoolYear SchoolYear { get; set; }
+        [JsonIgnore]
         [ForeignKey("IDOrganization")]
         public Organization Organization { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Study> Studies { get; set; }
 
 

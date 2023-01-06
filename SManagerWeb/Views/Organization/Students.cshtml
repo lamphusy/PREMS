@@ -38,6 +38,14 @@
                     <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
                     Add student
                 </a>
+                <form action="@Url.Action("ImportExcelToDatabaseStudent","Organization", new {ID = ViewBag.OrganizationID})" method="post"
+                      enctype="multipart/form-data">
+                    <input type="file" name="file" id="file" accept=".xls, .xlsx" />
+                    <button type="submit" class="btn btn-primary p-2" href="">
+                        <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
+                        Import excel
+                    </button>
+                </form>
             </div>
             <div>
                 <table id="example" class="table bg-white" style="width: 100%;">

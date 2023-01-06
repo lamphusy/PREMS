@@ -7,12 +7,38 @@
     <ul class="side-menu">
         @*<li><a href="@Url.Action("Index","Dashboard")" class="active"><i class="fa-solid fa-face-smile icon"></i>Profile</a></li>*@
         <li>@Html.MenuLink("<i class=\"fa-solid fa-face-smile icon\"></i>Dashboard", "Index", "Organization", new { ID = Model })</li>
-        <li>@Html.MenuLink("<i class=\"fa-solid fa-circle-info icon\"></i>Information", "Information", "Organization", new { ID = Model })</li>
-        <li>@Html.MenuLink("<i class=\"fa-solid fa-gavel icon\"></i>Regulation", "Regulation", "Organization", new { ID = Model })</li>
-        <li>@Html.MenuLink("<i class=\"fa-sharp fa-solid fa-calendar icon\"></i>Semester", "Semester", "Organization", new { ID = Model })</li>
-        <li>@Html.MenuLink("<i class=\"fa-solid fa-graduation-cap icon\"></i>Class", "Class", "Organization", new { ID = Model })</li>
-        <li>@Html.MenuLink("<i class=\"fa-solid fa-book-open icon\"></i>Teachers", "Teachers", "Organization", new { ID = Model })</li>
-        <li>@Html.MenuLink("<i class=\"fa-solid fa-user-graduate icon\"></i>Students", "Students", "Organization", new { ID = Model })</li>
+        <li class="divider"></li>
+        <li>
+            <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+            <ul class="side-dropdown">
+                <li>@Html.MenuLink("<i class=\"fa-solid fa-circle-info icon\"></i>Information", "Information", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("<i class=\"fa-solid fa-gavel icon\"></i>Regulation", "Regulation", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("<i class=\"fa-sharp fa-solid fa-calendar icon\"></i>Semester", "Semester", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("<i class=\"fa-solid fa-graduation-cap icon\"></i>Class", "Class", "Organization", new { ID = Model })</li>
+            </ul>
+        </li>
+        
+        <li class="divider"></li>
+        <li>
+            <a href="#"><i class="fa-solid fa-book-open icon"></i>Teachers <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+            <ul class="side-dropdown">
+                <li>@Html.MenuLink("Teachers", "Teachers", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("Schedule", "Schedule", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("Absentee", "Absentee", "Organization", new { ID = Model })</li>
+            </ul>
+        </li>
+        <li>
+            <a href="#"><i class="fa-solid fa-user-graduate icon"></i>Student <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+            <ul class="side-dropdown">
+                <li>@Html.MenuLink("Students", "Students", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("Study", "Study", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("Transfer of class", "TransferClass", "Organization", new { ID = Model })</li>
+                <li>@Html.MenuLink("Score", "Score", "Organization", new { ID = Model })</li>
+            </ul>
+        </li>
+        <li class="divider"></li>
+        <li>@Html.MenuLink("<i class=\"fa-solid fa-user-graduate icon\"></i>Announcement", "Announcement", "Organization", new { ID = Model })</li>
+
 
     </ul>
 

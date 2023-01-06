@@ -1,0 +1,150 @@
+﻿@model IEnumerable<Models.ViewModel.StudyListViewModel>
+
+@{
+    ViewBag.Title = "Study";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/assets/table_libary/paginate.css" rel="stylesheet" />
+
+    var schoolYears = (List<Models.SchoolYear>)ViewBag.SchoolYears;
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Class</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Class</a></li>
+                </ul>
+            </div>
+           
+        </div>
+        <div class="content">
+            <div class="d-flex justify-content-between mb-2">
+                <form action="@Url.Action("DownloadStudentList","Organization")" method="post">
+                    <input type="hidden" value="@ViewBag.OrganizationID" name="ID" />
+                    <input type="hidden" id="classID" name="classID" />
+                    <input type="submit" class="btn btn-outline-primary" value="Export list student in class">
+                </form>
+                
+                <button class="btn btn-outline-primary">Insert student in class</button>
+            </div>
+            <div class="d-flex mb-2">
+                <input class="form-control me-2" type="search" id="searchBox" placeholder="Filter...">
+                <select class="form-select w-50 me-2 " id="select-year" onchange="ChangeClassFunc()">
+                    <option value="none" selected disabled>-- Select school year --</option>
+                    @foreach (var year in schoolYears)
+                    {
+                        <option value="@year.ID">@year.LastYear - @year.NextYear</option>
+                    }
+                </select>
+                <select class="form-select  w-50 me-2" id="select-class" onchange="RenderStudentFunc()">
+                    <option value="none" selected disabled>-- Select class --</option>
+                </select>
+            </div>
+            <div>
+                <table id="table" class="table sortable table-light p-2" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Index
+                            </th>
+
+                            <th>
+                                Full name
+                            </th>
+
+                            <th>
+                                Date of birth
+                            </th>
+
+                            <th>
+                                Gender
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</section>
+<div>
+
+</div>
+<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="~/Public/assets/table_libary/paginate.js"></script>
+
+<script>
+    const SelectClass = document.getElementById("select-class");
+    const SelectYear = document.getElementById("select-year");
+    const TableBody = document.getElementById("table-body");
+    const Class = document.getElementById("classID");
+
+    var classes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Classes));
+    var students = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+
+    function ChangeClassFunc() {
+        SelectClass.innerHTML = `<option value="none" selected disabled>-- Select class --</option>`;
+        TableBody.innerHTML = "";
+        Class.value = null;
+        console.log(Class.value)
+        classes.forEach(function (value, index, arr) {
+            if (value.IDYear == SelectYear.value) {
+                let option = document.createElement('option');
+                option.innerHTML = value.Name;
+                option.setAttribute("value", value.IDClass);
+                SelectClass.appendChild(option);
+            }
+
+        });
+    }
+
+    function RenderStudentFunc() {
+        TableBody.innerHTML = "";
+
+        students.forEach(function (value, index, arr) {
+            if (value.IDClass == SelectClass.value) {
+                let listStudent = value.Students;
+                listStudent.forEach(function (value2, index2, arr2) {
+                    TableBody.innerHTML += `<tr>
+                                    <td>${value2.IndexInClass}</td>
+                                     <td>${value2.StudentName}</td>
+                                     <td>${value2.StudentBirth}</td>
+                                     <td>${value2.StudentGender}</td>
+                                    <td></td>
+                     </tr>`
+                })
+            }
+
+        });
+        Class.value = SelectClass.value;
+        console.log(Class.value)
+    }
+
+    let options = {
+        numberPerPage: 6,
+        constNumberPerPage: 6,
+        numberOfPages: 0,
+        goBar: false,
+        pageCounter: false,
+        hasPagination: true,
+    };
+    let filterOptions = {
+        el: '#searchBox'
+    };
+    paginate.init('#table', options, filterOptions);
+
+    $(document).ready(function () {
+        $('#table').DataTable;
+    });
+</script>

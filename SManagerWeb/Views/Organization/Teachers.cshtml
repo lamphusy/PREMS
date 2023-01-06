@@ -38,8 +38,10 @@
                     <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
                     Add teacher
                 </a>
-                <form action="@Url.Action("ImportExcelToDatabaseTeacher","Organization", new {ID = ViewBag.OrganizationID})" method="post">
-                    <button type="submit" class="btn btn-primary p-2" href="">
+                <form action="@Url.Action("ImportExcelToDatabaseTeacher","Organization", new {ID = ViewBag.OrganizationID})" 
+                      method="post" enctype="multipart/form-data" id="excel-form">
+                    <input type="file" name="file" id="file" accept=".xls, .xlsx" />
+                    <button type="submit" class="btn btn-primary p-2" id="btnSubmit" href="">
                         <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
                         Import excel
                     </button>
@@ -80,3 +82,6 @@
         </div>
     </main>
 </section>
+<script>
+   
+</script>

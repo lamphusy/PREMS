@@ -160,7 +160,7 @@ namespace SManagerWeb.Controllers
                     //add ORegister from ApplicationUser
                     var oRegisterObject = new ORegister();
                     oRegisterObject.RegisterDate = DateTime.Now;
-                    oRegisterObject.IdCard = "123456790";
+                    oRegisterObject.IdCard = model.IDCard;
                     oRegisterObject.IdApplicationUser = newUser.Id;
 
                     db.ORegister.Add(oRegisterObject);
