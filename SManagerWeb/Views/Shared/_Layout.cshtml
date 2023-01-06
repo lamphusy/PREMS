@@ -1,7 +1,19 @@
 ﻿
 <!DOCTYPE html>
-<html style="font-size: 16px;" lang="en">
+<html @*style="font-size: 16px;"*@ lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Home1.css"></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Proza+Libre:wght@500;600&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+@*<head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta name="keywords" content="Your Kids is Our Future, ​Never Stop Learning, ​Best Classes and Camps, ​Browse and book hundreds of free online classes, ​Know more About us?, ​Select Your Course, Our ​Team, Contact Us">
@@ -22,12 +34,12 @@
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
 
-</head>
-<body class="u-body u-xl-mode pt-0" data-lang="en">
-    @Html.Partial("_LoadingPage")
+</head>*@
+<body @*class="u-body u-xl-mode pt-0" data-lang="en"*@>
+    @*@Html.Partial("_LoadingPage")*@
 
     <div id="body" >
-        <header class="u-clearfix u-header u-header" id="sec-b4c8" style="height: 80px;">
+        <!--<header class="u-clearfix u-header u-header" id="sec-b4c8" style="height: 80px;">
             <nav class="navbar navbar-dark bg-dark fixed-top">
                 <div class="container-fluid">
                     <a href="#" class="u-image u-logo u-image-1 navbar-brand" data-image-width="80" data-image-height="40">
@@ -56,21 +68,21 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="@Url.Action("Login","Account")">Login</a>
                                 </li>
-                            </ul>
+                            </ul>-->
                             @*<form class="d-flex mt-3" role="search">
                                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                                     <button class="btn btn-success" type="submit">Search</button>
                                 </form>*@
-                        </div>
+                        <!--</div>
                     </div>
                 </div>
             </nav>
 
-        </header>
-        <div id="bodyContent" class="mt-4 mb-4" style="min-height: 80vh;">
+        </header>-->
+        <div @*id="bodyContent" class="mt-4 mb-4" style="min-height: 80vh;"*@>
             @RenderBody()
         </div>
-        <footer class="u-clearfix u-footer u-palette-1-dark-2 m-0" id="sec-5124">
+        @*<footer class="u-clearfix u-footer u-palette-1-dark-2 m-0" id="sec-5124">
             <div class="u-clearfix u-sheet u-sheet-1">
                 <div class="u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-xl u-gutter-52 u-layout-wrap u-layout-wrap-1">
                     <div class="u-gutter-0 u-layout m-0">
@@ -106,14 +118,14 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer>*@
     </div>
 
-    <script>
+    @*<script>
         $(window).on('load', function () {
             $("#body").fadeIn(1000);
             $("#loading").fadeOut(1000);
         });
-    </script>
+    </script>*@
 </body>
 </html>
