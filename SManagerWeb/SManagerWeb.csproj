@@ -249,6 +249,7 @@
     <Content Include="Public\js\Organization\GeneratePassword.js" />
     <Content Include="Public\Plugin\CKEditor.css" />
     <Content Include="Public\Plugin\CKEditor.js" />
+    <Content Include="Public\Plugin\ToastrOption.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -344,6 +345,7 @@
     <Content Include="Views\Organization\Students.cshtml" />
     <Content Include="Views\Organization\CreateStudent.cshtml" />
     <Content Include="Views\Organization\Study.cshtml" />
+    <Content Include="Views\Organization\Subject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

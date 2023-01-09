@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Models.Subject>
+@{
+    ViewBag.Title = "Subject";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.IDOrganization)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Subjects</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Regulation</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-5 p-4 bg-white">
+                    <h4 class="text-center fw-bold">Create subject</h4>
+                    <form action="@Url.Action("CreateSubject","Organization")" method="post" class="m-0" id="create-form" onsubmit="SubmitHandlerFunc(); return false;">
+                        @*@Html.AntiForgeryToken()*@
+                        <input required type="hidden" value="@ViewBag.IDOrganization" name="ID"/>
+                        <input required class="form-control mb-2 bg-light inp-id" name="subjectID" type="text" placeholder="Subject ID" />
+                        <input required class="form-control mb-2 bg-light inp-name" name="subjectName" type="text" placeholder="Subject name" />
+                        <textarea  class="form-control mb-2 bg-light inp-description" name="Description" rows="6" placeholder="Description"></textarea>
+                        <button class="btn btn-info" type="submit" id="btnSubmit">Create</button>
+                    </form>
+                </div>
+                <div class="col-md-7 m-0 mt-4 mt-md-0 ">
+                    <table class="table bg-white">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach(var i in Model)
+                            {
+                             <tr>
+                                 <td>@i.IDSubject</td>
+                                 <td>@i.SubjectName</td>
+                                 <td>
+                                     <a class="bg-opacity-10 text-decoration-none" data-bs-toggle="collapse" href="#id@(i.IDSubject)" role="button" aria-expanded="false">
+                                         <i class="fa-solid fa-caret-down"></i> Description
+                                     </a>
+
+                                     <div class="collapse mt-1" id="id@(i.IDSubject)">
+                                         <div class="card card-body">
+                                             @i.Description
+                                         </div>
+                                     </div>
+                                 </td>
+                                 <td>
+                                     <a href="#" class="btn btn-danger"><i class="fa fa-trash me-1"></i></a>
+                                 </td>
+                             </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+<script>
+    const form = document.getElementById("create-form");
+    const btnSubmit = document.getElementById("btnSubmit");
+    const tbody = document.getElementById("tbody");
+
+    const txtId = document.getElementsByClassName("inp-id")[0];
+    const txtName = document.getElementsByClassName("inp-name")[0];
+    const txtDescription = document.getElementsByClassName("inp-description")[0];
+
+    function SubmitHandlerFunc(){
+        $.ajax({
+            type: form.method,
+            url: form.action,
+            data: $("#create-form").serialize(),
+            success: function (res) {
+                txtId.value = "";
+                txtName.value = "";
+                txtDescription.value = "";
+
+                id = res.id;
+                name = res.name;
+                description = res.description;
+
+                tbody.innerHTML = ` <tr>
+                                 <td>${id}</td>
+                                 <td>${name}</td>
+                                 <td>
+                                     <a class="bg-opacity-10 text-decoration-none" data-bs-toggle="collapse" href="#id${id}" role="button" aria-expanded="false">
+                                         <i class="fa-solid fa-caret-down"></i> Description
+                                     </a>
+
+                                     <div class="collapse mt-1" id="id${id}">
+                                         <div class="card card-body">
+                                             ${description}
+                                         </div>
+                                     </div>
+                                 </td>
+                                 <td>
+                                     <a href="#" class="btn btn-danger mt-2"><i class="fa fa-trash me-1"></i>Remove</a>
+                                 </td>
+                             </tr>` + tbody.innerHTML;
+
+                displayMessage("Create subject completed", "success");
+            },
+            error: function (res) {
+                console.log(res.message);
+                displayMessage("Something was wrong", "error");
+            }
+
+       })
+    }
+</script>

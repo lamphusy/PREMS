@@ -932,6 +932,59 @@ namespace SManagerWeb.Controllers
             return View("Error");
         }
 
+        public ActionResult Subject(string ID)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.IDOrganization = ID;
+                        var subjects = db.Subjects.Where(x => x.IDOrganization == ID).OrderBy(x => x.IDSubject).ToList(); 
+                        return View(subjects);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        [HttpPost]
+        public JsonResult CreateSubject(string ID, string subjectID, string subjectName, string Description)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    try
+                    {
+                        ViewBag.IDOrganization = ID;
+                        var subject = new Subject() { IDSubject = subjectID, Description = Description, IDOrganization = ID, SubjectName = subjectName };
+                        db.Subjects.Add(subject);
+                        db.SaveChanges();
+                        return Json(new { result = "success", id = subjectID, name = subjectName, description = Description }
+                        , JsonRequestBehavior.AllowGet);
+                    }
+                    catch(Exception ex)
+                    {
+                        return Json(new { result = "error", message=ex.Message },JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(new { result = "error" }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult CreateStudent(string ID)
         {
             string currentId = User.Identity.GetUserId();
