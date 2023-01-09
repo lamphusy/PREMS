@@ -38,6 +38,14 @@
                     <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
                     Add student
                 </a>
+                <form action="@Url.Action("ImportExcelToDatabaseStudent","Organization", new {ID = ViewBag.OrganizationID})" method="post"
+                      enctype="multipart/form-data">
+                    <input type="file" name="file" id="file" accept=".xls, .xlsx" />
+                    <button type="submit" class="btn btn-primary p-2" href="">
+                        <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
+                        Import excel
+                    </button>
+                </form>
             </div>
             <div>
                 <table id="example" class="table bg-white" style="width: 100%;">
@@ -61,11 +69,10 @@
                                 <td>@i.Gender</td>
                                 <td>@(i.DayOfBirth!= null ? i.DayOfBirth.ToString("d") : "")</td>
                                 <td>@i.PhoneNumber</td>
-                                <td><a href="#" class="btn btn-outline-primary">Action</a></td>
+                                <td><a href="@Url.Action("EditStudent","Organization", new {ID = ViewBag.OrganizationID, studentID = i.Username})" class="btn btn-outline-primary">Action</a></td>
                             </tr>
                         }
                     </tbody>
-                 
                 </table>
             </div>
         </div>

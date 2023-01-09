@@ -9,16 +9,19 @@ namespace Models.ViewModel
 {
     public class StudentViewModel
     {
+        [Required]
         public string FullName { get; set; }//
 
         public string Address { get; set; }//
-    
+        
         public string Email { get; set; }//
 
         public string PhoneNumber { get; set; }//
 
+        [Required]
         public string Username { get; set; }//
 
+        [Required]
         public string Password { get; set; }//
 
         public string CreateBy { get; set; }
@@ -31,6 +34,7 @@ namespace Models.ViewModel
         [DataType(DataType.Date)]
         public DateTime DayOfBirth { get; set; }//
 
+        [Required]
         public string Gender { get; set; }//
     }
 }

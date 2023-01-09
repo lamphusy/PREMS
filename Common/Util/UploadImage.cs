@@ -21,6 +21,10 @@ namespace Common.Util
                
                 //đường dẫn để lưu tạo file trên ổ cứng
                 var path2 = Path.Combine(HttpContext.Current.Server.MapPath(path), myfile);
+                if (File.Exists(path2))
+                {
+                    File.Delete(path2);
+                }
                 file.SaveAs(path2);
 
                 return url;

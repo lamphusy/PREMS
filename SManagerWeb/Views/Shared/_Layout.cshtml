@@ -13,95 +13,81 @@
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-    <link href="~/Public/css/Home/nicepage.css" rel="stylesheet" />
+    @*<link href="~/Public/css/Home/nicepage.css" rel="stylesheet" />
 
-    <meta name="generator" content="Nicepage 4.17.10, nicepage.com">
+        <meta name="generator" content="Nicepage 4.17.10, nicepage.com">*@
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|Roboto+Condensed:300,300i,400,400i,700,700i|Oswald:200,300,400,500,600,700|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <meta name="theme-color" content="#3fb7fe">
     <meta property="og:title" content="Home">
     <meta property="og:type" content="website">
+    <link href="~/Public/css/Home/Home.css" rel="stylesheet" />
 
 </head>
-<body class="u-body u-xl-mode pt-0" data-lang="en">
+<body class="" data-lang="en">
     @Html.Partial("_LoadingPage")
 
     <div id="body" >
-        <header class="u-clearfix u-header u-header" id="sec-b4c8" style="height: 80px;">
-            <nav class="navbar navbar-dark bg-dark fixed-top">
-                <div class="container-fluid">
-                    <a href="#" class="u-image u-logo u-image-1 navbar-brand" data-image-width="80" data-image-height="40">
-                        <img src="~/Public/assets/images/default-logo.png" class="u-logo-image u-logo-image-1">
-
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><b>MENU</b></h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Document</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Register","Account")">Register</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Login","Account")">Login</a>
-                                </li>
-                            </ul>
-                            @*<form class="d-flex mt-3" role="search">
-                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-success" type="submit">Search</button>
-                                </form>*@
-                        </div>
-                    </div>
+        <header>
+            <div class="navbar">
+                <div class="navbar-logo">Prems</div>
+                <div class="navbar-menu">
+                    <a href="@Url.Action("Index","Home")" class="navbar-menu-home">Home</a>
+                    <a href="@Url.Action("Organizations","Dashboard")" class="navbar-menu-organization">Organization</a>
+                    <a href="#" class="navbar-menu-teacher">Teacher & Student</a>
+                    <a href="#" class="navbar-menu-support">Support</a>
                 </div>
-            </nav>
-
+                <div class="navbar-user">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
         </header>
-        <div id="bodyContent" class="mt-4 mb-4" style="min-height: 80vh;">
+        <div id="bodyContent" class="mt-4" style="min-height: 80vh;">
             @RenderBody()
         </div>
-        <footer class="u-clearfix u-footer u-palette-1-dark-2 m-0" id="sec-5124">
-            <div class="u-clearfix u-sheet u-sheet-1">
-                <div class="u-clearfix u-expanded-width-lg u-expanded-width-md u-expanded-width-xl u-gutter-52 u-layout-wrap u-layout-wrap-1">
-                    <div class="u-gutter-0 u-layout m-0">
-                        <div class="u-layout-row">
-                            <div class="u-container-style u-layout-cell u-size-18 u-layout-cell-1 border-0">
-                                <div class="u-container-layout u-container-layout-1">
-                                    <h5 class="u-text u-text-1">Call today</h5>
-                                    <p class="u-small-text u-text u-text-variant u-text-2"> +1 (234) 567-8910</p>
-                                    <h5 class="u-text u-text-3">Email&nbsp;</h5>
-                                    <p class="u-small-text u-text u-text-variant u-text-4">schmana@gmail.com</p>
-                                    <h6 class="u-text u-text-5">Opening hours</h6>
-                                    <p class="u-small-text u-text u-text-variant u-text-6">
-                                        Mon — Fri 10:00 – 23:00<br>Sut-Sun- 10:00 – 19:00
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="u-container-style u-layout-cell u-size-42 u-layout-cell-2 border-0">
-                                <div class="u-container-layout u-valign-bottom-xs u-container-layout-2">
-                                    <h5 class="u-text u-text-7">Address</h5>
-                                    <div class="u-expanded-width-lg u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-grey-light-2 u-map u-map-1">
-                                        <div class="embed-responsive">
-                                            <iframe class="embed-responsive-item"
-                                                    src="//maps.google.com/maps?output=embed&amp;q=khu%20ph%E1%BB%91%206%2C%20ph%C6%B0%E1%BB%9Dng%20Linh%20Trung%2C%20th%C3%A0nh%20ph%E1%BB%91%20Th%E1%BB%A7%20%C4%90%E1%BB%A9c&amp;t=m" data-map="JTdCJTIycG9zaXRpb25UeXBlJTIyJTNBJTIybWFwLWFkZHJlc3MlMjIlMkMlMjJhZGRyZXNzJTIyJTNBJTIya2h1JTIwcGglRTElQkIlOTElMjA2JTJDJTIwcGglQzYlQjAlRTElQkIlOURuZyUyMExpbmglMjBUcnVuZyUyQyUyMHRoJUMzJUEwbmglMjBwaCVFMSVCQiU5MSUyMFRoJUUxJUJCJUE3JTIwJUM0JTkwJUUxJUJCJUE5YyUyMiUyQyUyMnpvb20lMjIlM0FudWxsJTJDJTIydHlwZUlkJTIyJTNBJTIycm9hZCUyMiUyQyUyMmxhbmclMjIlM0FudWxsJTJDJTIyYXBpS2V5JTIyJTNBbnVsbCUyQyUyMm1hcmtlcnMlMjIlM0ElNUIlNUQlN0Q="></iframe>
-                                        </div>
-                                    </div>
-                                    <p class="u-small-text u-text u-text-variant u-text-8">
-                                        Quarter 6, Linh Trung Ward, Thu Duc City<br>
-                                        <br>
-                                    </p>
-                                </div>
-                            </div>
+        <footer class="end mt-5">
+            <div class="end-bar">
+                <div class="end-bar-menu">
+                    <div class="menu-home">
+                        <i class="fa-solid fa-house icon-home"></i>
+                        Home
+                    </div>
+                    <div class="menu-sp">/</div>
+                    <div class="menu-support">Support</div>
+                </div>
+                <div class="end-bar-meet">
+                    <div class="contact">
+                        <div class="contact-text">Meet our at</div>
+                        <i class="fa-brands fa-facebook icon"></i>
+                        <i class="fa-brands fa-twitter icon"></i>
+                        <i class="fa-brands fa-youtube icon"></i>
+                        <i class="fa-brands fa-discord icon"></i>
+                    </div>
+                    
+                </div>
+                <div class="d-flex">
+                    <div class="end-bar-infor-company">
+                        <h2>Company</h2>
+                        <div class="company-mail">
+                            <i class="fa-solid fa-envelope icon"></i>prems@prm.com
+                        </div>
+                        <div class="company-location">
+                            <i class="fa-solid fa-location-pin icon"></i>University of Information Technology,</br>
+                            Thu Duc District</br>
+                            Ho Chi Minh City,</br>
+                            Vietnam
+                        </div>
+                    </div>
+                    <div class="end-bar-infor-payment">
+                        <div class="vnpay d-flex">
+                            <h2>Payment Methods</h2>
+                            <img src="~/Public/assets/images/home/vnpay.png">
+                        </div>
+                        <div class="support-question">
+                            <p>
+                                For any questions about the payment process, terms, privacy</br> policy, sales and refunds, legal and product use, please contact</br> us via communication channels.
+                                </br>Our support center is open to help at all times, but in case of</br> force majeure or system failure, the response may not be timely,</br> please be patient and understanding, we Will be in touch as soon</br> as possible
+                            </p>
                         </div>
                     </div>
                 </div>

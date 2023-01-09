@@ -170,6 +170,10 @@
     <Compile Include="Migrations\202212130757013_TeacherUpdateDatabase.designer.cs">
       <DependentUpon>202212130757013_TeacherUpdateDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301050307556_Add_IndexInClass.cs" />
+    <Compile Include="Migrations\202301050307556_Add_IndexInClass.designer.cs">
+      <DependentUpon>202301050307556_Add_IndexInClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -212,6 +216,8 @@
     <Compile Include="ViewModel\SchoolYearViewModel.cs" />
     <Compile Include="ViewModel\SemesterViewModel.cs" />
     <Compile Include="ViewModel\StudentViewModel.cs" />
+    <Compile Include="ViewModel\StudyListViewModel.cs" />
+    <Compile Include="ViewModel\StudyViewModel.cs" />
     <Compile Include="ViewModel\TeacherViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
@@ -297,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212130757013_TeacherUpdateDatabase.resx">
       <DependentUpon>202212130757013_TeacherUpdateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301050307556_Add_IndexInClass.resx">
+      <DependentUpon>202301050307556_Add_IndexInClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
