@@ -69,11 +69,10 @@
                                 <td>@i.Gender</td>
                                 <td>@(i.DayOfBirth!= null ? i.DayOfBirth.ToString("d") : "")</td>
                                 <td>@i.PhoneNumber</td>
-                                <td><a href="#" class="btn btn-outline-primary">Action</a></td>
+                                <td><a href="@Url.Action("EditStudent","Organization", new {ID = ViewBag.OrganizationID, studentID = i.Username})" class="btn btn-outline-primary">Action</a></td>
                             </tr>
                         }
                     </tbody>
-                 
                 </table>
             </div>
         </div>

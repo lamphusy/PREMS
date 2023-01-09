@@ -346,6 +346,7 @@
     <Content Include="Views\Organization\CreateStudent.cshtml" />
     <Content Include="Views\Organization\Study.cshtml" />
     <Content Include="Views\Organization\Subject.cshtml" />
+    <Content Include="Views\Organization\EditStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,14 +36,17 @@ namespace Models.AutoMapperConfig
                 .ForMember(x => x.DayOfBirth, src => src.MapFrom(a => a.ApplicationUser.DayOfBirth))
                 .ForMember(x => x.Address, src => src.MapFrom(a => a.ApplicationUser.Address))
                 .ForMember(x => x.Username, src => src.MapFrom(a => a.ApplicationUser.UserName))
-                .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber));
+                .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber))
+                .ForMember(x => x.Email, src => src.MapFrom(a => a.ApplicationUser.Email));
 
             CreateMap<Student, StudentViewModel>()
                 .ForMember(x => x.FullName, src => src.MapFrom(a => a.ApplicationUser.FullName))
                 .ForMember(x => x.DayOfBirth, src => src.MapFrom(a => a.ApplicationUser.DayOfBirth))
                 .ForMember(x => x.Address, src => src.MapFrom(a => a.ApplicationUser.Address))
                 .ForMember(x => x.Username, src => src.MapFrom(a => a.ApplicationUser.UserName))
-                .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber));
+                .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber))
+                .ForMember(x => x.Email, src => src.MapFrom(a => a.ApplicationUser.Email));
+            ;
 
             CreateMap<Study, StudyViewModel>()
                 .ForMember(x => x.StudentName, src => src.MapFrom(a => a.Student.ApplicationUser.FullName))
