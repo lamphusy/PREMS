@@ -45,14 +45,18 @@ namespace Models.AutoMapperConfig
                 .ForMember(x => x.Address, src => src.MapFrom(a => a.ApplicationUser.Address))
                 .ForMember(x => x.Username, src => src.MapFrom(a => a.ApplicationUser.UserName))
                 .ForMember(x => x.PhoneNumber, src => src.MapFrom(a => a.ApplicationUser.PhoneNumber))
-                .ForMember(x => x.Email, src => src.MapFrom(a => a.ApplicationUser.Email));
-            ;
+                .ForMember(x => x.Email, src => src.MapFrom(a => a.ApplicationUser.Email))
+                .ForMember(x => x.Class, src => src.MapFrom(a => a.Studies.OrderByDescending(x => x.IDStudy).FirstOrDefault().Class.Name));
 
             CreateMap<Study, StudyViewModel>()
                 .ForMember(x => x.StudentName, src => src.MapFrom(a => a.Student.ApplicationUser.FullName))
                 .ForMember(x => x.StudentGender, src => src.MapFrom(a => a.Student.Gender))
                 .ForMember(x => x.StudentBirth, src => src.MapFrom(a => a.Student.ApplicationUser.DayOfBirth.Value.ToString("d")));
-               
+
+            CreateMap<Teach, TeachViewModel>()
+                .ForMember(x => x.SubjectName, src => src.MapFrom(a => a.Subject.SubjectName))
+                .ForMember(x => x.TeacherName, src => src.MapFrom(a => a.Teacher.ApplicationUser.FullName));
+
         }
     }
 }

@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "CreateTeacher";
     Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    Models.SchoolYear schoolYear = (Models.SchoolYear)ViewBag.SchoolYear;
+    List<Models.Class> classes = (List<Models.Class>)ViewBag.Class;
 }
 <link href="~/Public/css/shared/_Card.css" rel="stylesheet" />
 <link href="~/Public/css/Organization/CreateTeacher.css" rel="stylesheet" />
@@ -89,7 +91,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="col-form-label ps-0">Password</label>
-                                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control"})
+                                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -108,7 +110,7 @@
                                         <label class="col-form-label ps-0">Gender</label>
                                         @Html.TextBoxFor(x => x.Gender, new { @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
-                                     
+
                                     </div>
                                     <div class="col-7">
                                         <label class="col-form-label ps-0">Date of birth</label>
@@ -121,13 +123,37 @@
                                     @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
                                 </div>
-                               
+
                             </div>
                         </div>
+                        @if(schoolYear != null)
+                        {
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        Class
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="">
+                                        <label class="col-form-label ps-0">This is @schoolYear.LastYear - @schoolYear.NextYear school years</label>
+                                        <select class="form-control" name="classNow">
+                                            @foreach (var item in classes)
+                                            {
+                                                <option value="@item.IDClass">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
-                <div>
-                    <input type="submit" class="btn btn-primary" value="Create" />
+                @Html.ValidationSummary()
+                <div class="d-flex">
+                    <input type="submit" class="btn btn-primary me-2" value="Create" />
+                    <a class="btn btn-dark opacity-50" href="@Url.Action("Students","Organization", new {ID = ViewBag.OrganizationID})">Back to list</a>
                 </div>
             }
         </div>

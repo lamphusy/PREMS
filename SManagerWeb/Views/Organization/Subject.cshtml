@@ -3,7 +3,23 @@
     ViewBag.Title = "Subject";
     Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
 }
+<style>
+    .create-form-container::after {
+        background-position: center;
+        background-size: cover;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-image:  url("@Url.Content("~/Public/assets/images/createsubject.webp")");
+        width: 100%;
+        height: 100%;
+        opacity: 0.2;
+        z-index: -1;
+    }
 
+</style>
 @Html.Partial("_NavigationBar", (string)ViewBag.IDOrganization)
 <section id="content">
     @Html.Partial("_ProfileBar")
@@ -21,16 +37,19 @@
 
         <div class="content">
             <div class="row">
-                <div class="col-md-5 p-4 bg-white">
-                    <h4 class="text-center fw-bold">Create subject</h4>
-                    <form action="@Url.Action("CreateSubject","Organization")" method="post" class="m-0" id="create-form" onsubmit="SubmitHandlerFunc(); return false;">
-                        @*@Html.AntiForgeryToken()*@
-                        <input required type="hidden" value="@ViewBag.IDOrganization" name="ID"/>
-                        <input required class="form-control mb-2 bg-light inp-id" name="subjectID" type="text" placeholder="Subject ID" />
-                        <input required class="form-control mb-2 bg-light inp-name" name="subjectName" type="text" placeholder="Subject name" />
-                        <textarea  class="form-control mb-2 bg-light inp-description" name="Description" rows="6" placeholder="Description"></textarea>
-                        <button class="btn btn-info" type="submit" id="btnSubmit">Create</button>
-                    </form>
+                <div class="col-md-5 p-4 bg-opacity-25 " style="position:relative;">
+                    <div class="create-form-container">
+                        <h4 class="text-center fw-bold">Create subject</h4>
+                        <form action="@Url.Action("CreateSubject","Organization")" method="post" class="m-0" id="create-form" onsubmit="SubmitHandlerFunc(); return false;">
+                            @*@Html.AntiForgeryToken()*@
+                            <input required type="hidden" value="@ViewBag.IDOrganization" name="ID" />
+                            <input required class="form-control mb-2 bg-light inp-id" name="subjectID" type="text" placeholder="Subject ID" />
+                            <input required class="form-control mb-2 bg-light inp-name" name="subjectName" type="text" placeholder="Subject name" />
+                            <textarea class="form-control mb-2 bg-light inp-description" name="Description" rows="6" placeholder="Description"></textarea>
+                            <button class="btn btn-warning" type="submit" id="btnSubmit">Create</button>
+                        </form>
+                    </div>
+                    
                 </div>
                 <div class="col-md-7 m-0 mt-4 mt-md-0 ">
                     <table class="table bg-white">

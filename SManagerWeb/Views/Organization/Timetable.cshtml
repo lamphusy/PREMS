@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "Timetable";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/css/Organization/TimeTable.css" rel="stylesheet" type="text/css"/>
+  
+    var schoolYear = (Models.SchoolYear)ViewBag.SchoolYear;
+    var teachList = (List<Models.Teach>)ViewBag.TeachList;
+    var periods = (List<Models.OPeriodLesson>)ViewBag.Periods;
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    @if (schoolYear != null)
+    {
+        <main>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h1 class="title">Timetable</h1>
+                    <ul class="breadcrumbs">
+                        <li><a href="#">Organization</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#" class="active">Timetable</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="m-0 school-year" data-id="@schoolYear.ID">This is the school year @schoolYear.LastYear - @schoolYear.NextYear</p>
+                    <select class="form-select class-select" onchange="ChangeClass()">
+                        <option selected disabled>Select class</option>
+                        @foreach (var i in (List<Models.Class>)ViewBag.Classes)
+                        {
+                            <option value="@i.IDClass">@i.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="content">
+                <div class="timetable">
+                    <div class="week-names">
+                        <div data-day="monday" data-value="2">monday</div>
+                        <div data-day="tuesday" data-value="3">tuesday</div>
+                        <div data-day="wednesday" data-value="4">wednesday</div>
+                        <div data-day="thursday" data-value="5">thursday</div>
+                        <div data-day="friday" data-value="6">friday</div>
+                        <div data-day="saturday" data-value="7" class="weekend">saturday</div>
+                        <div data-day="sunday" data-value="8" class="weekend">sunday</div>
+                    </div>
+                    <div class="time-interval">
+                        @foreach(var i in periods)
+                        {
+                            <div data-id="@i.ID" class="text-center">
+                                @i.PeriodName
+                                <br />
+                                @Common.Util.TransferTime.ValueToTime(i.PeriodStartTime) - @Common.Util.TransferTime.ValueToTime(i.PeriodEndTime)
+                            </div>
+                        }
+                    </div>
+                    <div class="timetable-content">                 
+                        @for(int i =0; i< periods.Count * 7; i++)
+                        {
+                            <div ></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+        <div class="add-form-container">
+            <div class="card card-body p-5 add-form">
+                <div class="h5 form-detail">
+                    Your selection is period 1 (7:30 - 8:15)
+                </div>
+                <div>
+                    <div class="d-none form-weekday-id"></div>
+                    <div class="d-none form-period-value"></div>
+                    <div class="d-none form-weekday-value"></div>
+                    <label for="select-subject" class="mb-1 fw-bold">Select subject</label>
+                    <select class="form-select mb-2" id="select-subject">
+                        @foreach (var item in (List<Models.Subject>)ViewBag.Subjects)
+                        {
+                            <option value="@item.IDSubject">@item.SubjectName</option>
+                        }
+                    </select>
+                    <label for="select-teacher" class="mb-1 fw-bold">Select teacher</label>
+                    <select class="form-select mb-2" id="select-teacher">
+                        @foreach (var item in (List<Models.ViewModel.TeacherViewModel>)ViewBag.Teachers)
+                        {
+                            <option value="@item.IDUser">@item.FullName</option>
+                        }
+                    </select>
+                    <div class="d-flex">
+                        <button class="btn btn-outline-success me-2 form-submit" onclick="FormSubmit()">Submit</button>
+                        <button class="btn btn-outline-dark form-back" onclick="FormBack()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        else
+        {
+            <main class="d-flex justify-content-center align-items-center">
+                <h5>Please go to <b>Elements > Semester</b> to active current semester</h5>
+            </main>   
+        }
+
+</section>
+<script>
+    const content = $('.timetable-content');
+
+    const periods = document.querySelectorAll(".time-interval > div");
+    const weekdays = document.querySelectorAll(".week-names >div");
+
+    function FormBack() {
+        $('.add-form-container').css("display", "none");
+        return false;
+    }
+    function FormOpen(target) {
+        let period = target.getAttribute("data-period");
+        let time = target.getAttribute("data-time");
+        let weekday = target.getAttribute("data-weekday");
+        let weekday_value = target.getAttribute("data-weekday-value");
+
+
+        $('.form-detail').html(`Your selection is ${period} (${time}) on <b>${weekday}</b>`)
+        $('.form-period-value').html(period);
+        $('.form-weekday-value').html(weekday);
+        $('.form-weekday-id').html(weekday_value);
+
+
+        $('.add-form-container').css("display", "block");
+        return false;
+    }
+    function FormSubmit() {
+        let teacher = $('#select-teacher').val();
+        let teacherName = $('#select-teacher option:selected').text();
+
+        let subject = $('#select-subject').val();
+        let subjectName = $('#select-subject option:selected').text();
+
+        let period = $('.form-period-value').html();
+        let weekday = $('.form-weekday-value').html();
+        let weekdayId = $('.form-weekday-id').html();
+        let classroom = $('.class-select').val();
+        let schoolyearID = document.querySelector('.school-year').getAttribute("data-id");
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("TeachHandler","Organization")',
+            data: { ID: `@ViewBag.OrganizationID`, teacherId: teacher, periodId: period, weekday: weekdayId, classID: classroom, subjectId: subject, schoolYearID: schoolyearID },
+           
+            success: function (res, textStatus, xhr) {
+                if (xhr.status == 200) {
+                    $(`.${period}${weekday}`).html(`<div class="text-center">
+                            <b>${subjectName}</b>
+                            <br />
+                            Teacher: ${teacherName}
+                        </div>`);
+                    displayMessage("Success", "success");
+                }
+                else {
+                    displayMessage("Something was wrong", "error");
+                }
+
+            },
+            error: function (res) {
+                console.log(res)
+                displayMessage("Error", "error");
+            }
+
+        })
+
+     
+        $('.add-form-container').css("display", "none");
+    }
+
+    function ChangeClass() {
+        var classroom = $('.class-select').val();
+        $.ajax({
+            type: 'GET',
+            url: `@Url.Action("GetTeachList", "Organization")`,
+            data: { ID: `@ViewBag.OrganizationID`, classRoom : classroom },
+            success: function (res) {
+                console.log(periods)
+                $('.timetable-content').html("");
+                var contentRes = "";
+                var content = JSON.parse(res);
+                for (let i = 0; i < periods.length; i++) {
+                    for (let j = 0; j <7 ; j++) {
+                        if (content.length == 0) {
+                            contentRes += `<div class="${periods[i].getAttribute("data-id")}${weekdays[j].innerHTML}" data-period="${periods[i].getAttribute("data-id")}" data-time="" data-weekday="${weekdays[j].innerHTML}" 
+data-weekday-value="${weekdays[j].getAttribute("data-value")}"  onclick="FormOpen(this)"></div>`;
+                            continue;
+                        }
+                        if (content[0].IDPeriod == periods[i].getAttribute("data-id")
+                            && content[0].WeekDay == weekdays[j].getAttribute("data-value")) {
+                            contentRes += `\n<div class="${periods[i].getAttribute("data-id")}${weekdays[j].innerHTML}" data-period="${periods[i].getAttribute("data-id")}" data-time="" data-weekday="${weekdays[j].innerHTML}"
+ data-weekday-value="${weekdays[j].getAttribute("data-value")}" onclick="FormOpen(this)">
+                                                <div class="text-center">
+                                                    <b>${content[0].SubjectName}</b>
+                                                    <br />
+                                                    Teacher: ${content[0].TeacherName}
+                                                </div>
+                                            </div>`;
+                            console.log(content[0])
+                            content.shift();
+                        } else {
+                            contentRes += `<div class="${periods[i].getAttribute("data-id")}${weekdays[j].innerHTML}" data-period="${periods[i].getAttribute("data-id")}" data-time="" data-weekday="${weekdays[j].innerHTML}" data-weekday-value="${weekdays[j].getAttribute("data-value")}"  onclick="FormOpen(this)"></div>`
+                        }
+                    }
+                }
+                $('.timetable-content').html(contentRes);
+                console.log(contentRes)
+            
+            },
+            error: function (res) {
+                console.log(res)
+            }
+        })
+
+    }
+
+</script>

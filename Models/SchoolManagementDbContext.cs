@@ -1,5 +1,5 @@
 using Microsoft.AspNet.Identity.EntityFramework;
-using Models.Model;
+using Models;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace Models
         {
             Configuration.ProxyCreationEnabled = true;
             Configuration.LazyLoadingEnabled = true;
+
         }
 
         public static SchoolManagementDbContext Create()
@@ -47,7 +48,7 @@ namespace Models
         public virtual DbSet<OPeriodLesson> OPeriodLessons { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Teach> Teaches { get; set; }
-        public virtual DbSet<TeachDetail> TeachDetails { get; set; }
+        //public virtual DbSet<TeachDetail> TeachDetails { get; set; }
         public virtual DbSet<Study> Studies { get; set; }
         public virtual DbSet<ClassTransferringForm> ClassTransferringForms { get; set; }
         public virtual DbSet<TypeScore> TypeScores { get; set; }

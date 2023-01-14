@@ -12,7 +12,11 @@
 <script type="text/javascript"
         src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
 @*<script src="https://cdn.tailwindcss.com"></script>*@
-
+<style>
+    .row {
+        --bs-gutter-x: 0;
+    }
+</style>
 <script>
     $(document).ready(function () {
         $('#example').DataTable();
@@ -33,15 +37,17 @@
             </div>
         </div>
         <div class="content">
-            <div class="card text-end mb-2">
-                <a class="btn btn-primary p-2" href="@Url.Action("CreateStudent","Organization", new {ID = ViewBag.OrganizationID})">
+            <div class="mb-2 row">
+                <a class="btn btn-primary col-md-6" href="@Url.Action("CreateStudent","Organization", new {ID = ViewBag.OrganizationID})">
                     <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
                     Add student
                 </a>
                 <form action="@Url.Action("ImportExcelToDatabaseStudent","Organization", new {ID = ViewBag.OrganizationID})" method="post"
-                      enctype="multipart/form-data">
-                    <input type="file" name="file" id="file" accept=".xls, .xlsx" />
-                    <button type="submit" class="btn btn-primary p-2" href="">
+                      enctype="multipart/form-data" class="col-md-6 text-end">
+                    <label for="file" class="text-decoration-underline fst-italic me-2">
+                        <i class="fas fa-file-excel text-success me-1 "></i>Click here to select file excel</label>
+                    <input type="file" name="file" id="file" class="d-none" accept=".xls, .xlsx" />
+                    <button type="submit" class="btn btn-primary p-2 btn-submit" href="" disabled>
                         <i class="fa-sharp fa-solid fa-chalkboard-user"></i>
                         Import excel
                     </button>
@@ -69,7 +75,7 @@
                                 <td>@i.Gender</td>
                                 <td>@(i.DayOfBirth!= null ? i.DayOfBirth.ToString("d") : "")</td>
                                 <td>@i.PhoneNumber</td>
-                                <td><a href="@Url.Action("EditStudent","Organization", new {ID = ViewBag.OrganizationID, studentID = i.Username})" class="btn btn-outline-primary">Action</a></td>
+                                <td><a href="@Url.Action("EditStudent","Organization", new {ID = ViewBag.OrganizationID, studentID = i.Username})" class="btn btn-outline-primary">Edit</a></td>
                             </tr>
                         }
                     </tbody>
@@ -78,3 +84,11 @@
         </div>
     </main>
 </section>
+<script>
+    $("#file").change(function (e) {
+        if ($('#file').val()) {
+            $('.btn-submit').attr("disabled", false);
+        }
+
+    })
+</script>

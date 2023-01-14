@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -34,7 +35,7 @@ namespace Models
         public virtual ApplicationUser ApplicationUser { get; set; }
         [ForeignKey("IDOrganization")]
         public virtual Organization Organization { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Teach> Teaches { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace SManagerWeb
             BundleConfig.RegisterBundles(BundleTable.Bundles);
            
             AutoMapper.Mapper.Initialize(cfg => cfg.AddProfile<AutoMapperProfile>());
+          
+
 
         }
     }

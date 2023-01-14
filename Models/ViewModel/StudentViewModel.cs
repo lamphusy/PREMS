@@ -36,5 +36,7 @@ namespace Models.ViewModel
 
         [Required]
         public string Gender { get; set; }//
+
+        public string Class { get; set; }
     }
 }

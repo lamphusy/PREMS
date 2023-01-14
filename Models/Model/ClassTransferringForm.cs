@@ -24,7 +24,11 @@ namespace Models
         public int IDSemester { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }
-        public bool Status { get; set; }
+
+        //0: is haven't read
+        //-1: is denied
+        //1: is accepted
+        public int Status { get; set; }
 
         [ForeignKey("IDStudent")]
         public virtual Student Student { get; set; }
