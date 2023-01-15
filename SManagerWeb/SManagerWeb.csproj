@@ -98,6 +98,12 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -189,6 +195,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Public\Areas\assets\img\Trắng và Nét vẽ cọ màu xanh biển Cá nhân Biểu rưng.png" />
@@ -241,6 +248,7 @@
     <Content Include="Public\css\Home\nicepage.css" />
     <Content Include="Public\css\Organization\CreateTeacher.css" />
     <Content Include="Public\css\Organization\Regulation.css" />
+    <Content Include="Public\css\Organization\TimeTable.css" />
     <Content Include="Public\css\shared\_Card.css" />
     <Content Include="Public\js\Home\nicepage.js" />
     <Content Include="Public\js\Organization\ChangeRegulation.js" />
@@ -285,6 +293,7 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <Content Include="Public\assets\dkhp_script.docx" />
+    <Content Include="Public\assets\images\createsubject.webp" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -347,6 +356,11 @@
     <Content Include="Views\Organization\Study.cshtml" />
     <Content Include="Views\Organization\Subject.cshtml" />
     <Content Include="Views\Organization\EditStudent.cshtml" />
+    <Content Include="Views\Organization\EditTeacher.cshtml" />
+    <Content Include="Views\Organization\Timetable.cshtml" />
+    <Content Include="Views\Organization\TransferClass.cshtml" />
+    <Content Include="Views\Organization\_TransferClassPartial.cshtml" />
+    <Content Include="Views\Organization\TransferClassFormDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

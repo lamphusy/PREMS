@@ -10,6 +10,8 @@ namespace Models.ViewModel
 {
     public class TeacherViewModel
     {
+        public string IDUser { get; set; }
+        [Required]
         public string FullName { get; set; } 
 
         [DataType(DataType.Date)]

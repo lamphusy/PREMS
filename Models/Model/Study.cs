@@ -13,7 +13,7 @@ namespace Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int IDStudy { get; set; }
-        public int IndexInClass { get; set; }
+        //public int IndexInClass { get; set; }
         public string IDClass { get; set; }
         public string IDStudent { get; set; }
 

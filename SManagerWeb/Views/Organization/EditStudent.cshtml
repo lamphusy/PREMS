@@ -59,7 +59,7 @@
                             <div class="card-body">
                                 <div class="row mb-2 text-center">
                                     <div class="div-add-avatar rounded-circle m-0 p-0 position-relative m-auto">
-                                        <img src="@(Model.AvatarPath!=null? Url.Content(Model.AvatarPath):"")" 
+                                        <img src="@(Model.AvatarPath!=null? Url.Content(Model.AvatarPath):"")"
                                              id="img_avatar" class="rounded-circle m-0 p-0 opacity-0" style="width: 120px; height: 120px;">
                                         <input id="avatar" name="avatar" type="file" class="rounded-circle bg-black m-0 p-0 opacity-0" />
                                     </div>
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="col-form-label ps-0">Password</label>
-                                        <input type="text" name="password" id="Password" class="form-control"/>
+                                        <input type="text" name="password" id="Password" class="form-control" />
                                     </div>
                                 </div>
                                 <label class="generate-password mt-2"><i class="fa-solid fa-circle-question"></i> Click here to reset password</label>
@@ -130,10 +130,24 @@
 
                             </div>
                         </div>
+                        <div class="card ">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    Class
+                                </h5>
+                            </div>
+                            <div class="card-body ">
+                                @Html.TextBoxFor(x => x.Class, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(m => m.Class, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <input type="submit" class="btn btn-primary" value="Edit" />
+                @Html.ValidationSummary()
+                <div class="d-flex">
+                    <input type="submit" class="btn btn-primary me-2" value="Edit" />
+                    <a class="btn btn-dark opacity-50" href="@Url.Action("Students","Organization", new {ID = ViewBag.OrganizationID})">Back to list</a>
                 </div>
             }
         </div>

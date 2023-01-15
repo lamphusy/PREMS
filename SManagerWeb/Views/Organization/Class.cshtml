@@ -117,9 +117,10 @@
                 date : filter.value
             }
         }).done(function (res) {
-            console.log(res)
+            var json = JSON.parse(res);
+            
             content.innerHTML = "";
-            res.forEach(function (item, index) {
+            json.forEach(function (item, index) {
                 var classes = item.Classes;
                 
                 classes.forEach(function (value, i) {

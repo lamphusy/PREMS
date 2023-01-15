@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Models;
 using Models.ViewModel;
+using Newtonsoft.Json;
+using PagedList;
 using SManagerWeb.Common;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using System.Xml.XPath;
 
@@ -405,14 +408,24 @@ namespace SManagerWeb.Controllers
                     var isPaid = organization.IsPaid;
                     if (isPaid)
                     {
-                        string[] dates = date.Split('-');
-                        int preYear = int.Parse(dates[0]);
-                        int nextYear = int.Parse(dates[1]);
-
-                        var schoolYears = db.SchoolYears.Where(x => x.IDOrganization == ID && x.LastYear == preYear
-                                        && x.NextYear == nextYear).OrderByDescending(a => a.LastYear).ToList();
                         ViewBag.OrganizationID = ID;
                         List<SchoolYearViewModel> schoolYearVM = new List<SchoolYearViewModel>();
+                        List<SchoolYear> schoolYears = new List<SchoolYear>();
+                        if (String.Compare(date,"All",true) == 0)
+                        {
+                            schoolYears = db.SchoolYears.Where(x => x.IDOrganization == ID).OrderByDescending(a => a.LastYear).ToList();
+                        }
+                        else
+                        {
+                            string[] dates = date.Split('-');
+                            int preYear = int.Parse(dates[0]);
+                            int nextYear = int.Parse(dates[1]);
+
+                            schoolYears = db.SchoolYears.Where(x => x.IDOrganization == ID && x.LastYear == preYear
+                                            && x.NextYear == nextYear).OrderByDescending(a => a.LastYear).ToList();
+                        }
+
+
                         foreach (var item in schoolYears)
                         {
                             var semester = db.Semesters.Where(x => x.IDYear == item.ID).OrderBy(x => x.SemesterNum).ToList();
@@ -626,8 +639,8 @@ namespace SManagerWeb.Controllers
 
                             classListVM.Add(classVM);
                         }
-
-                        return Json(classListVM, JsonRequestBehavior.AllowGet);
+                        
+                        return Json(JsonConvert.SerializeObject(classListVM), JsonRequestBehavior.AllowGet);
                     }
                     else return Json(new { ID = ID, status = "error" });
                 }
@@ -823,6 +836,108 @@ namespace SManagerWeb.Controllers
             return View("Error");
         }
 
+        public ActionResult EditTeacher(string ID, string teacherID)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var teacher = db.Teachers.Where(x => x.IDOrganization == ID
+                        && x.ApplicationUser.UserName == teacherID).FirstOrDefault();
+                        var teacherVM = Mapper.Map<TeacherViewModel>(teacher);
+                        return View(teacherVM);
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                }
+            }
+            return View("Error");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditTeacherHandler(string ID, TeacherViewModel teacherVM, HttpPostedFileBase avatar)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        var UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+                        //handler
+                        var userByEmail = await UserManager.FindByEmailAsync(teacherVM.Email);
+                        if (userByEmail != null && userByEmail.UserName != teacherVM.Username)
+                        {
+                            ModelState.AddModelError("email", "Email has been exist.");
+                            return View("EditTeacher", teacherVM);
+                        }
+
+                        var user = UserManager.FindByName(teacherVM.Username);
+                        if (user != null)
+                        {
+                            if (teacherVM.FullName != null)
+                                user.FullName = teacherVM.FullName;
+                            if (teacherVM.Username != null)
+                                user.UserName = teacherVM.Username;
+                            if (teacherVM.Email != null)
+                            {
+                                user.Email = teacherVM.Email;
+                                user.EmailConfirmed = false;
+                            }
+                            if (teacherVM.DayOfBirth != null)
+                                user.DayOfBirth = teacherVM.DayOfBirth;
+                            if (teacherVM.PhoneNumber != null)
+                                user.PhoneNumber = teacherVM.PhoneNumber;
+                            if (teacherVM.Address != null)
+                                user.Address = teacherVM.Address;
+
+                            await UserManager.UpdateAsync(user);
+                            string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                            var result = await UserManager.ChangePasswordAsync(user.Id, token, teacherVM.Password);
+
+                            var teacher = db.Teachers.Find(user.Id);
+                            if (teacher != null)
+                            {
+                                if (avatar != null)
+                                {
+                                    teacher.AvatarPath = UploadImage.UploadOneImage(avatar, "~/Source/Teacher/", user.Id);
+                                }
+                                teacher.Gender = teacherVM.Gender;
+                                teacher.Degree = teacherVM.Degree;
+                                teacher.StartJobDate = teacherVM.StartJobDate;
+                                teacher.IDCard = teacherVM.IDCard;
+                                teacher.Specialization = teacher.Specialization;
+                            };
+
+                            await db.SaveChangesAsync();
+
+
+                            return RedirectToAction("Teachers", new { ID = ID });
+                        }
+                    }
+                }
+                else
+                {
+                    
+                }
+            }
+            return View("Error");
+        }
+
         [HttpPost]
         public async Task<ActionResult> ImportExcelToDatabaseTeacher(string ID, HttpPostedFileBase file)
         {
@@ -1000,6 +1115,11 @@ namespace SManagerWeb.Controllers
                     if (checkPaid)
                     {
                         ViewBag.OrganizationID = ID;
+                        var semesterIsNow = db.Semesters.Where(x => x.IsNow && x.SchoolYear.IDOrganization == ID).FirstOrDefault();
+                        var schoolYear = semesterIsNow.SchoolYear;
+                        ViewBag.SchoolYear = schoolYear;
+                        var classes = db.Classes.Where(x => x.SchoolYear == schoolYear).ToList();
+                        ViewBag.Classes = classes;
                         return View();
                     }
                 }
@@ -1012,7 +1132,7 @@ namespace SManagerWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateStudentHandler(string ID, StudentViewModel studentVM, HttpPostedFileBase avatar)
+        public async Task<ActionResult> CreateStudentHandler(string ID, StudentViewModel studentVM, HttpPostedFileBase avatar, string classNow)
         {
             string currentId = User.Identity.GetUserId();
             var organization = db.Organizations.Find(ID);
@@ -1067,6 +1187,15 @@ namespace SManagerWeb.Controllers
 
                         if (newUser != null)
                             await UserManager.AddToRolesAsync(newUser.Id, new string[] { "Student" });
+
+                        Study study = new Study()
+                        {
+                            IDStudent = newStudent.IDStudent,
+                            IDClass = classNow,  
+                        };
+
+                        db.Studies.Add(study);
+                        await db.SaveChangesAsync();
 
                         return RedirectToAction("Students", new { ID = ID });
                     }
@@ -1126,7 +1255,7 @@ namespace SManagerWeb.Controllers
                         if (userByEmail != null && userByEmail.UserName != studentVM.Username)
                         {
                             ModelState.AddModelError("email", "Email has been exist.");
-                            return View("EditStudentHandler", studentVM);
+                            return View("EditStudent", studentVM);
                         }
                         
                         var user = UserManager.FindByName(studentVM.Username);
@@ -1292,8 +1421,12 @@ namespace SManagerWeb.Controllers
                             study.IDClass = @class.IDClass;
                             study.ClassName = @class.Name;
 
-                            var allStudyInClass = db.Studies.Where(x => x.IDClass == @class.IDClass).ToList();
+                            var allStudyInClass = db.Studies.Where(x => x.IDClass == @class.IDClass).OrderBy(x => x.Student.ApplicationUser.FullName).ToList();
                             study.Students = Mapper.Map<List<Study>, List<StudyViewModel>>(allStudyInClass);
+                            for(int i = 1; i <= study.Students.Count; i++)
+                            {
+                                study.Students.ElementAt(i-1).IndexInClass = i;
+                            }
 
                             list.Add(study);
                         }
@@ -1341,6 +1474,263 @@ namespace SManagerWeb.Controllers
                     }
                 }
             }
+        }
+
+        public ActionResult Timetable(string ID)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var currentSemester = db.Semesters.Where(x => x.IsNow && x.SchoolYear.IDOrganization == ID).FirstOrDefault();
+                        if(currentSemester != null)
+                        {
+                            var currentYear = db.SchoolYears.Find(currentSemester.IDYear);
+                            var periodList = db.OPeriodLessons.Where(x => x.IDOrganization == ID).OrderBy(x=> x.PeriodStartTime).ToList();
+                            var classList = db.Classes.Where(x => x.IDYear == currentYear.ID).ToList();
+                            var subjects = db.Subjects.Where(x => x.IDOrganization == ID).ToList();
+                            var teachers =  db.Teachers.Where(x => x.IDOrganization == ID).ToList();
+                            var teachersVM = Mapper.Map<List<TeacherViewModel>>(teachers);
+
+                            ViewBag.SchoolYear = currentYear;
+                            ViewBag.Periods = periodList;
+                            ViewBag.Classes = classList;
+                            ViewBag.Subjects = subjects;
+                            ViewBag.Teachers = teachersVM;    
+                        }
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        
+        public ActionResult GetTeachList(string ID, string classRoom)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        var teaches = db.Teaches.Where(x => x.IDClass == classRoom).OrderBy(x=> x.Period.PeriodStartTime).ThenBy(x=> x.WeekDay).ToList();
+                        var teachListVM = Mapper.Map<List<TeachViewModel>>(teaches);
+                        return Json(JsonConvert.SerializeObject(teachListVM),JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                }
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        [HttpPost]
+        public ActionResult TeachHandler(string ID,string teacherId, int periodId, int weekday, string classID, string subjectId, int schoolYearID)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        var checkTeach = db.Teaches.Where(x => x.IDClass == classID && x.IDPeriod == periodId && x.WeekDay == weekday).FirstOrDefault();
+                        if(checkTeach != null)
+                        {
+                           
+                            checkTeach.IDTeacher = teacherId;
+                           
+                            checkTeach.IDSubject = subjectId;
+                        }
+                        else
+                        {
+                            Teach teach = new Teach()
+                            {
+                                IDClass = classID,
+                                IDTeacher = teacherId,
+                                IDPeriod = periodId,
+                                IDSchoolYear = schoolYearID,
+                                WeekDay = weekday,
+                                IDSubject = subjectId,
+                            };
+                            db.Teaches.Add(teach);
+                        } 
+                        db.SaveChanges();
+                        return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+                }
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        public ActionResult TransferClass( string ID )
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.IDOrganization = ID;
+                      
+                        return View();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+           
+        }
+
+        public ActionResult _TransferClassPartial(int? page,string ID, int filter)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.IDOrganization = ID;
+                        ViewBag.ID = ID;
+                        ViewBag.Filter = filter;
+                        int pageSize = 10;
+                        int pageIndex = 1;
+                        pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+                        List<ClassTransferringForm> forms = new List<ClassTransferringForm>();
+                        if (filter == 0)
+                        {
+                            forms = db.ClassTransferringForms.Where(x => x.IDOrganization == ID && x.Status == 0)
+                                .OrderByDescending(x => x.CreateDate).ToList();
+                        }
+                        else if (filter == 1)
+                        {
+                            forms = db.ClassTransferringForms.Where(x => x.IDOrganization == ID && x.Status == 1)
+                                .OrderByDescending(x => x.CreateDate).ToList();
+                        }
+                        else if (filter == -1)
+                        {
+                            forms = db.ClassTransferringForms.Where(x => x.IDOrganization == ID && x.Status == -1)
+                                .OrderByDescending(x => x.CreateDate).ToList();
+                        }
+                        return PartialView(forms.ToPagedList(pageIndex, pageSize));
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+            
+        }
+
+        public ActionResult TransferClassFormDetail(string ID, int IDForm)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var form = db.ClassTransferringForms.Find(IDForm);
+                        if (form != null)
+                        {
+                            return View(form);
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+         
+        }
+
+        public ActionResult TransferClassHandler(string ID, int IDForm, bool accept)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var form = db.ClassTransferringForms.Find(IDForm);
+                        if (form != null)
+                        {
+                            if (accept)
+                            {
+                                form.Status = 1;
+
+                                var study = db.Studies.Where(x => x.IDClass == form.IDOldClass && x.IDStudent == form.IDStudent).FirstOrDefault();
+                                study.IDClass = form.IDNewClass;
+
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                form.Status = -1;
+
+                                db.SaveChanges();
+                            }
+                            return RedirectToAction("TransferClass", new { ID = ID });
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
+                    }
+                }
+            }
+            return View("Error");
+           
         }
     }
 }

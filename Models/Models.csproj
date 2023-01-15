@@ -174,6 +174,22 @@
     <Compile Include="Migrations\202301050307556_Add_IndexInClass.designer.cs">
       <DependentUpon>202301050307556_Add_IndexInClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301100326233_Delete_IndexOfClass.cs" />
+    <Compile Include="Migrations\202301100326233_Delete_IndexOfClass.designer.cs">
+      <DependentUpon>202301100326233_Delete_IndexOfClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301110848436_Remove-Teach-Detail.cs" />
+    <Compile Include="Migrations\202301110848436_Remove-Teach-Detail.designer.cs">
+      <DependentUpon>202301110848436_Remove-Teach-Detail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301111806176_change-datatype.cs" />
+    <Compile Include="Migrations\202301111806176_change-datatype.designer.cs">
+      <DependentUpon>202301111806176_change-datatype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301130158219_Change_DataType_TransferClass.cs" />
+    <Compile Include="Migrations\202301130158219_Change_DataType_TransferClass.designer.cs">
+      <DependentUpon>202301130158219_Change_DataType_TransferClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -200,7 +216,6 @@
     <Compile Include="Model\Study.cs" />
     <Compile Include="Model\Subject.cs" />
     <Compile Include="Model\Teach.cs" />
-    <Compile Include="Model\TeachDetail.cs" />
     <Compile Include="Model\Teacher.cs" />
     <Compile Include="Model\TotalScoreInSemester.cs" />
     <Compile Include="Model\TotalScoreSubject.cs" />
@@ -219,6 +234,7 @@
     <Compile Include="ViewModel\StudyListViewModel.cs" />
     <Compile Include="ViewModel\StudyViewModel.cs" />
     <Compile Include="ViewModel\TeacherViewModel.cs" />
+    <Compile Include="ViewModel\TeachViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +322,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301050307556_Add_IndexInClass.resx">
       <DependentUpon>202301050307556_Add_IndexInClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301100326233_Delete_IndexOfClass.resx">
+      <DependentUpon>202301100326233_Delete_IndexOfClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301110848436_Remove-Teach-Detail.resx">
+      <DependentUpon>202301110848436_Remove-Teach-Detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301111806176_change-datatype.resx">
+      <DependentUpon>202301111806176_change-datatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301130158219_Change_DataType_TransferClass.resx">
+      <DependentUpon>202301130158219_Change_DataType_TransferClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

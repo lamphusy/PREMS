@@ -1,0 +1,61 @@
+﻿@model Models.ClassTransferringForm
+@{
+    ViewBag.Title = "TransferClassFormDetail";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Detail</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li><a href="#">Transfer class</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Detail</a></li>
+                </ul>
+            </div>
+            <div>
+
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="card card-body m-auto mb-4" style="max-width: 720px; min-height: 420px;">
+                    <div class="text-center">@Model.CreateDate.ToString("d")</div>
+                    <div class="h4 text-center">@Model.Title</div>
+                    <div class="">
+                        <div><b>From: </b>@Model.Student.ApplicationUser.FullName</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div><b>Old class: </b>@Model.OldClass.Name</div>
+                        <div><b>Transfer to class: </b>@Model.NewClass.Name</div>
+                    </div>
+                    <div class="mt-2">
+                        @Model.Description
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    @if (Model.Status == 0)
+                    {
+                        <a class="btn btn-success me-2" href="@Url.Action("TransferClassHandler","Organization",
+                            new {ID = (string)ViewBag.OrganizationID, IDForm = Model.ID, accept = true})">Accept</a>
+                        <a class="btn btn-danger" href="@Url.Action("TransferClassHandler","Organization",
+                            new {ID = (string)ViewBag.OrganizationID, IDForm = Model.ID, accept = false})">Denied</a>
+
+                        <a class="btn btn-dark" href="@Url.Action("TransferClass","Organization",
+                            new {ID = (string)ViewBag.OrganizationID})">Back</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-dark" href="@Url.Action("TransferClass","Organization",
+                            new {ID = (string)ViewBag.OrganizationID})">Back</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+</section>

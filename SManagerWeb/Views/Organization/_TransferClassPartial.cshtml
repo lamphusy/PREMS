@@ -1,0 +1,38 @@
+﻿@using PagedList.Mvc;
+@model  PagedList.IPagedList<Models.ClassTransferringForm>
+
+@foreach (var item in Model)
+{
+    <div class="card card-body form-item rounded-0 border-0 border-bottom">
+        <div class="d-flex justify-content-between">
+            <div>
+                <div><b>Title:</b> @item.Title</div>
+                <div class="d-flex">
+                    <div class="me-5"><b>From:</b> @item.Student.ApplicationUser.FullName</div>
+                    <div class="me-5"><b>Old class:</b> @item.OldClass.Name</div>
+                    <div><b>New Class:</b> @item.NewClass.Name</div>
+                </div>
+            </div>
+            <div class="d-flex">
+                @if (item.Status == 0)
+                {
+                    <a href="@Url.Action("TransferClassHandler","Organization",new {ID = (string)ViewBag.IDOrganization, IDForm = item.ID})" class="btn btn-success opacity-75 me-2" style="min-width: 60px; max-height: 50px;"><i class="fa-solid fa-check"></i></a>
+                    <a href="@Url.Action("TransferClassHandler","Organization",new {ID = (string)ViewBag.IDOrganization, IDForm = item.ID})"class="btn btn-danger opacity-75 me-2" style="min-width: 60px; max-height: 50px; "><i class="fa-solid fa-xmark"></i></a>
+                    <a href="@Url.Action("TransferClassFormDetail","Organization",new {ID = (string)ViewBag.IDOrganization, IDForm = item.ID})" class="btn btn-outline-dark" style="min-width: 60px; max-height: 50px;">Detail</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("TransferClassFormDetail","Organization",new {ID = (string)ViewBag.IDOrganization, IDForm = item.ID})" class="btn btn-outline-dark" style="min-width: 60px; max-height: 50px;">Detail</a>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div id="container" style="margin-left: 20px">
+    <p></p>
+    <p></p>
+    <div class="pagination">
+       @Html.PagedListPager(Model, page => Url.Action("_TransferClassPartial", new { page, ID = ViewBag.ID, filter = ViewBag.Filter }))
+    </div>
+</div>

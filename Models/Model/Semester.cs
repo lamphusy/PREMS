@@ -1,4 +1,4 @@
-﻿using Models.Model;
+﻿using Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,8 +23,8 @@ namespace Models
         public bool IsNow { get; set; }
         public int IDYear { get; set; }
 
-        [ForeignKey("IDYear")]
         [JsonIgnore]
+        [ForeignKey("IDYear")]
         public SchoolYear SchoolYear { get; set; }
     }
 }

@@ -1,8 +1,9 @@
 ﻿@model Models.ViewModel.TeacherViewModel
 @{
-    ViewBag.Title = "CreateTeacher";
+    ViewBag.Title = "EditTeacher";
     Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
 }
+
 <link href="~/Public/css/shared/_Card.css" rel="stylesheet" />
 <link href="~/Public/css/Organization/CreateTeacher.css" rel="stylesheet" />
 <style>
@@ -37,12 +38,8 @@
                 </ul>
             </div>
         </div>
-        <div class="fst-italic d-flex">
-            <div class="me-5 mb-2">Create by: @Model.CreateBy</div>
-            <div>Create date: @Model.CreateDate</div>
-        </div>
         <div class="content">
-            @using (Html.BeginForm("CreateTeacherHandler", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("EditTeacherHandler", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="ID" value="@ViewBag.OrganizationID" />
@@ -57,7 +54,8 @@
                             <div class="card-body">
                                 <div class="row mb-2 text-center">
                                     <div class="div-add-avatar rounded-circle m-0 p-0 position-relative m-auto">
-                                        <img id="img_avatar" class="rounded-circle m-0 p-0 opacity-0" style="width: 120px; height: 120px;">
+                                        <img id="img_avatar" src="@(Model.AvatarPath!=null? Url.Content(Model.AvatarPath):"")"
+                                             class="rounded-circle m-0 p-0 opacity-0" style="width: 120px; height: 120px;">
                                         <input id="avatar" name="avatar" type="file" class="rounded-circle bg-black m-0 p-0 opacity-0" />
                                     </div>
                                 </div>
@@ -94,16 +92,15 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <label class="col-form-label ps-0">Username</label>
-                                        @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })
+                                        @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @readonly = "readoly" })
                                         @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="col-form-label ps-0">Password</label>
-                                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        <input type="text" name="password" id="Password" class="form-control" />
                                     </div>
                                 </div>
-                                <label class="generate-password mt-2"><i class="fa-solid fa-circle-question"></i> Click here to auto generate password</label>
+                                <label class="generate-password mt-2"><i class="fa-solid fa-circle-question"></i> Click here to reset password</label>
                             </div>
                         </div>
                         <div class="card">
@@ -158,7 +155,6 @@
                 </div>
                 @Html.ValidationSummary()
                 <div class="d-flex">
-
                     <input type="submit" class="btn btn-primary me-2" value="Create" />
                     <a class="btn btn-dark opacity-50" href="@Url.Action("Teachers","Organization", new {ID = ViewBag.OrganizationID})">Back to list</a>
                 </div>

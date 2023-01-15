@@ -47,6 +47,7 @@
                 </div>
                 <div class="">
                     <select id="filter" class="form-select d-inline" style="max-width: 159px; min-width: 100px;">
+                        <option>All</option>
                         @foreach (var item in Model)
                         {
                             if (flag)
@@ -75,11 +76,11 @@
                         <tbody class="table-content">
                             @foreach (var item in Model)
                             {
-                                if (item.SchoolYear.LastYear == lastYear && item.SchoolYear.NextYear == nextYear)
+                                foreach (var i in item.Semesters)
                                 {
-                                    foreach (var i in item.Semesters)
+                                    if (i.IsNow)
                                     {
-                                        <tr>
+                                        <tr class="bg-info">
                                             <td>@i.SemesterNum</td>
                                             <td>@item.SchoolYear.LastYear-@item.SchoolYear.NextYear</td>
                                             <td>
@@ -87,18 +88,29 @@
                                                 <form action="/Organization/DeleteSemester" method="post">
                                                     <input type="hidden" name="OrganizationID" value="@item.SchoolYear.IDOrganization" />
                                                     <input type="hidden" name="SemesterID" value="@i.IdSemester" />
-                                                    <button type="submit" class="btn btn-danger bg-opacity-50">
-                                                        <i class="fa-sharp fa-solid fa-trash"></i>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr class="">
+                                            <td>@i.SemesterNum</td>
+                                            <td>@item.SchoolYear.LastYear-@item.SchoolYear.NextYear</td>
+                                            <td>
+                                                <input type="hidden" name="name" value="value" />
+                                                <form action="/Organization/DeleteSemester" method="post">
+                                                    <input type="hidden" name="OrganizationID" value="@item.SchoolYear.IDOrganization" />
+                                                    <input type="hidden" name="SemesterID" value="@i.IdSemester" />
+                                                    <button type="submit" class="btn btn-info bg-opacity-50">
+                                                        @*<i class="fa-sharp fa-solid fa-trash"></i>*@
+                                                        Select to current semester
                                                     </button>
                                                 </form>
                                             </td>
                                         </tr>
                                     }
 
-                                }
-                                else
-                                {
-                                    break;
                                 }
                             }
                         </tbody>
@@ -135,7 +147,20 @@
                 semesters.forEach(function (value, i) {
                     var lastYear = item.SchoolYear.LastYear;
                     var nextYear = item.SchoolYear.NextYear;
-                    content.innerHTML += `\n<tr>
+                    if (value.IsNow == true) {
+                        content.innerHTML += `<tr class="bg-info">
+                                            <td>${value.SemesterNum}</td>
+                                            <td>${lastYear}-${nextYear}</td>
+                                            <td>
+                                                <input type="hidden" name="name" value="value" />
+                                                <form action="/Organization/DeleteSemester" method="post">
+                                                    <input type="hidden" name="OrganizationID" value="${item.SchoolYear.IDOrganization}" />
+                                                    <input type="hidden" name="SemesterID" value="${value.IdSemester}" />
+                                                </form>
+                                            </td>
+                                        </tr>`
+                    } else {
+                        content.innerHTML += `\n<tr>
                         <tr>
                             <td>${value.SemesterNum}</td>
                             <td>${lastYear}-${nextYear}</td>
@@ -144,12 +169,14 @@
                                 <form action="/Organization/DeleteSemester" method="post">
                                     <input type="hidden" name="OrganizationID" value="${item.SchoolYear.IDOrganization}" />
                                     <input type="hidden" name="SemesterID" value="${value.IdSemester}"/>
-                                    <button type="submit" class="btn btn-danger bg-opacity-50"><i class="fa-sharp fa-solid fa-trash"></i></button>
+                                    <button type="submit" class="btn btn-info bg-opacity-50">Select to current semester</button>
                                 </form>
                             </td>
                         </tr>`;
+                    }
+
                 })
-               
+
             })
         })
     }
