@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -22,16 +23,23 @@ namespace Models
         public int IDSemester { get; set; }
         [Required]
 
-        public string IDScoreType { get; set; }
+        public int IDScoreType { get; set; }
         [DefaultValue(0)]
         public float Score { get; set; }
 
         [ForeignKey("IDStudent")]
+        [JsonIgnore]
         virtual public Student Student { get; set; }
         [ForeignKey("IDSubject")]
+        [JsonIgnore]
         virtual public Subject Subject { get; set; }
         [ForeignKey("IDSemester")]
+        [JsonIgnore]
         virtual public Semester Semester { get; set; }
+        [ForeignKey("IDScoreType")]
+        [JsonIgnore]
+        public TypeScore TypeScore { get; set; }
+
 
     }
 }

@@ -11,8 +11,9 @@ namespace Models
     [Table("ScoreType")]
     public class TypeScore
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public string IDScoreType { get; set; }
+        public int IDScoreType { get; set; }
         [Required]
         public string NameScore { get; set; }
         [Required]

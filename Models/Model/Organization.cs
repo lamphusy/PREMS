@@ -32,7 +32,7 @@ namespace Models
         public string PhoneNumber { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime? CreateDate { get; set; }
+        public DateTime CreateDate { get; set; }
 
         public string CreateBy { get; set; }
 

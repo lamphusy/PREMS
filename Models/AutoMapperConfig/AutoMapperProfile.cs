@@ -55,7 +55,8 @@ namespace Models.AutoMapperConfig
 
             CreateMap<Teach, TeachViewModel>()
                 .ForMember(x => x.SubjectName, src => src.MapFrom(a => a.Subject.SubjectName))
-                .ForMember(x => x.TeacherName, src => src.MapFrom(a => a.Teacher.ApplicationUser.FullName));
+                .ForMember(x => x.TeacherName, src => src.MapFrom(a => a.Teacher.ApplicationUser.FullName))
+                .ForMember(x => x.ClassName, src => src.MapFrom(a => a.Class.Name));
 
         }
     }

@@ -1,47 +1,90 @@
 ﻿@model Models.ViewModel.LoginViewModel
 @{
     ViewBag.Title = "Login";
-    
+    Layout = null;
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="~/Public/css/Account/Login.css" rel="stylesheet" />
 
 }
+<style>
+    input[type=text], input[type=password] {
+        border-radius: 28px;
+        padding: 6px;
+        padding-left: 12px;
+        background-color: lightgrey;
+        border: none;
+        outline: none;
+        font-size: 0.9em;
+    }
+    .btn-submit {
+        color: white;
+        background-color: #0C5FCD;
+        width: 100%;
+        padding: 6px;
+        font-size: 0.9em;
+        border: none;
+        border-radius: 28px;
+        transition: 0.2s;
+    }
+    .btn-register {
+        font-size: 0.9em;
+        border-radius: 28px;
+        color: gray;
+    }
+    .btn-submit:hover {
+        background-color: dimgray;
+    }
+  /*  .btn-register:hover {
+        background-color: #0C5FCD;
+    }*/
+</style>
+<div class="d-flex justify-content-center align-items-center w-100 h-100" id="login-form">
+    @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <h2 class="text-start fw-bold">Sign In</h2>
+        @*@Html.ValidationSummary(false, "", new { @class = "error" })*@
+        <div class="mb-3 fw-bolder">
+            <div class="mb-1">Username</div>
+            @Html.TextBoxFor(model => model.UserName)<br/>
+            @Html.ValidationMessageFor(model => model.UserName,"", new {@class= "text-danger fw-light" })
+        </div>
+        <div class="mb-4 fw-bold">
+            <div class="mb-1">Password</div>
+            @Html.PasswordFor(model => model.Password)<br/>
+            @Html.ValidationMessageFor(model => model.UserName,"", new { @class = "text-danger fw-light" })
+        </div>
 
-    <div class="d-flex justify-content-center align-items-center w-100 h-100" id="login-form">
-        @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <h2 class="text-center fw-bold">Login</h2>
-            @Html.ValidationSummary(false, "", new { @class = "error" })
-            <div class="mb-2 fw-bolder">
-                <div>Username</div>
-                @Html.TextBoxFor(model => model.UserName)
-            </div>
-            <div class="mb-2 fw-bold">
-                <div>Password</div>
-                @Html.PasswordFor(model => model.Password)
-            </div>
-            <div>
-                <div class="fw-bold">Sign in with role</div>
-                <select name="role" id="role">
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                    <option value="Teacher">Teacher</option>
-                    <option value="Student">Student</option>
-                </select>
-                <a class="forgot float-end text-decoration-none" href="#">Forgot Your Password?</a>
-            </div>
-            <hr/>
-            
-            <div class="text-center">
-                <input type="submit" value="Sign in" class="btn btn-outline-dark rounded-0">
-            </div>
+        <div class="text-center mb-3">
+            <input type="submit" value="Sign in" class="btn-submit ">
+        </div>
+        <div class="d-flex justify-content-center">
            
+            <select name="role" class="border-0 me-3 text-opacity-75" id="role">
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Student">Student</option>
+            </select>
+            <div>|</div>
+            <a class="forgot float-end text-decoration-none text-opacity-75 ms-3" href="#">Forgot Your Password?</a>
+        </div>
+        <div class="d-flex mt-4">
+            <div class="w-100 border-bottom mb-2 me-2"></div>
+            OR
+            <div class="w-100 border-bottom mb-2 ms-2"></div>
+        </div>
+        <div class="mt-4">
+            <a class="btn w-100 btn-register btn-outline-dark" href="@Url.Action("Register","Account")">CREATE ACCOUNT</a>
+        </div>
 
-        }
 
-    </div>
+
+    }
+
+</div>
 
 

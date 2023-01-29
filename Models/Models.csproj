@@ -190,6 +190,22 @@
     <Compile Include="Migrations\202301130158219_Change_DataType_TransferClass.designer.cs">
       <DependentUpon>202301130158219_Change_DataType_TransferClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301181734167_AbsenteeForm.cs" />
+    <Compile Include="Migrations\202301181734167_AbsenteeForm.designer.cs">
+      <DependentUpon>202301181734167_AbsenteeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301220329568_type-score-id-change-datatype.cs" />
+    <Compile Include="Migrations\202301220329568_type-score-id-change-datatype.designer.cs">
+      <DependentUpon>202301220329568_type-score-id-change-datatype.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301231535555_UpdateSomething.cs" />
+    <Compile Include="Migrations\202301231535555_UpdateSomething.designer.cs">
+      <DependentUpon>202301231535555_UpdateSomething.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301281750364_Update-Statistic.cs" />
+    <Compile Include="Migrations\202301281750364_Update-Statistic.designer.cs">
+      <DependentUpon>202301281750364_Update-Statistic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\AbsenteeForm.cs" />
     <Compile Include="Model\Admin.cs" />
@@ -229,6 +245,9 @@
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="ViewModel\RegulationViewModel.cs" />
     <Compile Include="ViewModel\SchoolYearViewModel.cs" />
+    <Compile Include="ViewModel\ScoreStudentViewModel.cs" />
+    <Compile Include="ViewModel\ScoreTeacherViewModel.cs" />
+    <Compile Include="ViewModel\ScoreViewModel.cs" />
     <Compile Include="ViewModel\SemesterViewModel.cs" />
     <Compile Include="ViewModel\StudentViewModel.cs" />
     <Compile Include="ViewModel\StudyListViewModel.cs" />
@@ -334,6 +353,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301130158219_Change_DataType_TransferClass.resx">
       <DependentUpon>202301130158219_Change_DataType_TransferClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301181734167_AbsenteeForm.resx">
+      <DependentUpon>202301181734167_AbsenteeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301220329568_type-score-id-change-datatype.resx">
+      <DependentUpon>202301220329568_type-score-id-change-datatype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301231535555_UpdateSomething.resx">
+      <DependentUpon>202301231535555_UpdateSomething.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301281750364_Update-Statistic.resx">
+      <DependentUpon>202301281750364_Update-Statistic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

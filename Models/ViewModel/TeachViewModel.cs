@@ -13,9 +13,11 @@ namespace Models.ViewModel
 
         public string TeacherName { get; set; }
 
-        public string WeekDay { get; set; }
+        public int WeekDay { get; set; }
 
         public string SubjectName { get; set; }
+
+        public string ClassName { get; set; }
    
         //-----------//
         public string IDClass { get; set; }

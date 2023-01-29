@@ -1,0 +1,285 @@
+﻿
+@{
+    ViewBag.Title = "Score";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/css/Organization/TimeTable.css" rel="stylesheet" type="text/css" />
+
+
+    var Semesters = (List<Models.Semester>)ViewBag.Semesters;
+    var Subjects = (List<Models.Subject>)ViewBag.Subjects;
+    var numberOfSubject = Subjects.Count;
+    var typeScore = (List<Models.TypeScore>)ViewBag.TypeScore;
+
+}
+<style>
+    tr > td {
+        cursor: pointer;
+    }
+</style>
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Score</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li><a href="#">Students</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Score</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="@Url.Action("RulesOfScore","Organization",new { ID = ViewBag.OrganizationID})" class="btn btn-outline-dark rounded-0">
+                    Rules of score
+                </a>
+            </div>
+        </div>
+        @if (typeScore != null)
+        {
+            <div class="content">
+                <div class="d-flex ms-auto me-0 mb-2" style="max-width: 600px;">
+                    <select class="form-select me-2 " id="select-semester" onchange="ChangeClassFunc()">
+                        <option value="none" selected disabled>-- Select semester --</option>
+                        @foreach (var semester in Semesters)
+                        {
+                            <option value="@semester.IdSemester" data-year="@semester.IDYear">Semester: @semester.SemesterNum (@semester.SchoolYear.LastYear - @semester.SchoolYear.NextYear)</option>
+                        }
+                    </select>
+                    <select class="form-select  me-2" id="select-class" onchange="RenderStudentFunc()">
+                        <option value="none" selected disabled>-- Select class --</option>
+                    </select>
+                </div>
+                <div>
+                    <table id="table" class="table table-bordered sortable table-light p-2" style="width:100%">
+                        <thead>
+                            <tr class="subject">
+                                <th width="350px">
+                                    Full Name
+                                </th>
+                                @foreach (var item in Subjects)
+                                {
+                                    <th data-id="@item.IDSubject">@item.SubjectName</th>
+                                }
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h5>Please go to <b>Rules of score</b> to set score types.</h5>
+
+        }
+    </main>
+    <div class="add-form-container">
+        <div class="card card-body p-5 add-form">
+            @using (Html.BeginForm("ChangeScoreList", "Organization", FormMethod.Post , new { @class = "form-change" }))
+            {
+                <div class="h5 form-detail">
+                    Scores of <i>Chính</i> at <b>Math</b>
+                </div>
+                <div>
+                    <input hidden type="text" name="ID" value="@ViewBag.OrganizationID" />
+                    <input hidden type="text" name="IDStudent" class="IDStudent" />
+                    <input hidden type="text" name="IDSemester" class="IDSemester" />
+                    <input hidden type="text" name="IDSubject" class="IDSubject" />
+                    @foreach (var item in typeScore)
+                    {
+                        <div>
+                            <div class="fw-bold">@item.NameScore</div>
+                            <div>
+                                <input type="number" class="form-control type_@item.IDScoreType" step="0.1" min="0" max="10" name="type_@item.IDScoreType" />
+                            </div>
+                        </div>
+                    }
+                    @if(ViewBag.Error == 1)
+                    {
+                        <p class="text-danger">Your input score isn't valid.</p>
+                    }
+                    <div class="d-flex mt-4">
+                        <button type="submit" class="btn btn-outline-success me-2 form-submit" >Save Changes</button>
+                        <a class="btn btn-outline-dark form-back" onclick="FormBack()">Back</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+<script>
+    var classes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Classes));
+    var numberOfSubject = @Html.Raw(numberOfSubject);
+    var Subjects = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Subjects));
+    var TypeScores = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(typeScore));
+
+    const SelectClass = document.getElementById("select-class");
+    const SelectSemester = document.getElementById("select-semester");
+    const TableBody = document.getElementById("table-body");
+
+
+    function ChangeClassFunc() {
+        SelectClass.innerHTML = `<option value="none" selected disabled>-- Select class --</option>`;
+        TableBody.innerHTML = "";
+
+        classes.forEach(function (value, index, arr) {
+
+            if (value.IDYear == SelectSemester.options[SelectSemester.selectedIndex].getAttribute("data-year")) {
+                let option = document.createElement('option');
+                option.innerHTML = value.Name;
+                option.setAttribute("value", value.IDClass);
+                SelectClass.appendChild(option);
+            }
+
+        });
+    }
+
+    function RenderStudentFunc() {
+        TableBody.innerHTML = "";
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetScoreList")",
+            data: { ID: `@ViewBag.OrganizationID`, IDClass: SelectClass.value, IDSemester: SelectSemester.value },
+            success: function (res) {
+                var data = JSON.parse(res);
+                data.forEach(function(value, index){
+                    var tr = document.createElement("tr");
+                    var nodeSubjects = document.getElementsByClassName(`subject`)[0].children;
+                    var average = 0;
+                    for (let i = 0; i < numberOfSubject + 2; i++) {
+                      
+                        if (i == 0) {
+                            var td = document.createElement("td");
+                            td.innerHTML = value.StudentName;
+                            tr.appendChild(td);
+                        } else if (i == numberOfSubject + 1) {
+                            var td = document.createElement("td");
+                            if (numberOfSubject > 0) {
+                                td.innerHTML = average / numberOfSubject;
+                            }
+                            tr.appendChild(td);
+                        } else {
+                            var td = document.createElement("td");
+                            td.setAttribute("data-student", `${value.StudentID}`)
+                            td.setAttribute("data-student-name", `${value.StudentName}`)
+                            td.setAttribute("data-subject", `${Subjects[i - 1].IDSubject}`)
+                            td.setAttribute("data-subject-name", `${Subjects[i - 1].SubjectName}`)
+                            td.setAttribute("onclick", "FormOpen(this)")
+
+                            if (value.Scores != null) {
+                                if (value.Subjects[0] == nodeSubjects[i].getAttribute("data-id")) {
+                                    td.innerHTML = value.Scores[0];
+                                    average += value.Scores[0];
+                                    console.log(average);
+                                    value.Subjects.shift();
+                                    value.Scores.shift();
+                                    
+                                }
+                            }
+                            tr.appendChild(td);
+                        }
+                    }
+                    TableBody.appendChild(tr);
+                })
+            },
+            error: function (res) {
+                console.log("error");
+            }
+        })
+    }
+
+    function FormBack() {
+        $('.add-form-container').css("display", "none");
+        $(".IDStudent").val("");
+        $(".IDSemester").val("");
+        $(".IDSubject").val("");
+        $(".IDClass").val("");
+        return false;
+    }
+
+    function FormOpen(target, event) {
+        //display
+        var studentName = target.getAttribute("data-student-name");
+        var subjectName = target.getAttribute("data-subject-name");
+        $(".form-detail").html(`Scores of <i>${studentName}</i> at <b>${subjectName}</b>`)
+
+        //data
+        var studentID = target.getAttribute("data-student");
+        var subjectID = target.getAttribute("data-subject");
+        var semesterID = $("#select-semester").val();
+
+        $(".IDStudent").val(studentID);
+        $(".IDSemester").val(semesterID);
+        $(".IDSubject").val(subjectID);
+
+
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetScoreListStudent", "Organization")',
+            data: { ID: `@ViewBag.OrganizationID`, IDStudent: studentID, IDSemester: semesterID, IDSubject: subjectID},
+            success: function (res, textStatus, xhr) {
+                if (xhr.status == 200) {
+                    var data = JSON.parse(res);
+                    TypeScores.forEach((value, index) => {
+                        if (data[index] != null)
+                            $(`.type_${value.IDScoreType}`).val(data[index].Score);
+                        else
+                            $(`.type_${value.IDScoreType}`).val("");
+                    })
+                }
+                else {
+                    console.log("error");
+                }
+
+            },
+            error: function (res) {
+                console.log(res)
+               
+            }
+        })
+
+
+        $('.add-form-container').css("display", "block");
+       
+        return false;
+    }
+    $(".form-change").on("submit",function(e) {
+        //var studentID = $(".student-id").val();
+        //var subjectID = $(".subject-id").val();
+        //var semesterID = $("#select-semester").val();
+        var dataString = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ChangeScoreList", "Organization")',
+            data: dataString,
+
+            success: function (res, textStatus, xhr) {
+                if (xhr.status == 200) {
+                    console.log("OK")
+                    $('.add-form-container').css("display", "none");
+                    RenderStudentFunc();
+                }
+                else {
+                    console.log("Not ok")
+
+                }
+
+            },
+            error: function (res) {
+                console.log(res)
+                console.log("Error");
+            }
+        })
+
+       
+        e.preventDefault();
+    })
+</script>

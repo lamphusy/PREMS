@@ -38,8 +38,7 @@
             </div>
         </div>
         <div class="fst-italic d-flex">
-            <div class="me-5 mb-2">Create by: @Model.CreateBy</div>
-            <div>Create date: @Model.CreateDate</div>
+          
         </div>
         <div class="content">
             @using (Html.BeginForm("CreateTeacherHandler", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))

@@ -109,7 +109,7 @@ namespace SManagerWeb.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Invalid username or password.");
+                        ModelState.AddModelError("", "Wrong role.");
                     }
 
                 }

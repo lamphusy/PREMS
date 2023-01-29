@@ -23,7 +23,11 @@ namespace Models
         [DefaultValue(0)]
         public int NumOfRegister { get; set; }
         [DefaultValue(0)]
-        public int NumOfOrganinze { get; set; }
+        public int NumOfOrganization { get; set; }
+        [DefaultValue(0)]
+        public int NumOfStudent { get; set; }
+        [DefaultValue(0)]
+        public int NumOfTeacher { get; set; }
 
 
     }

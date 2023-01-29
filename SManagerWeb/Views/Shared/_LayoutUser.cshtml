@@ -24,40 +24,39 @@
 
 <div id="body">
     <section id="sidebar">
-        <a href="#" class="brand">
-
-            <img class="imglogo" src="~/Public/Areas/assets/img/Trắng và Nét vẽ cọ màu xanh biển Cá nhân Biểu rưng.png">
-            User menu
-        </a>
+        <div href="#" class="brand" style="color: #173143; padding: 0px 12px; ">
+            <img class="me-4" style="width: 42px;" src="~/Public/assets/images/Mask group.png">
+            USER
+        </div>
         <ul class="side-menu">
             @*<li><a href="@Url.Action("Index","Dashboard")" class="active"><i class="fa-solid fa-face-smile icon"></i>Profile</a></li>*@
             <li>@Html.MenuLink("<i class=\"fa-solid fa-face-smile icon\"></i>Profile", "Index", "Dashboard")</li>
             @*<li class="divider">Main</li>*@
             @*<li>
-                    <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
-                    <ul class="side-dropdown">
-                        <li><a href="#">Students </a></li>
-                        <li><a href="#">Teachers  </a></li>
-                        <li><a href="#">Employees </a></li>
-                        <li><a href="#">Earnings </a></li>
+                <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+                <ul class="side-dropdown">
+                    <li><a href="#">Students </a></li>
+                    <li><a href="#">Teachers  </a></li>
+                    <li><a href="#">Employees </a></li>
+                    <li><a href="#">Earnings </a></li>
 
-                    </ul>
-                </li>*@
+                </ul>
+            </li>*@
             @*<li><a href="@Url.Action("Organizations","Dashboard")"><i class="fa-solid fa-chart-simple icon"></i>Organizations</a></li>*@
             <li>@Html.MenuLink("<i class=\"fa-solid fa-school icon\"></i>Organizations", "Organizations", "Dashboard")</li>
             @*<li><a href="#"><i class="fa-solid fa-bridge-water icon"></i></i>Widgets</a></li>
-                <li class="divider">Table and forms</li>
-                <li><a href="#"><i class="fa-solid fa-table icon"></i>Table</a></li>
-                <li>
-                    <a href="#"><i class="fa-solid fa-inbox icon"></i>Forms <i class="fa-solid fa-chevron-right icon-right"></i> </a>
-                    <ul class="side-dropdown">
-                        <li><a href="#">Basic </a></li>
-                        <li><a href="#">Select  </a></li>
-                        <li><a href="#">Checkbox </a></li>
-                        <li><a href="#">Radio </a></li>
+            <li class="divider">Table and forms</li>
+            <li><a href="#"><i class="fa-solid fa-table icon"></i>Table</a></li>
+            <li>
+                <a href="#"><i class="fa-solid fa-inbox icon"></i>Forms <i class="fa-solid fa-chevron-right icon-right"></i> </a>
+                <ul class="side-dropdown">
+                    <li><a href="#">Basic </a></li>
+                    <li><a href="#">Select  </a></li>
+                    <li><a href="#">Checkbox </a></li>
+                    <li><a href="#">Radio </a></li>
 
-                    </ul>
-                </li>*@
+                </ul>
+            </li>*@
 
         </ul>
 
@@ -65,22 +64,10 @@
     <section id="content">
         <nav>
             <i class="fa-sharp fa-solid fa-bars toggle-sidebar"></i>
-            <form action="#">
-                <div class="form-group">
-                    <input type="text" placeholder="Search...">
-                    <i class="fa-solid fa-magnifying-glass icon"></i>
-                </div>
-            </form>
-            <a href="#" class="nav-link">
-                <i class="fa-solid fa-bell icon"></i>
-                <span class="badge">5</span>
-            </a>
-            <a href="#" class="nav-link">
-                <i class="fa-solid fa-message icon"></i>
-                <span class="badge">8</span>
-            </a>
-            <span class="divider"></span>
-            <div class="profile">
+           
+            
+           
+            <div class="profile d-none">
                 <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60" alt="">
                 <ul class="profile-link">
                     <li><a href="@Url.Action("Index","Dashboard")"><i class="fa-solid fa-user icon"></i>Profile</a></li>

@@ -182,7 +182,7 @@
             url: `@Url.Action("GetTeachList", "Organization")`,
             data: { ID: `@ViewBag.OrganizationID`, classRoom : classroom },
             success: function (res) {
-                console.log(periods)
+                console.log(res)
                 $('.timetable-content').html("");
                 var contentRes = "";
                 var content = JSON.parse(res);

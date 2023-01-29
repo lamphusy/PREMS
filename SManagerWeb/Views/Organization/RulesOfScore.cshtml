@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Models.TypeScore>
+@{
+    ViewBag.Title = "RulesOfScore";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+    <link href="~/Public/css/Organization/Regulation.css" rel="stylesheet" />
+
+}
+
+
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Type of score</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li><a href="#">Students</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Type of score</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="fst-italic">
+                The sum of the percentages is 100
+            </div>
+            <div>
+                @using (Html.BeginForm("ChangeRulesOfScore", "Organization", FormMethod.Post,
+                            new { enctype = "multipart/form-data"}))
+                {
+                    @Html.AntiForgeryToken()
+                  <input name="ID" value="@ViewBag.OrganizationID" hidden/>
+                <div class="card p-4 mb-3">
+                    <div>
+                        <div class="card-body form-group p-0 ms-4">
+                            <div class="">
+                                <table class="table-responsive table" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Score name</th>
+                                            <th>Percent</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            var typeScore = Model.ElementAt(i);
+                                            <tr>
+                                                <th><input type="text" placeholder="Enter name" class="m-auto" name="name_@typeScore.IDScoreType" value="@typeScore.NameScore" required /></th>
+                                                <th><input type="text" placeholder="Percent: 10%..." class="m-auto" name="percent_@typeScore.IDScoreType" value="@typeScore.PercentScore" required /></th>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-end">
+                            <div class="btn text-white me-3" role="button"
+                                 style="min-width: 100px; background-color: #f96b36;" onclick="add()">ADD</div>
+                            <div class="btn text-white" role="button"
+                                 style="min-width: 100px; background-color: #f96b36;" onclick="del()">REMOVE</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <button type="submit"class="btn btn-warning">Save changes</button>
+                </div>
+                }
+            </div>
+        </div>
+    </main>
+</section>
+<script>
+    const count = @Html.Raw(ViewBag.Count);
+    console.log(count);
+    function del() {
+        let table = document.getElementById(`myTable`);
+
+        console.log(table.rows.length)
+        if (table.rows.length > count + 1) {
+            table.deleteRow(table.rows.length - 1);
+        }
+
+    }
+
+    function add() {
+        let table = document.getElementById(`myTable`);
+
+        var length = table.rows.length;
+        var row = table.insertRow(length);
+
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+
+        cell1.innerHTML = `<input type="text" placeholder="Enter name" class="m-auto" name="name_new_${length - count - 1}" required/>`;
+        cell2.innerHTML = `<input type="text" placeholder="Percent: 10%..." class="m-auto" name="percent_new_${length - count -1}" required/>`;
+
+    }
+
+
+
+</script>

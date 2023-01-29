@@ -26,7 +26,7 @@ namespace Models
         [ForeignKey("IDSubject")]
         public virtual Subject Subject { get; set; }
         [ForeignKey("IDYear")]
-        public virtual SchoolYear Semester { get; set; }
+        public virtual SchoolYear SchoolYear { get; set; }
 
     }
 }

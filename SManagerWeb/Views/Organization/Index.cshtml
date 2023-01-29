@@ -7,59 +7,105 @@
 <section id="content">
     @Html.Partial("_ProfileBar")
     <main>
-        <h1 class="title">Dashboard</h1>
-        <ul class="breadcrumbs">
-            <li><a href="#">Organization</a></li>
-            <li class="divider"></li>
-            <li><a href="#" class="active">Dashboard</a></li>
-        </ul>
+
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Information</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Information</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="@Url.Action("EditInformation","Organization",new {ID = Model.IdOrganization})"
+                   class="btn text-white" style="background-color: #f96b36;min-width: 120px;">Edit information</a>
+            </div>
+        </div>
         <div class="info-data">
             <div class="card">
                 <div class="head">
                     <div>
-                        <h2>1500</h2>
+                        <h2>@ViewBag.AllStudent</h2>
                         <p>Student</p>
                     </div>
                     <i class="fa-solid fa-graduation-cap icon"></i>
                 </div>
-                <span class="progress" data-value="50%"></span>
-                <span class="label">50%</span>
+                @*<span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>*@
             </div>
             <div class="card">
                 <div class="head">
                     <div>
-                        <h2>1500</h2>
+                        <h2>@ViewBag.AllTeacher</h2>
                         <p>Teacher</p>
                     </div>
                     <i class="fa-solid fa-chalkboard-user icon"></i>
                 </div>
-                <span class="progress" data-value="50%"></span>
-                <span class="label">50%</span>
+                @*<span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>*@
             </div>
             <div class="card">
                 <div class="head">
                     <div>
-                        <h2>1500</h2>
+                        <h2>@ViewBag.AllClass</h2>
                         <p>Class</p>
                     </div>
                     <i class="fa-solid fa-house icon"></i>
                 </div>
-                <span class="progress" data-value="50%"></span>
-                <span class="label">50%</span>
+                @*<span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>*@
             </div>
             <div class="card">
                 <div class="head">
                     <div>
-                        <h2>1500</h2>
-                        <p>Employees</p>
+                        <h2>@ViewBag.Long</h2>
+                        <p>Day</p>
                     </div>
                     <i class="fa-solid fa-people-line icon"></i>
                 </div>
-                <span class="progress" data-value="80%"></span>
-                <span class="label">50%</span>
+                @*<span class="progress" data-value="80%"></span>
+                <span class="label">50%</span>*@
             </div>
         </div>
+        <div class="">
+            <div class="card w-100 m-auto border-0 shadow-sm rounded-3 p-lg-5 p-sm-2 p-1 mt-4">
+                <div class="card-header text-center bg-white">
+                    <h3 class="card-title fw-bold ">@Model.Name</h3>
+                    <div class="d-sm-flex justify-content-between">
+                        <div>
+                            <p>Email: @Model.Email</p>
+                            <hr />
+                            <p>
+                                Phone: @Model.PhoneNumber
+                            </p>
 
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <img src="@Url.Content(Model.LogoPath)" width="130" height="130" alt="Logo" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <p>
+                        @if (Model.Information != null)
+                        {
+                            @Html.Raw(SManagerWeb.Common.StringEncodeHelper.Base64Decode(Model.Information))
+                        }
+
+                    </p>
+                </div>
+                <div class="card-footer bg-white">
+                    <h5>Links: </h5>
+                    Facebook: <a href="@Model.FacebookLink">@Model.FacebookLink</a>
+                    <br />
+                    Instagram: <a href="@Model.InstagramLink">@Model.InstagramLink</a>
+                    <br />
+                    Linkedin: <a href="@Model.LinkedinLink">@Model.LinkedinLink</a>
+                </div>
+            </div>
+        </div>
     </main>
 </section>
         

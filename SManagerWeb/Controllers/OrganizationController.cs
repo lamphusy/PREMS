@@ -10,9 +10,11 @@ using PagedList;
 using SManagerWeb.Common;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -41,6 +43,30 @@ namespace SManagerWeb.Controllers
                     if (isPaid)
                     {
                         OrganizationViewModel viewModel = AutoMapper.Mapper.Map<OrganizationViewModel>(organization);
+
+                        var students = db.Students.Where(x=> x.IDOrganization == ID).ToList();
+                        ViewBag.AllStudent = students.Count;
+
+                        var teachers = db.Teachers.Where(x => x.IDOrganization == ID).ToList();
+                        ViewBag.AllTeacher = teachers.Count;
+
+                        var currentSemester = db.Semesters.Where(x => x.SchoolYear.IDOrganization == ID && x.IsNow == true).Include("SchoolYear").FirstOrDefault();
+                        if(currentSemester != null)
+                        {
+                            var classes = db.Classes.Where(x => x.IDOrganization == ID && x.IDYear == currentSemester.SchoolYear.ID).ToList();
+                            ViewBag.AllClass = classes.Count;
+                        }
+                        else
+                        {
+                            ViewBag.AllClass = 0;
+                        }
+
+
+                        var dateRegister = db.Organizations.Where(x => x.IdOrganization == ID).FirstOrDefault();
+                        var now = Math.Floor((DateTime.Now- (DateTime)dateRegister.CreateDate).TotalDays);
+                        ViewBag.Long = now;
+
+
                         return View(viewModel);
                     }
                     else return RedirectToAction("Index", "Payment", new { ID = organization.IdOrganization });
@@ -188,7 +214,7 @@ namespace SManagerWeb.Controllers
                     }
 
                     db.SaveChanges();
-                    return RedirectToAction("Information", "Organization", new { ID = ID });
+                    return RedirectToAction("Index", "Organization", new { ID = ID });
                 }
             }
 
@@ -906,8 +932,11 @@ namespace SManagerWeb.Controllers
                                 user.Address = teacherVM.Address;
 
                             await UserManager.UpdateAsync(user);
-                            string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                            var result = await UserManager.ChangePasswordAsync(user.Id, token, teacherVM.Password);
+                            if(teacherVM.Password != null)
+                            {
+                                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                                var result = await UserManager.ResetPasswordAsync(user.Id, token, teacherVM.Password);
+                            }
 
                             var teacher = db.Teachers.Find(user.Id);
                             if (teacher != null)
@@ -1278,9 +1307,13 @@ namespace SManagerWeb.Controllers
                                 user.Address = studentVM.Address;
 
                             await UserManager.UpdateAsync(user);
-                            string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                            var result = await UserManager.ChangePasswordAsync(user.Id, token, studentVM.Password);
 
+                            if(studentVM.Password != null)
+                            {
+                                string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                                var result = await UserManager.ResetPasswordAsync(user.Id, token, studentVM.Password);
+                            }
+                        
                             var student = db.Students.Find(user.Id);
                             if(student != null)
                             {
@@ -1731,6 +1764,240 @@ namespace SManagerWeb.Controllers
             }
             return View("Error");
            
+        }
+
+        public ActionResult Score(string ID)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+
+                        var semesters = db.Semesters
+                            .Where(x => x.SchoolYear.IDOrganization == ID)
+                            .OrderByDescending(x => x.SchoolYear.NextYear)
+                            .ThenBy(x => x.SemesterNum)
+                            .Include("SchoolYear")
+                            .ToList();
+                        ViewBag.Semesters = semesters;
+                   
+                        var classList = db.Classes.Where(x => x.IDOrganization == ID).ToList();
+                        ViewBag.Classes = classList;
+
+                        var subjects = db.Subjects.Where(x => x.IDOrganization == ID).OrderBy(x=>x.IDSubject).ToList();
+                        ViewBag.Subjects = subjects;
+
+                        var typeScore = db.TypeScores.Where(x => x.IDOrganization == ID).OrderBy(x=>x.PercentScore).ToList();
+                        ViewBag.TypeScore = typeScore;
+
+                        return View();
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        public ActionResult RulesOfScore(string ID)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        ViewBag.OrganizationID = ID;
+                        var types = db.TypeScores.Where(x => x.IDOrganization == ID).ToList();
+                        ViewBag.Count = types.Count;
+                        return View(types);
+                    }
+                }
+            }
+            return View("Error");
+        }
+
+        [HttpPost]
+        public ActionResult ChangeRulesOfScore(string ID, FormCollection form)
+        {
+            try
+            {
+                string currentId = User.Identity.GetUserId();
+                var organization = db.Organizations.Find(ID);
+                if (organization != null)
+                {
+                    var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                    if (check != null)
+                    {
+                        var checkPaid = organization.IsPaid;
+                        if (checkPaid)
+                        {
+                            ViewBag.OrganizationID = ID;
+                            var types = db.TypeScores.Where(x => x.IDOrganization == ID).ToList();
+                            //update---
+                            foreach(var type in types)
+                            {
+                                var id = type.IDScoreType;
+                                type.NameScore = form["name_" + id];
+                                type.PercentScore = float.Parse(form["percent_" + id]);
+                            }
+                            //add----
+                            int count = 0;
+                            while (form["name_new_"+count] != null && form["percent_new_"+count]!= null)
+                            {
+                                TypeScore typeScore = new TypeScore();
+                                typeScore.NameScore = form["name_new_" + count];
+                                typeScore.PercentScore = float.Parse(form["percent_new_" + count]);
+                                typeScore.IDOrganization = ID;
+                                
+
+                                db.TypeScores.Add(typeScore);
+                                db.SaveChanges();
+
+                                count++;
+
+                            }
+                                
+                            return RedirectToAction("RulesOfScore", new {ID = ID});
+                        }
+                    }
+                }
+                return View("Error");
+            }catch(Exception ex)
+            {
+                return RedirectToAction("RulesOfScore", new { ID = ID });
+            }
+           
+        }
+
+        public ActionResult GetScoreList(string ID, string IDClass, int IDSemester )
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+
+                        var @class = db.Classes.Find(IDClass);
+                        var students = @class.Studies.Select(x => x.IDStudent).ToList();
+
+                        List<ScoreViewModel> listAll = new List<ScoreViewModel>();
+
+                        foreach(string student in students)
+                        {
+                            ScoreViewModel scoreVM = new ScoreViewModel();
+                            scoreVM.StudentID = student;
+                            scoreVM.StudentName = db.Students.Find(student).ApplicationUser.FullName;
+                            var temp = db.ScoreDetails
+                                .Where(x => x.IDStudent == student && x.IDSemester == IDSemester)
+                                .OrderBy(x => x.IDSubject)
+                                .Include("TypeScore")
+                                .ToList();
+                            scoreVM.Subjects = temp.Select(x => x.IDSubject).Distinct().ToList();
+                            foreach (var subject in scoreVM.Subjects)
+                            {
+                                var scoreSubjects = temp.Where(x => x.IDSubject == subject).ToList();
+                                float score = 0;
+                                foreach(var i in scoreSubjects)
+                                {
+                                    score += i.Score * i.TypeScore.PercentScore / 100;
+                                }
+                                scoreVM.Scores.Add(score);
+                            }
+                            listAll.Add(scoreVM);
+                        }
+                        return Json(JsonConvert.SerializeObject(listAll), JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+   
+        public ActionResult GetScoreListStudent(string ID, string IDStudent, int IDSemester, string IDSubject)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        var scores = db.ScoreDetails
+                            .Where(x=> x.IDSubject == IDSubject && x.IDSemester == IDSemester && x.IDStudent == IDStudent)
+                            .OrderBy(x=>x.TypeScore.PercentScore)
+                            .ToList();
+
+                        return Json(JsonConvert.SerializeObject(scores), JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        [HttpPost]
+        public void ChangeScoreList(string ID, string IDStudent, int IDSemester, string IDSubject, FormCollection form)
+        {
+            string currentId = User.Identity.GetUserId();
+            var organization = db.Organizations.Find(ID);
+            if (organization != null)
+            {
+                var check = db.UserOwnOrganizations.Where(x => x.IdOrganization == ID && x.IdORegister == currentId).FirstOrDefault();
+                if (check != null)
+                {
+                    var checkPaid = organization.IsPaid;
+                    if (checkPaid)
+                    {
+                        var scoreTypes = db.TypeScores.Where(x => x.IDOrganization == ID).ToList();
+                        var scoreList = db.ScoreDetails.Where(x => x.IDSubject == IDSubject && x.IDSemester == IDSemester && x.IDStudent == IDStudent).ToList();
+                        foreach(var type in scoreTypes)
+                        {
+                            if (form["type_" + type.IDScoreType] != null && form["type_" + type.IDScoreType].Length > 0 )
+                            {
+                                var score = scoreList.Where(x => x.IDScoreType == type.IDScoreType).FirstOrDefault();
+                                if(score != null)
+                                {
+                                    score.Score = float.Parse(form["type_" + type.IDScoreType]);
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    var scoreNew = new ScoreDetail();
+                                    scoreNew.IDStudent = IDStudent;
+                                    scoreNew.IDSubject = IDSubject;
+                                    scoreNew.IDSemester = IDSemester;
+                                    scoreNew.IDScoreType = type.IDScoreType;
+                                    scoreNew.Score = float.Parse(form["type_" + type.IDScoreType]);
+                                    db.ScoreDetails.Add(scoreNew);
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                        ViewBag.Error = 0;
+                        return;
+                    }
+                }
+            }
+            ViewBag.Error = 1;
+            return;
         }
     }
 }

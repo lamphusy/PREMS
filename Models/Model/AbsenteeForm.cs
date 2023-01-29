@@ -19,12 +19,14 @@ namespace Models
         public string IDStudent { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-        public int Shift { get; set; }
-        public bool Status { get; set; }
+        public int IDShift { get; set; }
+        public int Status { get; set; }
         public DateTime CreateDate { get; set; }
         public int IDSemester { get; set; }
         public string IDOrganization { get; set; }
 
+        [ForeignKey("IDShift")]
+        public virtual OShift Shift { get; set; }
         [ForeignKey("IDStudent")]
         public virtual Student Student { get; set; }
         [ForeignKey("IDSemester")]

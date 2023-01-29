@@ -73,6 +73,12 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
@@ -184,6 +190,20 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Student\Controllers\AbsenteeController.cs" />
+    <Compile Include="Areas\Student\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Student\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Student\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\Student\Controllers\ScoreController.cs" />
+    <Compile Include="Areas\Student\Controllers\TimetableController.cs" />
+    <Compile Include="Areas\Student\Controllers\TransferClassController.cs" />
+    <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
+    <Compile Include="Areas\Teacher\Controllers\AbsenteeController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\ScoreController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\TimetableController.cs" />
+    <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -229,6 +249,28 @@
     <Content Include="Public\assets\images\dfdf.jpg" />
     <Content Include="Public\assets\images\dff.jpg" />
     <Content Include="Public\assets\images\dssdd.jpg" />
+    <Content Include="Public\assets\images\home\about1.png" />
+    <Content Include="Public\assets\images\home\about2.png" />
+    <Content Include="Public\assets\images\home\about3.png" />
+    <Content Include="Public\assets\images\home\about4.png" />
+    <Content Include="Public\assets\images\home\background-2.png" />
+    <Content Include="Public\assets\images\home\background.png" />
+    <Content Include="Public\assets\images\home\end-hom2.png" />
+    <Content Include="Public\assets\images\home\img-1.png" />
+    <Content Include="Public\assets\images\home\logo-circle-1.png" />
+    <Content Include="Public\assets\images\home\logo-circle.png" />
+    <Content Include="Public\assets\images\home\logo-prems.png" />
+    <Content Include="Public\assets\images\home\principle1.png" />
+    <Content Include="Public\assets\images\home\principle2.png" />
+    <Content Include="Public\assets\images\home\principle3.png" />
+    <Content Include="Public\assets\images\home\principle4.png" />
+    <Content Include="Public\assets\images\home\Sponsor.png" />
+    <Content Include="Public\assets\images\home\teacher1.png" />
+    <Content Include="Public\assets\images\home\teacher2.png" />
+    <Content Include="Public\assets\images\home\teacher3.png" />
+    <Content Include="Public\assets\images\home\vnpay.png" />
+    <Content Include="Public\assets\images\loading.png" />
+    <Content Include="Public\assets\images\Mask group.png" />
     <Content Include="Public\assets\images\men-women-carrying-backpack-searching-books-library_1150-24655.jpg" />
     <Content Include="Public\assets\images\pexels-fauxels-3184644.jpg" />
     <Content Include="Public\assets\images\pexels-julia-m-cameron-4145153.jpg" />
@@ -292,8 +334,25 @@
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
-    <Content Include="Public\assets\dkhp_script.docx" />
     <Content Include="Public\assets\images\createsubject.webp" />
+    <Content Include="Areas\Teacher\Views\web.config" />
+    <Content Include="Areas\Student\Views\web.config" />
+    <Content Include="Areas\Teacher\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Student\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Student\Views\Organization\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Shared\_ShortProfile.cshtml" />
+    <Content Include="Areas\Student\Views\Profile\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Timetable\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Class\Index.cshtml" />
+    <Content Include="Areas\Student\Views\TransferClass\Index.cshtml" />
+    <Content Include="Areas\Student\Views\TransferClass\CreateForm.cshtml" />
+    <Content Include="Areas\Teacher\Views\Organization\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\Shared\_ShortProfile.cshtml" />
+    <Content Include="Areas\Teacher\Views\Profile\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\Timetable\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Absentee\Index.cshtml" />
+    <Content Include="Areas\Student\Views\Score\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\Score\Index.cshtml" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -302,6 +361,8 @@
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -361,11 +422,18 @@
     <Content Include="Views\Organization\TransferClass.cshtml" />
     <Content Include="Views\Organization\_TransferClassPartial.cshtml" />
     <Content Include="Views\Organization\TransferClassFormDetail.cshtml" />
+    <Content Include="Views\Organization\Score.cshtml" />
+    <Content Include="Views\Organization\RulesOfScore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Student\Data\" />
+    <Folder Include="Areas\Teacher\Data\" />
+    <Folder Include="Areas\Teacher\Views\Absentee\" />
+    <Folder Include="Hubs\" />
     <Folder Include="Models\" />
+    <Folder Include="Public\assets\images\area\" />
     <Folder Include="Public\js\Account\" />
     <Folder Include="Public\js\Dashboard\" />
     <Folder Include="Source\" />
