@@ -1,0 +1,198 @@
+﻿@model Models.Statistics
+@{
+    ViewBag.Title = "Index";
+
+}
+
+    <nav>
+        <i class="fa-sharp fa-solid fa-bars toggle-sidebar"></i>
+       
+        <div class="profile d-none">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60" alt="">
+            <ul class="profile-link">
+                <li><a href=""><i class="fa-solid fa-user icon"></i>Profile</a></li>
+                <li><a href=""><i class="fa-solid fa-gear icon"></i>Setting</a></li>
+                <li><a href=""><i class="fa-solid fa-outdent icon"></i>Logout</a></li>
+
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <h1 class="title">DashBoard</h1>
+        <ul class="breadcrumbs">
+            <li><a href="#">Home</a></li>
+            <li class="divider"></li>
+            <li><a href="#" class="active">DashBoard</a></a></li>
+        </ul>
+        <div class="info-data">
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>@Model.NumOfRegister</h2>
+                        <p>Customer</p>
+                    </div>
+                    <i class="fa-solid fa-graduation-cap icon"></i>
+                </div>
+                @*<span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>*@
+            </div>
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>@Model.NumOfStudent</h2>
+                        <p>Student</p>
+                    </div>
+                    <i class="fa-solid fa-chalkboard-user icon"></i>
+                </div>
+                @*<span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>*@
+            </div>      
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>@Model.NumOfTeacher</h2>
+                        <p>Teacher</p>
+                    </div>
+                    <i class="fa-duotone fa-dollar-sign icon"></i>
+                </div>
+                @*<span class="progress" data-value="50%"></span>
+                <span class="label">50%</span>*@
+            </div>      
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>@Model.NumOfOrganization</h2>
+                        <p>Organization</p>
+                    </div>
+                    <i class="fa-solid fa-people-line icon"></i>
+                </div>
+                @*<span class="progress" data-value="80%"></span>
+                <span class="label">50%</span>*@
+            </div>
+        </div>
+        <div class="data">
+            <div class="content-data">
+                <div class="head">
+                    <h3>Profit report</h3>
+                    @*<div class="menu">
+                        <i class="fa-sharp fa-solid fa-arrow-up-right-dots icon"></i>
+                        <ul class="menu-link">
+                            <li><a href="#">Edit</a></li>
+                            <li><a href="#">Save</a></li>
+                            <li><a href="#">Remove</a></li>
+                        </ul>
+                    </div>*@
+                </div>
+                <div class="chart">
+                    <div id="chart"></div>
+                </div>
+            </div>
+            <<!--div class="content-data">
+                <div class="head">
+                    <h3>Employees</h3>
+                    <div class="menu">
+                        <i class="fa-sharp fa-solid fa-arrow-up-right-dots icon"></i>
+                        <ul class="menu-link">
+                            <li><a href="#">Edit</a></li>
+                            <li><a href="#">Save</a></li>
+                            <li><a href="#">Remove</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="chart1"></div>-->
+                <!-- <div class="chat-box">
+                    <p class="day"><span>Today</span></p>
+                    <div class="msg">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+                        <div class="chat">
+                        <div class="profile">
+                            <span class="username">Alan</span>
+                            <span class="time">18:30</span>
+                        </div>
+                        <p>Hello</p>
+                        </div>
+                    </div>
+                    <div class="msg me">
+                        <div class="chat">
+                        <div class="profile">
+                            <span class="time">18:30</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque voluptatum eos quam dolores eligendi exercitationem animi nobis reprehenderit laborum! Nulla.</p>
+                        </div>
+                    </div>
+                    <div class="msg me">
+                        <div class="chat">
+                        <div class="profile">
+                            <span class="time">18:30</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, architecto!</p>
+                        </div>
+                    </div>
+                    <div class="msg me">
+                        <div class="chat">
+                        <div class="profile">
+                            <span class="time">18:30</span>
+                        </div>
+                        <p>Lorem ipsum, dolor sit amet.</p>
+                        </div>
+                    </div>
+                    </div>
+                    <form action="#">
+                    <div class="form-group">
+                        <input type="text" placeholder="Type...">
+                        <button type="submit" class="btn-send"><i class='bx bxs-send' ></i></button>
+                    </div>
+                    </form>-->
+            <!--</div>-->
+        </div>
+            
+
+    </main>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+@*<script src="~/Public/Areas/js/dashboard.js"></script>*@
+
+<script>
+    var listProfit = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ListProfit));
+    var data = [];
+    for (let i = 1; i <= 12; i++) {
+        if (listProfit.length > 0) {
+            if (listProfit[0].Month == i) {
+                data.push(listProfit[0].Profit);
+                listProfit.shift();
+            } else {
+                data.push(0);
+            }
+        }
+        
+    }
+    //apexcharts
+    var options = {
+        series: [{
+            name: 'Profit',
+            data: data
+        }],
+        chart: {
+            height: 500,
+            type: 'area'
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+/*            type: 'datetime',*/
+            categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct","Nov", "Dec"]
+        },
+        tooltip: {
+            x: {
+                format: 'dd/MM/yy HH:mm'
+            },
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>

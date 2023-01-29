@@ -1,0 +1,41 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="~/Public/Areas/css/adminPanel.css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+        #sidebar .side-menu > li > a.active {
+            background: linear-gradient(90deg, #009fff 0%,#ec2f4b 100%);
+        }
+    </style>
+    <section id="sidebar">
+        <div href="#" class="brand" style="color: #173143; padding: 0px 12px; ">
+            <img class="me-4" style="width: 42px;" src="~/Public/assets/images/Mask group.png">
+            ADMIN
+        </div>
+        <ul class="side-menu">
+            <li><a href="@Url.Action("Index","Dashboard")" class="active"><i class="fa-solid fa-face-smile icon"></i>DashBoard</a></li>
+            <li class="divider">Main</li>
+        </ul>
+       
+    </section>
+    <section id="content">
+
+        @RenderBody()
+    </section>
+
+    <script src="~/Public/Areas/js/adminPanel.js"></script>
+</body>
+
+</html>
