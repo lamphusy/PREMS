@@ -182,6 +182,12 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\AbsenteeController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\OrganizationController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\ScoreController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\TimetableController.cs" />
+    <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -292,6 +298,13 @@
     <Content Include="Content\toastr.less" />
     <Content Include="Public\assets\dkhp_script.docx" />
     <Content Include="Public\assets\images\createsubject.webp" />
+    <Content Include="Areas\Teacher\Views\Organization\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\Profile\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\Score\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Teacher\Views\Shared\_ShortProfile.cshtml" />
+    <Content Include="Areas\Teacher\Views\Timetable\Index.cshtml" />
+    <Content Include="Areas\Teacher\Views\web.config" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />

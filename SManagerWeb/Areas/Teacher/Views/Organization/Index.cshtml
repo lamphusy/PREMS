@@ -1,0 +1,61 @@
+﻿@model Models.ViewModel.OrganizationViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Teacher/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex w-100">
+    <div class="bg-white p-3">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Organization</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Student</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Organization</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="card  m-auto border-1 shadow-sm p-lg-5 p-sm-2 p-1">
+                <div class="card-header text-center bg-white">
+                    <h3 class="card-title fw-bold ">@Model.Name</h3>
+                    <div class="d-sm-flex justify-content-between">
+                        <div>
+                            <p>Email: @Model.Email</p>
+                            <hr />
+                            <p>
+                                Phone: @Model.PhoneNumber
+                            </p>
+
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <img src="@Url.Content(Model.LogoPath)" width="130" height="130" alt="Logo" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <p>
+                        @Html.Raw(SManagerWeb.Common.StringEncodeHelper.Base64Decode(Model.Information))
+                    </p>
+                </div>
+                <div class="card-footer bg-white">
+                    <h5>Links: </h5>
+                    Facebook: <a href="@Model.FacebookLink">@Model.FacebookLink</a>
+                    <br />
+                    Instagram: <a href="@Model.InstagramLink">@Model.InstagramLink</a>
+                    <br />
+                    Linkedin: <a href="@Model.LinkedinLink">@Model.LinkedinLink</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.Partial("_ShortProfile", (Models.ViewModel.TeacherViewModel)ViewBag.Teacher)
+    </div>
+</div>
+
+
