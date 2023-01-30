@@ -1,0 +1,188 @@
+﻿@model IEnumerable<Models.AbsenteeForm>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/toastr.min.css" type="text/css" rel="stylesheet" />
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Public/Plugin/ToastrOption.js"></script>
+}
+<style>
+    .create-form-panel {
+        width: 500px;
+        height: 500px;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        display: none;
+        z-index: 100;
+        border: solid 1px #173143;
+        transition: ease 0.5s;
+    }
+
+    .create-form-header {
+        padding: 6px 12px;
+        background-color: #173143;
+        color: white;
+    }
+
+    .create-form-body {
+        background-color: white;
+        height: 100%;
+        overflow-y: auto;
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    .input-style {
+        width: 100%;
+        border: none;
+        outline: none;
+        border-bottom: solid 1px #173143;
+        margin-top: 6px;
+    }
+
+    .btn.btn-style {
+        width: 100px;
+        background: #173143;
+        color: white;
+        border-radius: 0;
+        transition: ease 0.2s;
+        border-radius: 24px;
+        padding: 6px;
+    }
+
+    .btn.btn-create-style {
+        width: 150px;
+        background: #173143;
+        color: white;
+        border-radius: 0;
+        transition: ease 0.2s;
+    }
+
+    .btn.btn-style:hover {
+        opacity: 0.75;
+    }
+
+    .create-form-close {
+        cursor: pointer;
+    }
+</style>
+<div class="d-flex position-relative">
+    <div class="bg-white p-3 w-100 ">
+        <div class="d-flex justify-content-between mb-2">
+            <div>
+                <h1 class="title">Absentee forms</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Student</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Absentee</a></li>
+                </ul>
+            </div>
+            <div class="">
+                <button class="btn mt-3 btn-create-style" style="background-color: #173143; color: white;">Create new form</button>
+            </div>
+        </div>
+
+        <div class="">
+            @foreach (var item in Model)
+            {
+                <div class="card card-body form-item rounded-0 border-0 border-bottom">
+                    <div class="d-flex justify-content-between">
+                        <div class=" w-100">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <b>Date:</b>
+                                    @item.Date.ToString("D")
+                                </div>
+                                <div>
+                                    @if (item.Status == 0)
+                                    {
+                                        <div class="fw-bold text-bg-dark">Haven't seen</div>
+                                    }
+                                    else if (item.Status == 1)
+                                    {
+                                        <div class="fw-bold text-success">Seen</div>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <b>Shift:</b>
+                                @item.Shift.ShiftName
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+    <div>
+        @Html.Partial("_ShortProfile", (Models.ViewModel.StudentViewModel)ViewBag.Student)
+    </div>
+    <div class="create-form-panel">
+        <div class="create-form-header d-flex justify-content-between">
+            <div>Absentee Form</div>
+            <div class="create-form-close"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <div class="create-form-body">
+            <div>
+                <input class="input-style input-title mt-3" placeholder="Subject" />
+                <div class="d-flex  mt-3">
+                    <input type="date" class="input-style input-date me-2" placeholder="Date" />
+                    <select class="input-style select-shift ms-2" placeholder="Shift">
+                        @foreach (var item in (List<Models.OShift>)ViewBag.Shift)
+                        {
+                            <option value="@item.ID">@item.ShiftName</option>
+
+                        }
+                    </select>
+                </div>
+
+                <textarea class="input-style input-description mt-3" placeholder="Why are you absentee?" style="height: 280px; color: black;"></textarea>
+                <button class="btn btn-style mt-2 btn-send">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.create-form-close').click(function (e) {
+        $(".create-form-panel").css("display", "none");
+    })
+
+    $('.btn-create-style').click(function(e){
+        $(".create-form-panel").css("display", "block");
+    })
+    $('.btn-send').click(function (e) {
+        $(".create-form-panel").css("display", "none");
+        var title = $('.input-title').val();
+        var date = $('.input-date').val();
+        var shift = $('.select-shift').val();
+        var description = $('.input-description').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SendForm", "Absentee")',
+            data: { title: title, date: date, shift: shift, description: description },
+            success: function (res, textStatus, xhr) {
+                if (xhr.status == 200) {
+                    displayMessage("Sent it successfully", "success");
+                    setTimeout(function () {
+                        location.reload();
+                     }, 4000);
+                }
+                else {
+                    displayMessage("Something was wrong", "error");
+                }
+
+            },
+            error: function (res) {
+                console.log(res)
+                displayMessage("Error", "error");
+            }
+
+        })
+
+    })
+</script>

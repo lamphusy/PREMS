@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+
+    var Semesters = (List<Models.Semester>)ViewBag.Semesters;
+    var Subjects = (List<Models.Subject>)ViewBag.Subjects;
+    var typeScore = (List<Models.TypeScore>)ViewBag.TypeScore;
+    var numberOfScore = typeScore.Count;
+
+}
+
+<div class="d-flex">
+    <div class="bg-white p-3 w-100">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Score</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Student</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Score</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            @if (typeScore != null)
+            {
+                <div class="content">
+                    <div class="d-flex ms-auto me-0 mb-2" style="max-width: 600px;">
+                        <select class="form-select me-2 " id="select-semester" onchange="ChangeSemester()">
+                            <option value="none" selected disabled>-- Select semester --</option>
+                            @foreach (var semester in Semesters)
+                            {
+                                <option value="@semester.IdSemester" data-year="@semester.IDYear">Semester: @semester.SemesterNum (@semester.SchoolYear.LastYear - @semester.SchoolYear.NextYear)</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <table id="table" class="table table-bordered sortable table-light p-2" style="width:100%">
+                            <thead>
+                                <tr class="type-score">
+                                    <th>
+                                    </th>
+                                    @foreach (var item in typeScore)
+                                    {
+                                        <th data-id="@item.IDScoreType">@item.NameScore</th>
+                                    }
+                                    <th>
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <tr></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        @Html.Partial("_ShortProfile", (Models.ViewModel.StudentViewModel)ViewBag.Student)
+    </div>
+</div>
+<script>
+    var numberOfScore = @Html.Raw(numberOfScore);
+    const SelectSemester = document.getElementById("select-semester");
+    const TableBody = document.getElementById("table-body");
+
+    function RenderStudentFunc() {
+        TableBody.innerHTML = "";
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetScoreList")",
+            data: { IDSemester: SelectSemester.value },
+            success: function (res) {
+                var data = JSON.parse(res);
+                console.log(data);
+                data.forEach(function(value, index){
+                    var tr = document.createElement("tr");
+                    var nodeScore = document.getElementsByClassName(`type-score`)[0].children;
+                    var average = 0;
+                    for (let i = 0; i < numberOfScore + 2; i++) {
+
+                        if (i == 0) {
+                            var td = document.createElement("td");
+                            td.innerHTML = value.SubjectName;
+                            tr.appendChild(td);
+                        } else if (i == numberOfScore + 1) {
+                            var td = document.createElement("td");
+                            if (numberOfScore > 0) {
+                                td.innerHTML = average / numberOfScore;
+                            }
+                            tr.appendChild(td);
+                        } else {
+                            var td = document.createElement("td");
+                        
+                            if (value.ScoreDetails != null) {
+                                if (value.ScoreDetails[0].IDScoreType == nodeScore[i].getAttribute("data-id")) {
+                                    td.innerHTML = value.ScoreDetails[0].Score;
+                                    average += value.ScoreDetails[0].Score;
+                                    console.log(average);
+                                    value.ScoreDetails.shift();
+
+                                }
+                            }
+                            tr.appendChild(td);
+                        }
+                    }
+                    TableBody.appendChild(tr);
+                })
+            },
+            error: function (res) {
+                console.log("error");
+            }
+        })
+    }
+
+    function ChangeSemester() {
+        RenderStudentFunc();
+    }
+</script>

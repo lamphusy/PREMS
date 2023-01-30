@@ -1,0 +1,63 @@
+﻿@model Models.ViewModel.StudyListViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex">
+    <div class="bg-white p-3 w-100">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Organization</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Student</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Class</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="h5 fw-bold text-center mb-2">List of students in @Model.ClassName</div>
+            <div class="m-auto border-1 shadow-sm p-lg-5 p-sm-2 p-1">
+                <table id="table" class="table sortable table-light p-2" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Index
+                            </th>
+
+                            <th>
+                                Full name
+                            </th>
+
+                            <th>
+                                Date of birth
+                            </th>
+
+                            <th>
+                                Gender
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        @foreach(var item in Model.Students)
+                        {
+                            <tr>
+                                <td>@item.IndexInClass</td>
+                                <td>@item.StudentName</td>
+                                <td>@item.StudentBirth</td>
+                                <td>@item.StudentGender</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.Partial("_ShortProfile", (Models.ViewModel.StudentViewModel)ViewBag.Student)
+    </div>
+</div>
+
