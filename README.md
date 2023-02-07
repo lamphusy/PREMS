@@ -6,6 +6,7 @@
 - Lam Phu Sy - 20521853  
 ## Purpose:
 - An educational system that supports teachers and students in teaching and learning
+- Help organization owner manage their education system easy
 ## Platform:
 - ASP.NET 
 ## How to install and run app:
