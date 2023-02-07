@@ -7,7 +7,7 @@
 ## Purpose:
 - An educational system that supports teachers and students in teaching and learning
 ## Platform:
-- APS.NETi 
+- ASP.NET 
 ## How to install and run app:
 - Download file from github
 - Connect to SQL database 
