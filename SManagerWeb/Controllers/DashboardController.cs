@@ -20,30 +20,41 @@ namespace SManagerWeb.Controllers
         // GET: Dashboard
         public ActionResult Index(string message)
         {
-            var idUser = User.Identity.GetUserId();
-            var currentUser = db.ORegister.Include("ApplicationUser").
-                FirstOrDefault(x => x.IdApplicationUser == idUser);
-            var currentUserViewModel = AutoMapper.Mapper.Map<UserViewModel>(currentUser);
-            
-            ViewBag.Result = message;
+            try
+            {
+                var idUser = User.Identity.GetUserId();
+                var currentUser = db.ORegister.Include("ApplicationUser").
+                    FirstOrDefault(x => x.IdApplicationUser == idUser);
+                var currentUserViewModel = AutoMapper.Mapper.Map<UserViewModel>(currentUser);
 
-            return View(currentUserViewModel);
+                ViewBag.Result = message;
+
+                return View(currentUserViewModel);
+            }catch(Exception ex)
+            {
+                return View("Error");
+            }
+         
         }
 
         public ActionResult Organizations()
         {
-            var idUser = User.Identity.GetUserId();
-            var ownsId = db.UserOwnOrganizations.Where(x=>x.IdORegister == idUser).Select(x => x.IdOrganization).ToList();
-            if (ownsId.Any())
+            try
             {
-                var organizations = db.Organizations.Where(x => ownsId.Contains(x.IdOrganization)).ToList();
-                return View(organizations);
+                var idUser = User.Identity.GetUserId();
+                var ownsId = db.UserOwnOrganizations.Where(x => x.IdORegister == idUser).Select(x => x.IdOrganization).ToList();
+                if (ownsId.Any())
+                {
+                    var organizations = db.Organizations.Where(x => ownsId.Contains(x.IdOrganization)).ToList();
+                    return View(organizations);
+                }
+                return View();
             }
-            return View();
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
 
-       
-
-       
     }
 }

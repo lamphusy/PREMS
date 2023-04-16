@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="~/Public/Areas/css/adminPanel.css" rel="stylesheet" />
+</head>
+@using Common
+@{
+    var name = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        name = User.Identity.Name;
+    }
+}
+<body>
+    <style>
+        #sidebar .side-menu > li > a.active {
+            background-color: #173143;
+        }
+
+        main {
+            padding: 8px;
+        }
+    </style>
+    <section id="sidebar">
+        <div href="#" class="brand" style="color: #173143; padding: 0px 12px; ">
+            <img class="me-4" style="width: 42px;" src="~/Public/assets/images/Mask group.png">
+            TEACHER
+        </div>
+        <ul class="side-menu">
+            <li>@Html.MenuLink("<i class=\"fa-solid fa-building icon\"></i>Organization", "Index", "Organization", new { username = name })</li>
+            <li>@Html.MenuLink("<i class=\"fa-sharp fa-solid fa-user icon\"></i>Profile", "Index", "Profile", new { username = name })</li>
+            <li>@Html.MenuLink("<i class=\"fa-solid fa-calendar-days icon\"></i>Timetable", "Index", "Timetable", new { username = name })</li>
+            <li>@Html.MenuLink("<i class=\"fa-solid fa-star icon\"></i>Score Management", "Index", "Score", new { username = name })</li>
+          
+            <li>@Html.MenuLink("<i class=\"fa-sharp fa-solid fa-right-from-bracket icon\"></i>Logout", "LogOff", "Account", new { username = name, area = "" })</li>
+        </ul>
+    </section>
+    <section id="content">
+        <nav>
+            <i class="fa-sharp fa-solid fa-bars toggle-sidebar"></i>
+            <div class="profile d-none">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHBlb3BsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60" alt="">
+                <ul class="profile-link">
+                    <li><a href=""><i class="fa-solid fa-user icon"></i>Profile</a></li>
+                    <li><a href=""><i class="fa-solid fa-gear icon"></i>Setting</a></li>
+                    <li><a href=""><i class="fa-solid fa-outdent icon"></i>Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main>
+            @RenderBody()
+        </main>
+
+    </section>
+
+    <script src="~/Public/Areas/js/adminPanel.js"></script>
+</body>
+
+</html>

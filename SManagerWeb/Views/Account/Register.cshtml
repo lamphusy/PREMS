@@ -46,7 +46,7 @@
     }*/
 </style>
 <div id="register-form" class="d-flex justify-content-center align-items-center w-100 h-100">
-    <div class="col-lg-5 col-md-8">
+    <div class="col-lg-3 col-md-6">
         @using (Html.BeginForm("Register", "Account", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
@@ -54,7 +54,7 @@
             <div class="card p-3 rounded-0 shadow">
 
                 <div class="card-body">
-                    <div class="card-title h3">Register</div>
+                    <div class="card-title h3">Sign Up</div>
                     <hr />
                     <div class="mb-2">
                         <div>Full name</div>
@@ -64,53 +64,61 @@
                     <div class="d-flex justify-content-between mb-2">
                         <div class="form-group col-5">
                             <div>Date of birth</div>
-                            @Html.TextBoxFor(m => m.DayOfBirth, "", new { @class = "form-control rounded-0", @placeholder = "Date of birth" })
+                            @Html.TextBoxFor(m => m.DayOfBirth, "", new { @class = "", @placeholder = "Date of birth" })
                             @Html.ValidationMessageFor(m => m.DayOfBirth, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group col-6">
                             <div>Email</div>
-                            @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control rounded-0", @placeholder = "Email" })
+                            @Html.TextBoxFor(m => m.Email, "", new { @class = "", @placeholder = "Email" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <div class="form-group col-5">
                             <div>Username</div>
-                            @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control rounded-0", @placeholder = "Username" })
+                            @Html.TextBoxFor(m => m.UserName, "", new { @class = "", @placeholder = "Username" })
                             @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group col-6">
                             <div>Phone number</div>
-                            @Html.TextBoxFor(m => m.PhoneNumber, "", new { @class = "form-control rounded-0", @placeholder = "Phone number" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, "", new { @class = "", @placeholder = "Phone number" })
                             @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
                         <div class="form-group col-5">
                             <div>Password</div>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control rounded-0", @placeholder = "Password" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "", @placeholder = "Password" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
 
                         <div class="form-group col-6">
                             <div>Confirm password</div>
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control rounded-0", @placeholder = "Confim Password" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "", @placeholder = "Confim Password" })
                             @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="mb-2">
                         <div>Address</div>
-                        @Html.TextBoxFor(m => m.Address, "", new { @class = "w-100 form-control rounded-0", @placeholder = "Address" })
+                        @Html.TextBoxFor(m => m.Address, "", new { @class = "w-100", @placeholder = "Address" })
                         @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
                     </div>
                     <div class="mb-2">
                         <div>ID Card</div>
-                        @Html.TextBoxFor(m => m.IDCard, "", new { @class = "w-100 form-control rounded-0", @placeholder = "ID Card" })
+                        @Html.TextBoxFor(m => m.IDCard, "", new { @class = "w-100", @placeholder = "ID Card" })
                         @Html.ValidationMessageFor(m => m.IDCard, "", new { @class = "text-danger" })
                     </div>
 
-                    <div class="form-group mt-2">
-                        <input type="submit" name="submit" class="btn btn-outline-dark rounded-0" value="Register" />
+                    <div class="form-group mt-4">
+                        <input type="submit" name="submit" class="btn-submit" value="Register" />
+                    </div>
+                    <div class="d-flex mt-4">
+                        <div class="w-100 border-bottom mb-2 me-2"></div>
+                        OR
+                        <div class="w-100 border-bottom mb-2 ms-2"></div>
+                    </div>
+                    <div class="mt-4">
+                        <a class="btn w-100 btn-register btn-outline-dark" href="@Url.Action("Login","Account")">LOGIN</a>
                     </div>
                 </div>
             </div>

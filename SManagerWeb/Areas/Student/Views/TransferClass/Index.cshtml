@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Models.ClassTransferringForm>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex">
+    <div class="bg-white p-3 w-100">
+        <div class="d-flex justify-content-between mb-2">
+            <div>
+                <h1 class="title">Transfer class</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Student</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Transfer class</a></li>
+                </ul>
+            </div>
+            <div>
+                <a href="@Url.Action("CreateForm","TransferClass")" class="btn mt-3" style="background-color: #173143; color: white;">Create new form</a>
+            </div>
+        </div>
+
+        <div class="" >
+            @foreach (var item in Model)
+            {
+                <div class="card card-body form-item rounded-0 border-0 border-bottom">
+                    <div class="d-flex justify-content-between">
+                        <div class=" w-100">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <b>Title:</b>
+                                    @item.Title
+                                </div>
+                                <div>
+                                    @if (item.Status == 0)
+                                    {
+                                        <div class="fw-bold text-bg-dark">Haven't seen</div>
+                                    }
+                                    else if (item.Status == 1)
+                                    {
+                                        <div class="fw-bold text-success">Accepted</div>
+                                    }
+                                    else if (item.Status == -1)
+                                    {
+                                        <div class="fw-bold text-danger">Denied</div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="me-5"><b>From:</b> @item.Student.ApplicationUser.FullName</div>
+                                <div class="me-5"><b>Old class:</b> @item.OldClass.Name</div>
+                                <div><b>New Class:</b> @item.NewClass.Name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div>
+        @Html.Partial("_ShortProfile", (Models.ViewModel.StudentViewModel)ViewBag.Student)
+    </div>
+</div>

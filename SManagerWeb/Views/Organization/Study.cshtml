@@ -14,11 +14,11 @@
     <main>
         <div class="d-flex justify-content-between">
             <div>
-                <h1 class="title">Class</h1>
+                <h1 class="title">Study</h1>
                 <ul class="breadcrumbs">
                     <li><a href="#">Organization</a></li>
                     <li class="divider"></li>
-                    <li><a href="#" class="active">Class</a></li>
+                    <li><a href="#" class="active">Study</a></li>
                 </ul>
             </div>
            
@@ -31,7 +31,7 @@
                     <input type="submit" class="btn btn-outline-primary" value="Export list student in class">
                 </form>
                 
-                <button class="btn btn-outline-primary">Insert student in class</button>
+                <a href="@Url.Action("StudyCreate","Organization", new {ID = ViewBag.OrganizationID})" class="btn btn-outline-primary">Insert student in class</a>
             </div>
             <div class="d-flex mb-2">
                 <input class="form-control me-2" type="search" id="searchBox" placeholder="Filter...">

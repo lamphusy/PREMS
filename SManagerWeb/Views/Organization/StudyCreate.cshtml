@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "StudyCreate";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+
+    List<Models.Class> Classes = (List<Models.Class>)ViewBag.Classes;
+    List<Models.Student> Students = (List<Models.Student>)ViewBag.Students;
+
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Add Study</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Semester</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Add Study</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            @using (Html.BeginForm("StudyHandler", "Organization", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="card rounded-2 col-6 p-4">
+                    <h5 style="opacity: 0.9;">Add student into class</h5>
+                    <input type="hidden" name="ID" value="@ViewBag.OrganizationID" />
+                    <div class="mt-2 mb-2 d-flex justify-content-between">
+                        <select name="IDClass" class="form-select ms-2">
+                            <option value="" disabled selected>Select class</option>
+                            @foreach (var item in Classes)
+                            {
+                                <option value="@item.IDClass">@item.Name</option>
+                            }
+                        </select>
+                        <select name="IDStudent" class="form-select ms-2">
+                            <option value="" disabled selected>Select student</option>
+                            @foreach (var item in Students)
+                            {
+                                <option value="@item.IDStudent">@item.ApplicationUser.FullName - @item.ApplicationUser.UserName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-flex mt-2">
+                        <a href="@Url.Action("Study","Organization",new {ID=(string)ViewBag.OrganizationID})" class="btn btn-dark opacity-75 me-2">Back</a>
+                        <button type="submit" class="btn background-color-orange opacity-75">Create</button>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </main>
+</section>

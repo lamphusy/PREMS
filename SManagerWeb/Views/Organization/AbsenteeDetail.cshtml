@@ -1,0 +1,50 @@
+﻿@model Models.AbsenteeForm
+@{
+    ViewBag.Title = "AbsenteeDetail";
+    Layout = "~/Views/Shared/_LayoutOrganization.cshtml";
+}
+
+@Html.Partial("_NavigationBar", (string)ViewBag.OrganizationID)
+<section id="content">
+    @Html.Partial("_ProfileBar")
+    <main>
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Detail</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Organization</a></li>
+                    <li><a href="#">Absentee</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Detail</a></li>
+                </ul>
+            </div>
+            <div>
+
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="card card-body m-auto mb-4" style="max-width: 720px; min-height: 420px;">
+                    <div class="text-center">@Model.CreateDate.ToString("d")</div>
+                    <div class="h4 text-center">@Model.Title</div>
+                    <div class="">
+                        <div><b>From student: </b>@Model.Student.ApplicationUser.FullName</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div><b>Date absentee: </b>@Model.Date.ToString("d")</div>
+                    </div>
+                    <div class="mt-2">
+                        @Model.Description
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    
+                    <a class="btn btn-dark" href="@Url.Action("Absentee","Organization",
+                        new {ID = (string)ViewBag.OrganizationID})">Back</a>
+                 
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+

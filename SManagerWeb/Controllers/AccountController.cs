@@ -98,7 +98,25 @@ namespace SManagerWeb.Controllers
                             }
                             else
                             {
-                                return RedirectToAction("Index","Dashboard");
+                                if (role == "User")
+                                {
+                                    return RedirectToAction("Index", "Dashboard");
+                                }
+                                else if (role == "Student")
+                                {
+                                    return RedirectToAction("Index", "Organization", new { area = "Student" });
+
+                                }
+                                else if (role == "Teacher")
+                                {
+                                    return RedirectToAction("Index", "Organization", new { area = "Teacher" });
+
+                                }
+                                else
+                                {
+                                    return RedirectToAction("Index", "Dashboard", new {area="Admin"});
+
+                                }
                             }
                         }
                         else

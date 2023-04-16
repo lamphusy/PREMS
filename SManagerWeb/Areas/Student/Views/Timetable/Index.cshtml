@@ -1,0 +1,86 @@
+﻿@model List<Models.ViewModel.TeachViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Student/Views/Shared/_Layout.cshtml";
+    <link href="~/Public/css/Organization/TimeTable.css" rel="stylesheet" type="text/css" />
+
+
+    var periods = (List<Models.OPeriodLesson>)ViewBag.Periods;
+
+}
+<style>
+    .timetable-content > div {
+        cursor: default;
+    }
+</style>
+<div class="d-flex">
+    <div class="bg-white p-3 w-100">
+        <div class="d-flex justify-content-between">
+            <div>
+                <h1 class="title">Timetable</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="#">Student</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="active">Timetable</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="timetable">
+                <div class="week-names">
+                    <div data-day="monday" data-value="2">monday</div>
+                    <div data-day="tuesday" data-value="3">tuesday</div>
+                    <div data-day="wednesday" data-value="4">wednesday</div>
+                    <div data-day="thursday" data-value="5">thursday</div>
+                    <div data-day="friday" data-value="6">friday</div>
+                    <div data-day="saturday" data-value="7" class="weekend">saturday</div>
+                    <div data-day="sunday" data-value="8" class="weekend">sunday</div>
+                </div>
+                <div class="time-interval">
+                    @foreach (var i in periods)
+                    {
+                        <div data-id="@i.ID" class="text-center">
+                            @i.PeriodName
+                            <br />
+                            @Common.Util.TransferTime.ValueToTime(i.PeriodStartTime) - @Common.Util.TransferTime.ValueToTime(i.PeriodEndTime)
+                        </div>
+                    }
+
+                </div>
+                <div class="timetable-content">
+                    @for (var i = 0; i < periods.Count; i++)
+                    {
+                        for (var j = 0; j < 7; j++)
+                        {
+                            if (Model.Count() == 0)
+                            {
+                                <div></div>
+                                continue;
+                            }
+                            if (Model.ElementAt(0).WeekDay == j + 2 && Model.ElementAt(0).IDPeriod == periods.ElementAt(i).ID)
+                            {
+                                <div>
+                                    <div class="text-center">
+                                        <b>@Model.ElementAt(0).SubjectName</b>
+                                        <br />
+                                        Teacher: @Model.ElementAt(0).TeacherName
+                                    </div>
+                                </div>
+                                Model.RemoveAt(0);
+                            }
+                            else
+                            {
+                                <div></div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        @Html.Partial("_ShortProfile", (Models.ViewModel.StudentViewModel)ViewBag.Student)
+    </div>
+</div>
+

@@ -14,47 +14,21 @@
     <link href="~/Public/Areas/css/adminPanel.css" rel="stylesheet" />
 </head>
 <body>
+    <style>
+        #sidebar .side-menu > li > a.active {
+            background: linear-gradient(90deg, #009fff 0%,#ec2f4b 100%);
+        }
+    </style>
     <section id="sidebar">
-        <a href="#" class="brand">
-            
-            <img class="imglogo" src="~/Public/Areas/assets/img/Trắng và Nét vẽ cọ màu xanh biển Cá nhân Biểu rưng.png">
-            AdminSchool
-        </a>
-        <ul class="side-menu">
-            <li><a href="#" class="active"><i class="fa-solid fa-face-smile icon"></i>DashBoard</a></li>
-            <li class="divider">Main</li>
-            <li>
-                <a href="#"><i class="fa-solid fa-inbox icon"></i>Elements <i class="fa-solid fa-chevron-right icon-right"></i> </a>
-                <ul class="side-dropdown">
-                    <li><a href="#">Students </a></li>
-                    <li><a href="#">Teachers  </a></li>
-                    <li><a href="#">Employees </a></li>
-                    <li><a href="#">Earnings </a></li>
-
-                </ul>
-            </li>
-            <li><a href="#"><i class="fa-solid fa-chart-simple icon"></i>Charts</a></li>
-            <li><a href="#"><i class="fa-solid fa-bridge-water icon"></i>Widgets</a></li>
-            <li class="divider">Table and forms</li>
-            <li><a href="#"><i class="fa-solid fa-table icon"></i>Table</a></li>
-            <li>
-                <a href="#"><i class="fa-solid fa-inbox icon"></i>Forms <i class="fa-solid fa-chevron-right icon-right"></i> </a>
-                <ul class="side-dropdown">
-                    <li><a href="#">Basic </a></li>
-                    <li><a href="#">Select  </a></li>
-                    <li><a href="#">Checkbox </a></li>
-                    <li><a href="#">Radio </a></li>
-
-                </ul>
-            </li>
-
-        </ul>
-        <div class="ads">
-            <div class="wrapper">
-                <a href="#" class="btn-upgrade">Upgrade</a>
-                <p>Become a <span>PRO</span> member and enjoy <span> All Features</span></p>
-            </div>
+        <div href="#" class="brand" style="color: #173143; padding: 0px 12px; ">
+            <img class="me-4" style="width: 42px;" src="~/Public/assets/images/Mask group.png">
+            ADMIN
         </div>
+        <ul class="side-menu">
+            <li><a href="@Url.Action("Index","Dashboard")" class="active"><i class="fa-solid fa-face-smile icon"></i>DashBoard</a></li>
+            <li class="divider">Main</li>
+        </ul>
+       
     </section>
     <section id="content">
 

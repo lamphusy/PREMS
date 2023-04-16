@@ -14,7 +14,7 @@ namespace SManagerWeb.Controllers
         public ActionResult Index()
         {
             
-            return View(db.ApplicationUsers.ToList());
+            return View();
 
         }
         [Authorize]
@@ -30,6 +30,11 @@ namespace SManagerWeb.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View("Error");
         }
     }
 }

@@ -68,10 +68,21 @@ namespace Common
                 T obj = (T)Activator.CreateInstance(typeof(T)); // get general object;
                 foreach(var prop in typeof(T).GetProperties())
                 {
-                    int col = columnInfo.SingleOrDefault(c => c.ColumnName == prop.Name).Index;
-                    var val = sheet.Cells[row, col].Value;
-                    var propType = prop.PropertyType;
-                    prop.SetValue(obj, Convert.ChangeType(val,propType));
+                    if (prop.Name == "IDUser") continue;
+                    var check = columnInfo.SingleOrDefault(c => c.ColumnName == prop.Name);
+
+                    if(check != null)
+                    {
+                        int col = check.Index;
+                        var val = sheet.Cells[row, col].Value;
+                        var propType = prop.PropertyType;
+                        prop.SetValue(obj, Convert.ChangeType(val, propType));
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
                 }
                 list.Add(obj);
             }
