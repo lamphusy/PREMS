@@ -41,7 +41,7 @@ The app has 4 main roles:
 3. **Update the database**:
    - Run the following command to apply migrations and update the database:
      ```bash
-     dotnet ef database update --project DHDCShop.Models
+     dotnet ef database update --project Models
      ```
 
 4. **Run the project**:
